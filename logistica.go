@@ -8,7 +8,7 @@ type Logistica struct{
 }
 
 type registro_logistica struct{
-	timestamp time.Time
+	timestamp string
 	id int
 	tipo string
 	nombre string

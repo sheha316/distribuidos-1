@@ -3,7 +3,7 @@ syntax="proto3";
 package main;
 
 message registro_logistica{
-	time.Time timestamp=1;
+	string timestamp=1;
 	int32 id=2;
 	string tipo=3;
 	string nombre=4;
