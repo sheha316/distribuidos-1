@@ -1,0 +1,14 @@
+syntax="proto3";
+
+package main;
+
+message registro_logistica{
+	time.Time timestamp=1
+	int32 id=2
+	string tipo=3
+	string nombre=4
+	int32 valor=5
+	string origen=6
+	string destino=7
+	int32 seguimento=8
+}
