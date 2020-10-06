@@ -18,7 +18,7 @@ func main(){
   c := chat.NewChatServiceClient(conn)
 
   message := chat.Message{
-    Body: "Hello From the Client!"
+    Body:= "Hello From the Client!"
   }
 
   response, err := c.SayHello(context.Background(), &message)
