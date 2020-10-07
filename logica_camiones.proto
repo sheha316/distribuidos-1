@@ -1,6 +1,6 @@
 syntax="proto3";
 
-package main;
+package logica_camiones;
 
 message registro_logistica{
 	string timestamp=1;
@@ -11,4 +11,8 @@ message registro_logistica{
 	string origen=6;
 	string destino=7;
 	int32 seguimento=8;
+}
+
+service ChatService{
+	rpc SayHello(registro_logistica) returns(registro_logistica){}
 }

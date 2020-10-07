@@ -26,11 +26,12 @@ type Camion struct{
 }
 
 func main() {
-	var conn *grpc.ClientConn
-  conn, err := grpc.Dial("dist93:9000", grpc.WithInsecure())
-  if err != nil {
-    log.Fatalf("could not connect: %s", err)
-  }
-  defer conn.Close()
 	fmt.Println("Hello, World!")
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial("dist93:9000", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("could not connect: %s", err)
+	}
+	defer conn.Close()
+
 }
