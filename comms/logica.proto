@@ -1,6 +1,6 @@
 syntax="proto3";
 
-package main;
+package logica;
 
 message registro_logistica{
 	string timestamp=1;
