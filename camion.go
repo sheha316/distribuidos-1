@@ -1,7 +1,13 @@
 package main
 
 
-import ("fmt"	"time"	"log"	"net"	"google.golang.org/grpc")
+import (
+	"fmt"
+	"time"
+	"log"
+	"net"
+	"google.golang.org/grpc"
+)
 
 type paquete_logistica struct{
 	id int
@@ -14,14 +20,14 @@ type paquete_logistica struct{
 
 type Camion struct{
 	Tipo string
-	paquete1 paquete_loistica
-	paquete2 paquete_loistica
+	paquete1 paquete_logistica
+	paquete2 paquete_logistica
 
 }
 
 func main() {
 	var conn *grpc.ClientConn
-  conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+  conn, err := grpc.Dial("dist93:9000", grpc.WithInsecure())
   if err != nil {
     log.Fatalf("could not connect: %s", err)
   }

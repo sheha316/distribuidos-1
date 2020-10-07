@@ -1,7 +1,13 @@
 package main
 
 
-import ("fmt"	"time"	"log"	"net"	"google.golang.org/grpc")
+import (
+	"fmt"
+	"time"
+	"log"
+	"net"
+	"google.golang.org/grpc"
+)
 
 type Logistica struct{
 	Tipo string
@@ -28,7 +34,7 @@ type paquete_logistica struct{
 }
 
 func main() {
-	lis,err := net.Listen("tcp","dist93:9000")
+	lis,err := net.Listen("tcp",":9000")
 	if err!=nil{
 		log.Fatalf("No encontro puerto 9000 disponible: %v",err)
 	}
