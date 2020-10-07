@@ -1,7 +1,7 @@
 package main
 
 
-import ("fmt"	"time"	"log"	"net"	"google.golang.org/grpc") 
+import ("fmt"	"time"	"log"	"net"	"google.golang.org/grpc")
 
 type Logistica struct{
 	Tipo string
@@ -18,7 +18,7 @@ type registro_logistica struct{
 	seguimento int
 }
 
-type paquete_loistica struct{
+type paquete_logistica struct{
 	id int
 	seguimento int
 	tipo string
@@ -28,7 +28,7 @@ type paquete_loistica struct{
 }
 
 func main() {
-	lis,err := net.Listen("tcp",":9000")
+	lis,err := net.Listen("tcp","dist93:9000")
 	if err!=nil{
 		log.Fatalf("No encontro puerto 9000 disponible: %v",err)
 	}
@@ -36,6 +36,6 @@ func main() {
 	if err:= grcpserver.Serve(lis); err!= nil{
 		log.Fatalf("fallo levantar el servidor de grpc")
 	}
-	
+
    fmt.Println("Hello, World!")
 }

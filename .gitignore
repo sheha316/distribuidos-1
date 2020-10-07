@@ -1,6 +1,6 @@
-*/test/
-*/test2/
-*/protobuf-3.5.1/
+*/test/**
+*/test2/**
+*/protobuf-3.5.1/**
 
 *.mod
 *.sum
