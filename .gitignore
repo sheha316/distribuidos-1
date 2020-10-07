@@ -1,4 +1,8 @@
- /chat/
+ /test/
+ /test2/
+ /protobuf-3.5.1/
+
 *.mod
 *.sum
 *.pb.go
+*.zip
