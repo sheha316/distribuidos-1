@@ -1,0 +1,63 @@
+syntax = "proto3";
+package comms;
+
+message Request_CrearOrdenPyme {
+  string id = 1;
+  string producto = 2;
+  int valor = 3;
+  string tienda = 4;
+  string destino = 5;
+  int prioritario = 6;
+}
+
+message Request_CrearOrdenRetail {
+  string id = 1;
+  string producto = 2;
+  int valor = 3;
+  string tienda = 4;
+  string destino = 5;
+}
+
+message Response_CrearOrden {
+  int seguimiento = 1;
+}
+
+message Request_Seguimiento {
+  int seguimiento = 1;
+}
+
+message Response_Seguimiento {
+  string estado = 1;
+}
+
+message Request_SolicitarPaquete {
+  string tipo = 1;
+}
+
+message Response_SolicitarPaquete {
+  string id = 1;
+  string tipo = 2;
+  int valor = 3;
+  string tienda = 4;
+  string destino = 5;
+}
+
+message Request_Estado {
+  string id = 1;
+  int intentos = 2;
+  string fecha = 3;
+  string estado = 4;
+}
+
+message Response_Estado {
+  string recibido = 1;
+}
+
+
+service Comms {
+  rpc CrearOrdenPyme(Request_CrearOrdenPyme) returns (Response_CrearOrden) {}
+  rpc CrearOrdenRetail(Request_CrearOrdenRetail) returns (Response_CrearOrden) {}
+  rpc Seguimiento(Request_Seguimiento) returns (Response_Seguimiento) {}
+  rpc SolicitarPaquete(Request_SolicitarPaquete) returns (Response_SolicitarPaquete) {}
+  rpc InformarEstado(Request_Estado) returns (Response_Estado) {}
+}
