@@ -3,7 +3,6 @@ import (
   "fmt"
   "log"
   "net"
-  "gitlab.com/pantomath-io/demo-grpc/api"
   "google.golang.org/grpc"
 )
 
