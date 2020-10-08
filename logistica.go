@@ -10,29 +10,29 @@ import (
 	"google.golang.org/grpc"
 )
 
-type Logistica struct{
-	Tipo string
-}
-
-type registro_logistica struct{
-	timestamp string
-	id int
-	tipo string
-	nombre string
-	valor int
-	origen string
-	destino string
-	seguimento int
-}
-
-type paquete_logistica struct{
-	id int
-	seguimento int
-	tipo string
-	valor int
-	intentos int
-	estado string
-}
+// type Logistica struct{
+// 	Tipo string
+// }
+//
+// type registro_logistica struct{
+// 	timestamp string
+// 	id int
+// 	tipo string
+// 	nombre string
+// 	valor int
+// 	origen string
+// 	destino string
+// 	seguimento int
+// }
+//
+// type paquete_logistica struct{
+// 	id int
+// 	seguimento int
+// 	tipo string
+// 	valor int
+// 	intentos int
+// 	estado string
+// }
 
 type logisticaServer struct {
 
@@ -50,7 +50,7 @@ type logisticaServer struct {
 // }
 
 func (s *logisticaServer) GetRegistro(ctx context.Context, camion *proto.Camion) (registro *proto.Registro_logistica, error) {
-	camion := camion.GetID()
+	camion := camion.GetId()
 	return "Hola", nil
 	// return test, nil
 }

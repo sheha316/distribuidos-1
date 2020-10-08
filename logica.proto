@@ -15,9 +15,9 @@ message Registro_logistica{
 
 message Camion {
 	int32 id = 1;
-	
+
 }
 
-service camion_logica {
+service camionLogica {
 	rpc GetRegistro(Camion) returns (Registro_logistica);
 }
