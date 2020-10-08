@@ -51,7 +51,7 @@ type logisticaServer struct {
 func (s *logisticaServer) GetRegistro(ctx context.Context, camion *proto.Camion) (registro *proto.Registro_logistica, error) {
 	camion := camion.GetId()
 	palabra := "hola"
-	return palabra, nil
+	return palabra
 	// return test, nil
 }
 
