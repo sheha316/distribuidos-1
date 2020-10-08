@@ -1,0 +1,23 @@
+syntax="proto3";
+
+package proto;
+
+message Registro_logistica{
+	string timestamp=1;
+	int32 id=2;
+	string tipo=3;
+	string nombre=4;
+	int32 valor=5;
+	string origen=6;
+	string destino=7;
+	int32 seguimento=8;
+}
+
+message Camion {
+	int32 id = 1;
+	
+}
+
+service camion_logica {
+	rpc GetRegistro(Camion) returns (Registro_logistica);
+}
