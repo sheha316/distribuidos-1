@@ -18,5 +18,5 @@ message Camion {
 }
 
 service camionLogica {
-	rpc GetRegistro(Camion) returns (Registro_logistica);
+	rpc GetRegistro(Camion) returns (Registro_logistica) {}
 }
