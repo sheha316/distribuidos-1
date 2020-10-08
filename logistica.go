@@ -48,7 +48,7 @@ type logisticaServer struct {
 // 	seguimento = 4382
 // }
 
-func (s *logisticaServer) GetRegistro(ctx context.Context, Kamion *proto.Camion) (registro *proto.Registro_logistica, error) {
+func (s *logisticaServer) GetRegistro(ctx context.Context, Kamion *proto.Camion) /*(registro *proto.Registro_logistica, error)*/ {
 	camion := Kamion.GetId()
 	palabra := "hola"
 	return palabra
