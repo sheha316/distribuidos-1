@@ -15,6 +15,7 @@ message Registro_logistica{
 
 message Camion {
 	int32 id = 1;
+	
 }
 
 service camion_logica {
