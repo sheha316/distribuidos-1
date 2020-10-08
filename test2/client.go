@@ -1,6 +1,7 @@
 package main
 import (
   "log"
+  "github.com/sheha316/distribuidos-1/test2"
   "golang.org/x/net/context"
   "google.golang.org/grpc"
 )
