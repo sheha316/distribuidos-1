@@ -1,0 +1,14 @@
+syntax = "proto3";
+package comms;
+
+message Request {
+  string greeting = 1;
+}
+
+message Response {
+  string greeting = 1;
+}
+
+service commsServer {
+  rpc SayHello(Request) returns (Response) {}
+}

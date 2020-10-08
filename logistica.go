@@ -33,9 +33,6 @@ import (
 // 	estado string
 // }
 
-type logisticaServer struct {
-
-}
 
 // test = {
 // 	timestamp = "hola",
@@ -48,12 +45,16 @@ type logisticaServer struct {
 // 	seguimento = 4382
 // }
 
-func (s *logisticaServer) GetRegistro(ctx context.Context, Kamion *proto.Camion) /*(registro *proto.Registro_logistica, error)*/ {
-	camion := Kamion.GetId()
-	palabra := "hola"
-	return palabra
-	// return test, nil
+type logisticaServer struct {
+
 }
+
+// func (s *logisticaServer) GetRegistro(ctx context.Context, Kamion *proto.Camion) (registro *proto.Registro_logistica, error) {
+// 	camion := Kamion.GetId()
+// 	palabra := "hola"
+// 	return palabra
+// 	// return test, nil
+// }
 
 func main() {
 	fmt.Println("Hello, World!")
