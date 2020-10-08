@@ -8,7 +8,7 @@ type Server struct {
 }
 
 
-seguimiento := 0
+var seguimiento int = 0
 
 func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrdenPyme) (*Response_CrearOrden, error) {
   log.Printf("Receive message %s", request.id)
@@ -34,8 +34,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
     Tipo: "nvjnvkjf",
     Valor: 7593,
     Tienda: "dsbjd",
-    Destino: "bvjhdbvs",
-    }, nil}
+    Destino: "bvjhdbvs"}, nil}
 
 func (s *Server) InformarEstado(ctx context.Context, request *Request_Estado) (*Response_Estado, error) {
   log.Printf("Receive message %s", request.id)
