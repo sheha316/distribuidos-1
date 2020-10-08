@@ -50,7 +50,8 @@ type logisticaServer struct {
 
 func (s *logisticaServer) GetRegistro(ctx context.Context, camion *proto.Camion) (registro *proto.Registro_logistica, error) {
 	camion := camion.GetId()
-	return "Hola", nil
+	palabra := "hola"
+	return palabra, nil
 	// return test, nil
 }
 
