@@ -10,7 +10,7 @@ type Server struct {
 
 func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrdenPyme) (*Response_CrearOrden, error) {
   log.Printf("Receive message %s", request.Id)
-  seguimiento = int32(1)
+  seguimiento := int32(1)
   return &Response_CrearOrden{Seguimiento: seguimiento}, nil
 }
 
