@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"context"
+	"/repo"
 	"google.golang.org/grpc"
 )
 
@@ -32,7 +34,29 @@ type paquete_logistica struct{
 	estado string
 }
 
+type logisticaServer struct {
+
+}
+
+// test = {
+// 	timestamp = "hola",
+// 	id = 1,
+// 	tipo = "hola",
+// 	nombre = "hola",
+// 	valor = 4392,
+// 	origen = "ncjds",
+// 	destino = "cueic",
+// 	seguimento = 4382
+// }
+
+func (s *logisticaServer) GetRegistro(ctx context.Context, camion *proto.Camion) (registro *proto.Registro_logistica, error) {
+	camion := camion.GetID()
+	return "Hola", nil
+	// return test, nil
+}
+
 func main() {
+	fmt.Println("Hello, World!")
 	lis,err := net.Listen("tcp",":9000")
 	if err!=nil{
 		log.Fatalf("No encontro puerto 9000 disponible: %v",err)
@@ -42,5 +66,4 @@ func main() {
 		log.Fatalf("fallo levantar el servidor de grpc")
 	}
 
-   fmt.Println("Hello, World!")
 }
