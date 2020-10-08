@@ -9,6 +9,6 @@ message Response {
   string greeting = 1;
 }
 
-service commsServer {
+service Comms {
   rpc SayHello(Request) returns (Response) {}
 }

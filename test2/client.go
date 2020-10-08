@@ -12,7 +12,7 @@ func main() {
     log.Fatalf("did not connect: %s", err)
   }
   defer conn.Close()
-  c := comms.NewPingClient(conn)
+  c := comms.NewCommsClient(conn)
   response, err := c.SayHello(context.Background(), &comms.Request{Greeting: "foo"})
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
