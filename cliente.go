@@ -1,5 +1,6 @@
 package main
 import (
+  "bufio"
   "log"
   "github.com/sheha316/distribuidos-1/comms"
   "golang.org/x/net/context"
@@ -17,7 +18,7 @@ type Pedido_pymes struct{
   Destino string
   Prioritario int
 }
-func read_and_request_pymes(c *commsClient){
+func read_and_request_pymes(c grpc.ClientConnInterface){
   csvFile,_:=os.Open("Prueba/pymes.csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
   var pedido_pymes []Pedido_pymes
@@ -31,10 +32,10 @@ func read_and_request_pymes(c *commsClient){
     pedido_pymes=append(pedido_pymes,Pedido_pymes{
       Id:line[0],
       Producto:line[1],
-      Valor:line[2],
+      Valor:int(line[2]),
       Tienda:line[3],
       Destino:line[4],
-      Prioritario:line[5],
+      Prioritario:int(line[5]),
     })
   }
   for i:=0; i<len(pedido_pymes);i++{
