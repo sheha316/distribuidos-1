@@ -31,8 +31,8 @@ func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrden
     {request.Id,request.Producto,string(request.Valor),request.Tienda,request.Destino,string(request.Prioritario),"En bodega"},
   }
   erros=writer.WriteAll(guardar)
-  seguimento:="1"+strconv.Itoa(seguimento)
-  seguimento,_:=strconv.Atoi(seguimento)
+  aux:="1"+strconv.Itoa(seguimento)
+  seguimento,_=strconv.Atoi(aux)
   return &Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
@@ -56,8 +56,8 @@ func (s *Server) CrearOrdenRetail(ctx context.Context, request *Request_CrearOrd
     {request.Id,request.Producto,string(request.Valor),request.Tienda,request.Destino,"En bodega"},
   }
   erros=writer.WriteAll(guardar)
-  seguimento:="0"+strconv.Itoa(seguimento)
-  seguimento,_:=strconv.Atoi(seguimento)
+  aux:="0"+strconv.Itoa(seguimento)
+  seguimento,_=strconv.Atoi(aux)
   return &Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
