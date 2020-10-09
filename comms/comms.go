@@ -165,13 +165,13 @@ func Updater(n_file string,estado string,tipo string){
   csvfile.Close()
   csvfilex ,_:= os.OpenFile(n_file, os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
-  switch tipo {
-  case "retail":
-    var guardar =[][]string{linea[0],linea[1],linea[2],:linea[3],linea[4],estado,}
-    erros:=writer.WriteAll(guardar)
-  default:
-    var guardar=[][]string={linea[0],linea[1],linea[2],linea[3],linea[4],linea[5],estado,}
-    erros:=writer.WriteAll(guardar)
+  switch tipo{
+    case "retail":
+      var guardar =[][]string{linea[0],linea[1],linea[2],linea[3],linea[4],estado,}
+      erros:=writer.WriteAll(guardar)
+    default:
+      var guardar=[][]string={linea[0],linea[1],linea[2],linea[3],linea[4],linea[5],estado,}
+      erros:=writer.WriteAll(guardar)
   }
   csvfilex.Close()
 }
