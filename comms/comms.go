@@ -3,9 +3,11 @@ import (
   "log"
   "golang.org/x/net/context"
   "os"
+  "io"
   "encoding/csv"
   "fmt"
   "strconv"
+  "bufio"
 )
 
 type Server struct {
@@ -85,13 +87,14 @@ func (s *Server) CrearOrdenRetail(ctx context.Context, request *Request_CrearOrd
 
 func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) (*Response_Seguimiento, error) {
   log.Printf("Receive message %s", request.Seguimiento)
-  aux:=strconv.Itoa(request.Seguimiento)
+  aux:=strconv.Itoa(int(request.Seguimiento))
   csvFile,error:=os.Open("Prueba/"+aux+".csv")
   if error !=nil{
     return &Response_Seguimiento{Estado: "Paquete no existe"}, nil
   }
   reader := csv.NewReader(bufio.NewReader(csvFile))
   switch  aux[0]{
+    var pedido
     case "1":
       var pedido []Pedido_pymes_l
     default:
