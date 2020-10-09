@@ -107,9 +107,27 @@ func main() {
     log.Fatalf("did not connect: %s", err)
   }
   defer conn.Close()
-  read_and_request_pymes(conn)
-  read_and_request_retail(conn)
-
+  var input_us string
+  input_us:=""
+  for input_us!="0"{
+    log.Printf("Bienvenido! ingrese el numero de la opcion que desea")
+    log.Printf("1-Hacer pedidos pymes")
+    log.Printf("2-Hacer pedidos retail")
+    log.Printf("3-Hacer Todos los pedidos")
+    log.Printf("0-exit")
+    fmt.Scanln(&first)
+    switch  first{
+      case "1":
+        read_and_request_pymes(conn)
+  	  case "2":
+        read_and_request_retail(conn)
+      case "3":
+        read_and_request_pymes(conn)
+        read_and_request_retail(conn)
+  	  default:
+  		// freebsd, openbsd,
+  	}
+  }
 
   c := comms.NewCommsClient(conn)
   response, err := c.Seguimiento(context.Background(), &comms.Request_Seguimiento{Seguimiento: 1})
