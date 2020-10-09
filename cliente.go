@@ -105,8 +105,8 @@ func send_seguimento(conn *grpc.ClientConn){
   c := comms.NewCommsClient(conn)
   log.Printf("Ingrese Numero de Seguimento por favor")
   var input_us string
-  aux,_:=strconv.Atoi(input_us)
   fmt.Scanln(&input_us)
+  aux,_:=strconv.Atoi(input_us)
   response, err := c.Seguimiento(context.Background(),&comms.Request_Seguimiento{Seguimiento:int32(aux)})
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
