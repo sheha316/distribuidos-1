@@ -25,10 +25,10 @@ func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrden
   }
   writer:=csv.NewWriter(file)
   var guardar = [][]string{
-    {request.Id,request.Producto,string(request.Valor),request.Tienda,request.Destino,string(request.Prioritario)},
+    {request.Id,request.Producto,string(request.Valor),request.Tienda,request.Destino,string(request.Prioritario),"En bodega"},
   }
   erros=writer.WriteAll(guardar)
-  return &Response_CrearOrden{Seguimiento: seguimento}, nil
+  return &Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
 func (s *Server) CrearOrdenRetail(ctx context.Context, request *Request_CrearOrdenRetail) (*Response_CrearOrden, error) {
