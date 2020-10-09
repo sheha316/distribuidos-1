@@ -170,7 +170,7 @@ func Updater(n_file string,estado string,tipo string){
     var guardar =[][]string{{linea[0],linea[1],linea[2],linea[3],linea[4],estado,},}
     erros:=writer.WriteAll(guardar)
   default:
-    var guardar =[][]string={{linea[0],linea[1],linea[2],linea[3],linea[4],linea[5],estado,},}
+    var guardar =[][]string{{linea[0],linea[1],linea[2],linea[3],linea[4],linea[5],estado,},}
     erros:=writer.WriteAll(guardar)
   }
   csvfilex.Close()
