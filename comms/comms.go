@@ -101,7 +101,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
       log.Fatal(error)
     }
     aux1,_:=strconv.Atoi(line[2])
-    switch  char(aux[0]){
+    switch  string(aux[0]){
       case "1":
         var pedido []Pedido_pymes_l
         aux2,_:=strconv.Atoi(line[5])
