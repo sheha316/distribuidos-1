@@ -101,6 +101,18 @@ func read_and_request_retail(conn *grpc.ClientConn){
 }
 
 
+func send_seguimento(conn *grpc.ClientConn){
+  c := comms.NewCommsClient(conn)
+  log.Printf("Ingrese Numero de Seguimento por favor")
+  fmt.Scanln(&input_us)
+  response, err := c.Seguimiento(context.Background(),&comms.Request_Seguimiento{Seguimiento:strconv.Atoi(input_us)})
+  if err != nil {
+    log.Fatalf("Error when calling SayHello: %s", err)
+  }
+  log.Printf("Response from server: %s", (response.Seguimiento))
+
+}
+
 func main() {
   var conn *grpc.ClientConn
   conn, err := grpc.Dial("dist93:9000", grpc.WithInsecure())
@@ -110,11 +122,13 @@ func main() {
   defer conn.Close()
   var input_us string
   input_us=""
+
   for input_us!="0"{
     log.Printf("Bienvenido! ingrese el numero de la opcion que desea")
     log.Printf("1-Hacer pedidos pymes")
     log.Printf("2-Hacer pedidos retail")
     log.Printf("3-Hacer Todos los pedidos")
+    log.Printf("4-Hacer Seguimento")
     log.Printf("0-exit")
     fmt.Scanln(&input_us)
     switch  input_us{
@@ -125,12 +139,14 @@ func main() {
       case "3":
         read_and_request_pymes(conn)
         read_and_request_retail(conn)
+      case "4":
+        func send_seguimento(conn)
   	  default:
   		// freebsd, openbsd,
   	}
   }
 
-  c := comms.NewCommsClient(conn)
+
   response, err := c.Seguimiento(context.Background(), &comms.Request_Seguimiento{Seguimiento: 1})
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)

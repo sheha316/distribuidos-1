@@ -11,6 +11,24 @@ import (
 type Server struct {
 }
 
+type Pedido_pymes_l struct{
+  Id string
+  Producto string
+  Valor int
+  Tienda string
+  Destino string
+  Prioritario int
+  Estado string
+}
+
+type Pedido_retail_l struct{
+  Id string
+  Producto string
+  Valor int
+  Tienda string
+  Destino string
+  Estado string
+}
 func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrdenPyme) (*Response_CrearOrden, error) {
   log.Printf("Receive message %s", request.Id)
 
@@ -67,7 +85,50 @@ func (s *Server) CrearOrdenRetail(ctx context.Context, request *Request_CrearOrd
 
 func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) (*Response_Seguimiento, error) {
   log.Printf("Receive message %s", request.Seguimiento)
-  return &Response_Seguimiento{Estado: "un estado muy bonito"}, nil
+  aux:=strconv.Itoa(request.Seguimiento)
+  csvFile,error:=os.Open("Prueba/"+aux+".csv")
+  if error !=nil{
+    return &Response_Seguimiento{Estado: "Paquete no existe"}, nil
+  }
+  reader := csv.NewReader(bufio.NewReader(csvFile))
+  switch  aux[0]{
+    case "1":
+      var pedido []Pedido_pymes_l
+    default:
+      var pedido []Pedido_retail_l
+  }
+  for{
+    line,error :=reader.Read()
+    if error==io.EOF{
+      break
+    }else if error!=nil{
+      log.Fatal(error)
+    }
+    aux1,_:=strconv.Atoi(line[2])
+    switch  aux[0]{
+      case "1":
+        aux2,_:=strconv.Atoi(line[5])
+        pedido=append(pedido,Pedido_retail{
+          Id:line[0],
+          Producto:line[1],
+          Valor:aux1,
+          Tienda:line[3],
+          Destino:line[4],
+          Prioritario:aux2,
+          Estado:line[6],
+        })
+      default:
+        pedido=append(pedido,Pedido_retail{
+          Id:line[0],
+          Producto:line[1],
+          Valor:aux1,
+          Tienda:line[3],
+          Destino:line[4],
+          Estado:line[5],
+        })
+    }
+  }
+  return &Response_Seguimiento{Estado: pedido[0].Estado}, nil
 }
 
 func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_SolicitarPaquete) (*Response_SolicitarPaquete, error) {
