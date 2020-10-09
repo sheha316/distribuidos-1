@@ -9,23 +9,16 @@ import (
 type Server struct {
 }
 
-string id = 1;
-string producto = 2;
-int32 valor = 3;
-string tienda = 4;
-string destino = 5;
-int32 prioritario = 6;
-
 func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrdenPyme) (*Response_CrearOrden, error) {
   log.Printf("Receive message %s", request.Id)
 
   seguimento:=0
   file,erros:=os.Open("./paquetes/"+string(seguimento)+".csv")
-  while(erros==nil){
+  for erros==nil{
     seguimento++
     file,erros=os.Open("./paquetes/"+string(seguimento)+".csv")
   }
-  file,erros:=os.Create("./paquetes/"+string(seguimento)+".csv")
+  file,erros=os.Create("./paquetes/"+string(seguimento)+".csv")
   if erros!=nil{
     fmt.Println(erros)
   }
