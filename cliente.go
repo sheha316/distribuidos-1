@@ -1,5 +1,6 @@
 package main
 import (
+  "./comms"
   "bufio"
   "log"
   "github.com/sheha316/distribuidos-1/comms"
