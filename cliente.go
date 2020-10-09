@@ -32,15 +32,13 @@ func read_and_request_pymes(c grpc.ClientConnInterface){
     }
     aux1,_:=strconv.Atoi(line[2])
     aux2,_:=strconv.Atoi(line[5])
-    line[2]=aux1
-    line[5]=aux2
     pedido_pymes=append(pedido_pymes,Pedido_pymes{
       Id:line[0],
       Producto:line[1],
-      Valor:line[2],
+      Valor:aux1,
       Tienda:line[3],
       Destino:line[4],
-      Prioritario:line[5],
+      Prioritario:aux2,
     })
   }
   for i:=0; i<len(pedido_pymes);i++{
