@@ -134,7 +134,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
 
 func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_SolicitarPaquete) (*Response_SolicitarPaquete, error) {
   log.Printf("Receive message %s", request.Tipo)
-  var x &Pedido_retail_l
+  x:=&Pedido_retail_l{Valor: -1,}
   var tipo_p string
   //retail=2 pyme=1
   switch request.Tipo {
