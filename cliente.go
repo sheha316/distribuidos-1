@@ -53,7 +53,7 @@ func read_and_request_pymes(conn *grpc.ClientConn){
     if err != nil {
       log.Fatalf("Error when calling SayHello: %s", err)
     }
-    log.Printf("Response from server: %s", response.Seguimiento)
+    log.Printf("Response from server: %d", int(response.Seguimiento))
   }
 }
 
