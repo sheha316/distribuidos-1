@@ -19,7 +19,7 @@ type Pedido_pymes struct{
   Destino string
   Prioritario int
 }
-func read_and_request_pymes(conn comms.commsClient){
+func read_and_request_pymes(conn *grpc.ClientConn){
   c := comms.NewCommsClient(conn)
   csvFile,_:=os.Open("Prueba/pymes.csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
