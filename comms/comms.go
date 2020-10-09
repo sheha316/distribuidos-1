@@ -88,7 +88,7 @@ func (s *Server) CrearOrdenRetail(ctx context.Context, request *Request_CrearOrd
 func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) (*Response_Seguimiento, error) {
   log.Printf("Receive message %s", request.Seguimiento)
   aux:=strconv.Itoa(int(request.Seguimiento))
-  csvFile,error:=os.Open("Prueba/"+aux+".csv")
+  csvFile,error:=os.Open("./paquetes/"+aux+".csv")
   if error !=nil{
     return &Response_Seguimiento{Estado: "Paquete no existe"}, nil
   }
