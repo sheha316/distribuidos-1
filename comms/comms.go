@@ -14,14 +14,16 @@ func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrden
   log.Printf("Receive message %s", request.Id)
 
   seguimento:=0
-  file,erros:=os.Open("./paquetes/"+string(seguimento)+".csv")
+  file,erros:=os.Open("./paquetes/"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     seguimento++
-    file,erros=os.Open("./paquetes/"+string(seguimento)+".csv")
+    file,erros=os.Open("./paquetes/"+strconv.Itoa(seguimento)+".csv")
   }
-  file,erros=os.Create("./paquetes/"+string(seguimento)+".csv")
+  file,erros=os.Create("./paquetes/"+strconv.Itoa(seguimento)+".csv")
   if erros!=nil{
+    log.Printf("error:")
     fmt.Println(erros)
+    log.Printf("fin:")
   }
   writer:=csv.NewWriter(file)
   var guardar = [][]string{
