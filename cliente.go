@@ -30,8 +30,10 @@ func read_and_request_pymes(c grpc.ClientConnInterface){
     }else if error!=nil{
       log.Fatal(error)
     }
-    line[2],_=strconv.Atoi(line[2])
-    line[5],_=strconv.Atoi(line[5])
+    aux1,_:=strconv.Atoi(line[2])
+    aux2,_:=strconv.Atoi(line[5])
+    line[2]=aux1
+    line[5]=aux2
     pedido_pymes=append(pedido_pymes,Pedido_pymes{
       Id:line[0],
       Producto:line[1],
