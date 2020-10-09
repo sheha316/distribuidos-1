@@ -158,7 +158,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
 }
 func Updater(n_file string,estado string,tipo string){
   csvfile ,_:= os.Open(n_file)
-  reader := csv.NewReader(bufio.NewReader(csvFile))
+  reader := csv.NewReader(bufio.NewReader(csvfile))
   for{
     line,error :=reader.Read()
     if error==io.EOF{
@@ -172,10 +172,10 @@ func Updater(n_file string,estado string,tipo string){
   writer:=csv.NewWriter(csvfilex)
   switch tipo{
   case "retail":
-    var guardar =[][]string{{linea[0],linea[1],linea[2],linea[3],linea[4],estado,},}
+    var guardar =[][]string{{line[0],line[1],line[2],line[3],line[4],estado,},}
     erros:=writer.WriteAll(guardar)
   default:
-    var guardar =[][]string{{linea[0],linea[1],linea[2],linea[3],linea[4],linea[5],estado,},}
+    var guardar =[][]string{{line[0],line[1],line[2],line[3],line[4],line[5],estado,},}
     erros:=writer.WriteAll(guardar)
   }
   csvfilex.Close()
@@ -185,7 +185,7 @@ func LFP_R(pakete *Pedido_retail_l){
   seguimento:=0
   file,erros:=os.Open("./paquetes/2"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
-    reader := csv.NewReader(bufio.NewReader(csvFile))
+    reader := csv.NewReader(bufio.NewReader(file))
     for{
       line,error :=reader.Read()
       if error==io.EOF{
@@ -195,7 +195,7 @@ func LFP_R(pakete *Pedido_retail_l){
       }
     }
     file.Close()
-    if(linea[5]=="En bodega"){
+    if(line[5]=="En bodega"){
       aux1,_:=strconv.Atoi(line[2])
       pakete.Id=line[0]
       pakete.Valor=aux1
@@ -214,7 +214,7 @@ func LFP_P(pakete *Pedido_retail_l){
   seguimento:=0
   file,erros:=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
-    reader := csv.NewReader(bufio.NewReader(csvFile))
+    reader := csv.NewReader(bufio.NewReader(file))
     for{
       line,error :=reader.Read()
       if error==io.EOF{
@@ -224,7 +224,7 @@ func LFP_P(pakete *Pedido_retail_l){
       }
     }
     file.Close()
-    if(linea[6]=="En bodega" && linea[5]=="1"){
+    if(line[6]=="En bodega" && line[5]=="1"){
       aux1,_:=strconv.Atoi(line[2])
       pakete.Id=line[0]
       pakete.Valor=aux1
@@ -243,7 +243,7 @@ func LFP_N(pakete *Pedido_retail_l){
   seguimento:=0
   file,erros:=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
-    reader := csv.NewReader(bufio.NewReader(csvFile))
+    reader := csv.NewReader(bufio.NewReader(file))
     for{
       line,error :=reader.Read()
       if error==io.EOF{
