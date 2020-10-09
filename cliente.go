@@ -19,6 +19,14 @@ type Pedido_pymes struct{
   Destino string
   Prioritario int
 }
+
+type Pedido_retail struct{
+  Id string
+  Producto string
+  Valor int
+  Tienda string
+  Destino string
+}
 func read_and_request_pymes(conn *grpc.ClientConn){
   c := comms.NewCommsClient(conn)
   csvFile,_:=os.Open("Prueba/pymes.csv")
@@ -56,6 +64,40 @@ func read_and_request_pymes(conn *grpc.ClientConn){
     log.Printf("Response from server: %d", int(response.Seguimiento))
   }
 }
+func read_and_request_retail(conn *grpc.ClientConn){
+  c := comms.NewCommsClient(conn)
+  csvFile,_:=os.Open("Prueba/retail.csv")
+  reader := csv.NewReader(bufio.NewReader(csvFile))
+  var pedido_retail []Pedido_retail
+  for{
+    line,error :=reader.Read()
+    if error==io.EOF{
+      break
+    }else if error!=nil{
+      log.Fatal(error)
+    }
+    aux1,_:=strconv.Atoi(line[2])
+    pedido_retail=append(pedido_retail,Pedido_retail{
+      Id:line[0],
+      Producto:line[1],
+      Valor:aux1,
+      Tienda:line[3],
+      Destino:line[4],
+    })
+  }
+  for i:=0; i<len(pedido_retail);i++{
+    response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
+      Id:pedido_retail[i].Id,
+      Producto:pedido_retail[i].Producto,
+      Valor:int32(pedido_retail[i].Valor),
+      Tienda:pedido_retail[i].Tienda,
+      Destino:pedido_retail[i].Destino,})
+    if err != nil {
+      log.Fatalf("Error when calling SayHello: %s", err)
+    }
+    log.Printf("Response from server: %d", int(response.Seguimiento))
+  }
+}
 
 
 func main() {
@@ -66,6 +108,7 @@ func main() {
   }
   defer conn.Close()
   read_and_request_pymes(conn)
+  read_and_request_retail(conn)
 
 
   c := comms.NewCommsClient(conn)

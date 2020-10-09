@@ -15,12 +15,12 @@ func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrden
   log.Printf("Receive message %s", request.Id)
 
   seguimento:=0
-  file,erros:=os.Open("./paquetes/"+strconv.Itoa(seguimento)+".csv")
+  file,erros:=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     seguimento++
-    file,erros=os.Open("./paquetes/"+strconv.Itoa(seguimento)+".csv")
+    file,erros=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
   }
-  file,erros=os.Create("./paquetes/"+strconv.Itoa(seguimento)+".csv")
+  file,erros=os.Create("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
   if erros!=nil{
     log.Printf("error:")
     fmt.Println(erros)
@@ -31,13 +31,34 @@ func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrden
     {request.Id,request.Producto,string(request.Valor),request.Tienda,request.Destino,string(request.Prioritario),"En bodega"},
   }
   erros=writer.WriteAll(guardar)
+  seguimento:="1"+strconv.Itoa(seguimento)
+  seguimento,_:=strconv.Atoi(seguimento)
   return &Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
 func (s *Server) CrearOrdenRetail(ctx context.Context, request *Request_CrearOrdenRetail) (*Response_CrearOrden, error) {
   log.Printf("Receive message %s", request.Id)
-  seguimiento := int32(1)
-  return &Response_CrearOrden{Seguimiento: seguimiento}, nil
+
+  seguimento:=0
+  file,erros:=os.Open("./paquetes/0"+strconv.Itoa(seguimento)+".csv")
+  for erros==nil{
+    seguimento++
+    file,erros=os.Open("./paquetes/0"+strconv.Itoa(seguimento)+".csv")
+  }
+  file,erros=os.Create("./paquetes/0"+strconv.Itoa(seguimento)+".csv")
+  if erros!=nil{
+    log.Printf("error:")
+    fmt.Println(erros)
+    log.Printf("fin:")
+  }
+  writer:=csv.NewWriter(file)
+  var guardar = [][]string{
+    {request.Id,request.Producto,string(request.Valor),request.Tienda,request.Destino,"En bodega"},
+  }
+  erros=writer.WriteAll(guardar)
+  seguimento:="0"+strconv.Itoa(seguimento)
+  seguimento,_:=strconv.Atoi(seguimento)
+  return &Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
 func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) (*Response_Seguimiento, error) {
