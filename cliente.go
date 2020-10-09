@@ -1,6 +1,5 @@
 package main
 import (
-  "./comms"
   "bufio"
   "log"
   "github.com/sheha316/distribuidos-1/comms"
@@ -20,7 +19,8 @@ type Pedido_pymes struct{
   Destino string
   Prioritario int
 }
-func read_and_request_pymes(c comms.commsClient){
+func read_and_request_pymes(conn comms.commsClient){
+  c := comms.NewCommsClient(conn)
   csvFile,_:=os.Open("Prueba/pymes.csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
   var pedido_pymes []Pedido_pymes
@@ -65,9 +65,10 @@ func main() {
     log.Fatalf("did not connect: %s", err)
   }
   defer conn.Close()
-  c := comms.NewCommsClient(conn)
-  read_and_request_pymes(c)
+  read_and_request_pymes(conn)
 
+
+  c := comms.NewCommsClient(conn)
   response, err := c.Seguimiento(context.Background(), &comms.Request_Seguimiento{Seguimiento: 1})
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
