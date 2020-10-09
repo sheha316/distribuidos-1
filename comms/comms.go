@@ -93,13 +93,6 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
     return &Response_Seguimiento{Estado: "Paquete no existe"}, nil
   }
   reader := csv.NewReader(bufio.NewReader(csvFile))
-  switch  aux[0]{
-    var pedido
-    case "1":
-      var pedido []Pedido_pymes_l
-    default:
-      var pedido []Pedido_retail_l
-  }
   for{
     line,error :=reader.Read()
     if error==io.EOF{
@@ -110,6 +103,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
     aux1,_:=strconv.Atoi(line[2])
     switch  aux[0]{
       case "1":
+        var pedido []Pedido_pymes_l
         aux2,_:=strconv.Atoi(line[5])
         pedido=append(pedido,Pedido_retail{
           Id:line[0],
@@ -121,6 +115,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
           Estado:line[6],
         })
       default:
+        var pedido []Pedido_retail_l
         pedido=append(pedido,Pedido_retail{
           Id:line[0],
           Producto:line[1],
