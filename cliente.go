@@ -104,6 +104,7 @@ func read_and_request_retail(conn *grpc.ClientConn){
 func send_seguimento(conn *grpc.ClientConn){
   c := comms.NewCommsClient(conn)
   log.Printf("Ingrese Numero de Seguimento por favor")
+  var input_us string
   fmt.Scanln(&input_us)
   response, err := c.Seguimiento(context.Background(),&comms.Request_Seguimiento{Seguimiento:strconv.Atoi(input_us)})
   if err != nil {
@@ -122,7 +123,6 @@ func main() {
   defer conn.Close()
   var input_us string
   input_us=""
-
   for input_us!="0"{
     log.Printf("Bienvenido! ingrese el numero de la opcion que desea")
     log.Printf("1-Hacer pedidos pymes")
