@@ -101,11 +101,11 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
       log.Fatal(error)
     }
     aux1,_:=strconv.Atoi(line[2])
-    switch  aux[0]{
+    switch  char(aux[0]){
       case "1":
         var pedido []Pedido_pymes_l
         aux2,_:=strconv.Atoi(line[5])
-        pedido=append(pedido,Pedido_retail{
+        pedido=append(pedido,Pedido_pymes_l{
           Id:line[0],
           Producto:line[1],
           Valor:aux1,
@@ -114,9 +114,10 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
           Prioritario:aux2,
           Estado:line[6],
         })
+        return &Response_Seguimiento{Estado: pedido[0].Estado}, nil
       default:
         var pedido []Pedido_retail_l
-        pedido=append(pedido,Pedido_retail{
+        pedido=append(pedido,Pedido_retail_l{
           Id:line[0],
           Producto:line[1],
           Valor:aux1,
@@ -124,9 +125,11 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
           Destino:line[4],
           Estado:line[5],
         })
+        return &Response_Seguimiento{Estado: pedido[0].Estado}, nil
+
     }
   }
-  return &Response_Seguimiento{Estado: pedido[0].Estado}, nil
+  return &Response_Seguimiento{Estado: "Esto no deberia suceder :)"}, nil
 }
 
 func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_SolicitarPaquete) (*Response_SolicitarPaquete, error) {
