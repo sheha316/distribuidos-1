@@ -37,9 +37,7 @@ func read_and_request_pymes(c *commsClient){
       prioritario:line[5],
     })
   }
-  for i:=0; i<len(pedido_pymes);i++
-  {
-    response, err := c.Seguimiento(context.Background(), &comms.Request_Seguimiento{Seguimiento: 1})
+  for i:=0; i<len(pedido_pymes);i++{
     response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
       Id:pedido_pymes[i].id,
       Producto:pedido_pymes[i].producto,
