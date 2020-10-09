@@ -10,12 +10,12 @@ import (
 )
 
 type Pedido_pymes struct{
-  id string 'json:"id"'
-  producto string 'json:"producto"'
-  valor int 'json:"valor"'
-  tienda string 'json:"tienda"'
-  destino string 'json:"destino"'
-  prioritario int'json:"prioritario"'
+  Id string 'json:"id"'
+  Producto string 'json:"producto"'
+  Valor int 'json:"valor"'
+  Tienda string 'json:"tienda"'
+  Destino string 'json:"destino"'
+  Prioritario int'json:"prioritario"'
 }
 func read_and_request_pymes(c *commsClient){
   csvFile,_:=os.Open("Prueba/pymes.csv")
