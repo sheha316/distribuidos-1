@@ -86,7 +86,7 @@ func read_and_request_retail(conn *grpc.ClientConn){
     })
   }
   for i:=0; i<len(pedido_retail);i++{
-    response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
+    response, err := c.CrearOrdenRetail(context.Background(),&comms.Request_CrearOrdenRetail{
       Id:pedido_retail[i].Id,
       Producto:pedido_retail[i].Producto,
       Valor:int32(pedido_retail[i].Valor),
