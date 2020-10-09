@@ -7,6 +7,7 @@ import (
   "google.golang.org/grpc"
   "os"
   "io"
+  "fmt"
   "encoding/csv"
   "strconv"
 )
@@ -108,15 +109,15 @@ func main() {
   }
   defer conn.Close()
   var input_us string
-  input_us:=""
+  input_us=""
   for input_us!="0"{
     log.Printf("Bienvenido! ingrese el numero de la opcion que desea")
     log.Printf("1-Hacer pedidos pymes")
     log.Printf("2-Hacer pedidos retail")
     log.Printf("3-Hacer Todos los pedidos")
     log.Printf("0-exit")
-    fmt.Scanln(&first)
-    switch  first{
+    fmt.Scanln(&input_us)
+    switch  input_us{
       case "1":
         read_and_request_pymes(conn)
   	  case "2":
