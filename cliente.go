@@ -140,7 +140,7 @@ func main() {
         read_and_request_pymes(conn)
         read_and_request_retail(conn)
       case "4":
-        func send_seguimento(conn)
+        send_seguimento(conn)
   	  default:
   		// freebsd, openbsd,
   	}
