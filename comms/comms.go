@@ -42,13 +42,13 @@ func (s *Server) CrearOrdenRetail(ctx context.Context, request *Request_CrearOrd
   log.Printf("Receive message %s", request.Id)
 
   seguimento:=0
-  file,erros:=os.Open("./paquetes/0"+strconv.Itoa(seguimento)+".csv")
+  file,erros:=os.Open("./paquetes/2"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     seguimento++
     file.Close()
-    file,erros=os.Open("./paquetes/0"+strconv.Itoa(seguimento)+".csv")
+    file,erros=os.Open("./paquetes/2"+strconv.Itoa(seguimento)+".csv")
   }
-  file,erros=os.Create("./paquetes/0"+strconv.Itoa(seguimento)+".csv")
+  file,erros=os.Create("./paquetes/2"+strconv.Itoa(seguimento)+".csv")
   if erros!=nil{
     log.Printf("error:")
     fmt.Println(erros)
@@ -59,7 +59,7 @@ func (s *Server) CrearOrdenRetail(ctx context.Context, request *Request_CrearOrd
     {request.Id,request.Producto,string(request.Valor),request.Tienda,request.Destino,"En bodega"},
   }
   erros=writer.WriteAll(guardar)
-  aux:="0"+strconv.Itoa(seguimento)
+  aux:="2"+strconv.Itoa(seguimento)
   seguimento,_=strconv.Atoi(aux)
   file.Close()
   return &Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
