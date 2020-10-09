@@ -159,14 +159,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
 func Updater(n_file string,estado string,tipo string){
   csvfile ,_:= os.Open(n_file)
   reader := csv.NewReader(bufio.NewReader(csvfile))
-  for{
-    line,error :=reader.Read()
-    if error==io.EOF{
-      break
-    }else if error!=nil{
-      log.Fatal(error)
-    }
-  }
+  line,error :=reader.Read()
   csvfile.Close()
   csvfilex ,_:= os.OpenFile(n_file, os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
@@ -186,14 +179,7 @@ func LFP_R(pakete *Pedido_retail_l){
   file,erros:=os.Open("./paquetes/2"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     reader := csv.NewReader(bufio.NewReader(file))
-    for{
-      line,error :=reader.Read()
-      if error==io.EOF{
-        break
-      }else if error!=nil{
-        log.Fatal(error)
-      }
-    }
+    line,error :=reader.Read()
     file.Close()
     if(line[5]=="En bodega"){
       aux1,_:=strconv.Atoi(line[2])
@@ -215,14 +201,7 @@ func LFP_P(pakete *Pedido_retail_l){
   file,erros:=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     reader := csv.NewReader(bufio.NewReader(file))
-    for{
-      line,error :=reader.Read()
-      if error==io.EOF{
-        break
-      }else if error!=nil{
-        log.Fatal(error)
-      }
-    }
+    line,error :=reader.Read()
     file.Close()
     if(line[6]=="En bodega" && line[5]=="1"){
       aux1,_:=strconv.Atoi(line[2])
@@ -244,14 +223,7 @@ func LFP_N(pakete *Pedido_retail_l){
   file,erros:=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     reader := csv.NewReader(bufio.NewReader(file))
-    for{
-      line,error :=reader.Read()
-      if error==io.EOF{
-        break
-      }else if error!=nil{
-        log.Fatal(error)
-      }
-    }
+    line,error :=reader.Read()
     file.Close()
     if(linea[6]=="En bodega" && linea[5]=="0"){
       aux1,_:=strconv.Atoi(line[2])
