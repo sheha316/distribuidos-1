@@ -134,7 +134,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
 
 func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_SolicitarPaquete) (*Response_SolicitarPaquete, error) {
   log.Printf("Receive message %s", request.Tipo)
-  var x Pedido_retail_l
+  var x &Pedido_retail_l
   var tipo_p string
   //retail=2 pyme=1
   switch request.Tipo {
@@ -154,10 +154,10 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
       tipo_p="normal"
     }
   }
-  return &Response_SolicitarPaquete{x.Id,tipo_p, int32(x.Valor), x.Tienda, x.Destino}, nil
+  return &Response_SolicitarPaquete{Id:x.Id,Tipo:tipo_p,Valor: int32(x.Valor),Tienda: x.Tienda,Destino: x.Destino}, nil
 }
 func Updater(n_file string,estado string,tipo string){
-  csvfile ,_:= os.OpenFile(n_file)
+  csvfile ,_:= os.Open(n_file)
   reader := csv.NewReader(bufio.NewReader(csvFile))
   for{
     line,error :=reader.Read()
