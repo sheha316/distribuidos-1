@@ -134,8 +134,80 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
 
 func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_SolicitarPaquete) (*Response_SolicitarPaquete, error) {
   log.Printf("Receive message %s", request.Tipo)
-  return &Response_SolicitarPaquete{Id: "vjdsv", Tipo: "nvjnvkjf", Valor: int32(7593), Tienda: "dsbjd", Destino: "bvjhdbvs"}, nil
+  var x Pedido_retail_l
+  //retail=2 pyme=1
+  switch request.Tipo {
+  case "retail":
+    LFP_R(x)
+    if(x.Valor==-1){
+      LFP_P(x)
+    }
+
+  default:
+    LFP_P(x)
+    if(x.Valor==-1){
+      LFP_N(x)
+    }
+  }
+  return &Response_SolicitarPaquete{x.Id,x.Tipo, int32(x.Valor), x.Tienda, x.Destino}, nil
 }
+func Updater(n_file string,estado string,tipo string){
+  csvfile ,_:= os.OpenFile(n_file)
+  reader := csv.NewReader(bufio.NewReader(csvFile))
+  for{
+    line,error :=reader.Read()
+    if error==io.EOF{
+      break
+    }else if error!=nil{
+      log.Fatal(error)
+    }
+  }
+  csvfile.Close()
+  csvfilex ,_:= os.OpenFile(n_file, os.O_WRONLY|os.O_CREATE, 0777)
+  writer:=csv.NewWriter(csvfilex)
+  switch tipo {
+  case "retail":
+    var guardar =[][]string{linea[0],linea[1],linea[2],:linea[3],linea[4],estado,}
+    erros:=writer.WriteAll(guardar)
+  default:
+    var guardar=[][]string={linea[0],linea[1],linea[2],linea[3],linea[4],linea[5],estado,}
+    erros:=writer.WriteAll(guardar)
+  }
+  csvfilex.Close()
+}
+
+func LFP_R(pakete*Pedido_retail_l){
+  seguimento:=0
+  file,erros:=os.Open("./paquetes/2"+strconv.Itoa(seguimento)+".csv")
+  for erros==nil{
+    reader := csv.NewReader(bufio.NewReader(csvFile))
+    for{
+      line,error :=reader.Read()
+      if error==io.EOF{
+        break
+      }else if error!=nil{
+        log.Fatal(error)
+      }
+    }
+    file.Close()
+    if(linea[5]=="En bodega"){
+      aux1,_:=strconv.Atoi(line[2])
+      pakete.Id=line[0]
+      pakete.Tipo="retail"
+      pakete.Valor=aux1
+      pakete.Tienda=line[3]
+      pakete.Destino=line[4]
+      Updater("./paquetes/2"+strconv.Itoa(seguimento)+".csv","En camino","retail")
+      return
+    }
+    seguimento++
+    file,erros=os.Open("./paquetes/2"+strconv.Itoa(seguimento)+".csv")
+  }
+  pakete.Valor=-1
+}
+
+
+
 
 func (s *Server) InformarEstado(ctx context.Context, request *Request_Estado) (*Response_Estado, error) {
   log.Printf("Receive message %s", request.Id)

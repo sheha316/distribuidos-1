@@ -5,13 +5,44 @@ import (
   "golang.org/x/net/context"
   "google.golang.org/grpc"
 )
+type paquete_info struct{
+  Id string
+  Tipo string
+  Valor int
+  Tienda string
+  Destino string
+  Intentos int
+}
+type Camion struct{
+  Tipo string
+  Paquete_inf paquete_info
+}
+func request_paquete(conn *grpc.ClientConn, kamion *Camion){
+  c := comms.NewCommsClient(conn)
+  response, err := c.SolicitarPaquete(context.Background(), &comms.Request_SolicitarPaquete{Tipo: kamion.Tipo})
+  if(int(response.Valor)!=-1){
+    kamion.Paquete_inf=paquete_info{Id:response.Id,Tipo:response.Tipo,Valor:int(response.Valor),
+    Tienda:response.Tienda,Destino:response.Destino,Intentos:0}
+  }
+
 func main() {
+  camion_1:=&Camion{
+    Tipo: "retail"
+  }
+  camion_2:=&Camion{
+    Tipo: "retail"
+  }
+  camion_3:=&Camion{
+    Tipo: "normal"
+  }
   var conn *grpc.ClientConn
   conn, err := grpc.Dial("dist93:9000", grpc.WithInsecure())
   if err != nil {
     log.Fatalf("did not connect: %s", err)
   }
   defer conn.Close()
+
+
   c := comms.NewCommsClient(conn)
   response, err := c.SayHello(context.Background(), &comms.Request{Greeting: "foo"})
   if err != nil {

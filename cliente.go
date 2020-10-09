@@ -146,10 +146,11 @@ func main() {
   		// freebsd, openbsd,
   	}
   }
+  /*
   c := comms.NewCommsClient(conn)
   response, err := c.Seguimiento(context.Background(), &comms.Request_Seguimiento{Seguimiento: 1})
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
   }
-  log.Printf("Response from server: %s", response.Estado)
+  log.Printf("Response from server: %s", response.Estado)*/
 }
