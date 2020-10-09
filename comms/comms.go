@@ -135,21 +135,26 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
 func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_SolicitarPaquete) (*Response_SolicitarPaquete, error) {
   log.Printf("Receive message %s", request.Tipo)
   var x Pedido_retail_l
+  var tipo_p string
   //retail=2 pyme=1
   switch request.Tipo {
   case "retail":
     LFP_R(x)
+    tipo_p="retail"
     if(x.Valor==-1){
       LFP_P(x)
+      tipo_p="prioritario"
     }
 
   default:
     LFP_P(x)
-    if(x.Valor==-1){
+    tipo_p="prioritario"
+    if(int(x.Valor)==-1){
       LFP_N(x)
+      tipo_p="normal"
     }
   }
-  return &Response_SolicitarPaquete{x.Id,x.Tipo, int32(x.Valor), x.Tienda, x.Destino}, nil
+  return &Response_SolicitarPaquete{x.Id,tipo_p, int32(x.Valor), x.Tienda, x.Destino}, nil
 }
 func Updater(n_file string,estado string,tipo string){
   csvfile ,_:= os.OpenFile(n_file)
@@ -176,7 +181,7 @@ func Updater(n_file string,estado string,tipo string){
   csvfilex.Close()
 }
 
-func LFP_R(pakete*Pedido_retail_l){
+func LFP_R(pakete *Pedido_retail_l){
   seguimento:=0
   file,erros:=os.Open("./paquetes/2"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
@@ -193,7 +198,6 @@ func LFP_R(pakete*Pedido_retail_l){
     if(linea[5]=="En bodega"){
       aux1,_:=strconv.Atoi(line[2])
       pakete.Id=line[0]
-      pakete.Tipo="retail"
       pakete.Valor=aux1
       pakete.Tienda=line[3]
       pakete.Destino=line[4]
@@ -205,6 +209,65 @@ func LFP_R(pakete*Pedido_retail_l){
   }
   pakete.Valor=-1
 }
+
+func LFP_P(pakete *Pedido_retail_l){
+  seguimento:=0
+  file,erros:=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
+  for erros==nil{
+    reader := csv.NewReader(bufio.NewReader(csvFile))
+    for{
+      line,error :=reader.Read()
+      if error==io.EOF{
+        break
+      }else if error!=nil{
+        log.Fatal(error)
+      }
+    }
+    file.Close()
+    if(linea[6]=="En bodega" && linea[5]=="1"){
+      aux1,_:=strconv.Atoi(line[2])
+      pakete.Id=line[0]
+      pakete.Valor=aux1
+      pakete.Tienda=line[3]
+      pakete.Destino=line[4]
+      Updater("./paquetes/1"+strconv.Itoa(seguimento)+".csv","En camino","prioritario")
+      return
+    }
+    seguimento++
+    file,erros=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
+  }
+  pakete.Valor=-1
+}
+
+func LFP_N(pakete *Pedido_retail_l){
+  seguimento:=0
+  file,erros:=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
+  for erros==nil{
+    reader := csv.NewReader(bufio.NewReader(csvFile))
+    for{
+      line,error :=reader.Read()
+      if error==io.EOF{
+        break
+      }else if error!=nil{
+        log.Fatal(error)
+      }
+    }
+    file.Close()
+    if(linea[6]=="En bodega" && linea[5]=="0"){
+      aux1,_:=strconv.Atoi(line[2])
+      pakete.Id=line[0]
+      pakete.Valor=aux1
+      pakete.Tienda=line[3]
+      pakete.Destino=line[4]
+      Updater("./paquetes/1"+strconv.Itoa(seguimento)+".csv","En camino","normal")
+      return
+    }
+    seguimento++
+    file,erros=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
+  }
+  pakete.Valor=-1
+}
+
 
 
 
