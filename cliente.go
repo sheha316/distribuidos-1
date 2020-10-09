@@ -29,22 +29,22 @@ func read_and_request_pymes(c *commsClient){
       log.Fatal(error)
     }
     pedido_pymes=append(pedido_pymes,Pedido_pymes{
-      id:line[0],
-      producto:line[1],
-      valor:line[2],
-      tienda:line[3],
-      destino:line[4],
-      prioritario:line[5],
+      Id:line[0],
+      Producto:line[1],
+      Valor:line[2],
+      Tienda:line[3],
+      Destino:line[4],
+      Prioritario:line[5],
     })
   }
   for i:=0; i<len(pedido_pymes);i++{
     response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
-      Id:pedido_pymes[i].id,
-      Producto:pedido_pymes[i].producto,
-      Valor:pedido_pymes[i].valor,
-      Tienda:pedido_pymes[i].tienda,
-      Destino:pedido_pymes[i].destino,
-      Prioritario:pedido_pymes[i].prioritario,})
+      Id:pedido_pymes[i].Id,
+      Producto:pedido_pymes[i].Producto,
+      Valor:pedido_pymes[i].Valor,
+      Tienda:pedido_pymes[i].Tienda,
+      Destino:pedido_pymes[i].Destino,
+      Prioritario:pedido_pymes[i].Prioritario,})
     if err != nil {
       log.Fatalf("Error when calling SayHello: %s", err)
     }
