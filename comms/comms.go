@@ -225,7 +225,7 @@ func LFP_N(pakete *Pedido_retail_l){
     reader := csv.NewReader(bufio.NewReader(file))
     line,error :=reader.Read()
     file.Close()
-    if(linea[6]=="En bodega" && linea[5]=="0"){
+    if(line[6]=="En bodega" && line[5]=="0"){
       aux1,_:=strconv.Atoi(line[2])
       pakete.Id=line[0]
       pakete.Valor=aux1
