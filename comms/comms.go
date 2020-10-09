@@ -4,6 +4,7 @@ import (
   "golang.org/x/net/context"
   "os"
   "encoding/csv"
+  "fmt"
 )
 
 type Server struct {
@@ -26,8 +27,8 @@ func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrden
   var guardar = [][]string{
     {request.Id,request.Producto,string(request.Valor),request.Tienda,request.Destino,string(request.Prioritario)},
   }
-  erros=writer,WriteAll(guardar)
-  return &Response_CrearOrden{Seguimiento: seguimiento}, nil
+  erros=writer.WriteAll(guardar)
+  return &Response_CrearOrden{Seguimiento: seguimento}, nil
 }
 
 func (s *Server) CrearOrdenRetail(ctx context.Context, request *Request_CrearOrdenRetail) (*Response_CrearOrden, error) {
