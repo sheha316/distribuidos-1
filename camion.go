@@ -24,17 +24,15 @@ func request_paquete(conn *grpc.ClientConn, kamion *Camion){
     kamion.Paquete_inf=paquete_info{Id:response.Id,Tipo:response.Tipo,Valor:int(response.Valor),
     Tienda:response.Tienda,Destino:response.Destino,Intentos:0}
   }
+}
 
 func main() {
   camion_1:=&Camion{
-    Tipo: "retail"
-  }
+    Tipo: "retail",}
   camion_2:=&Camion{
-    Tipo: "retail"
-  }
+    Tipo: "retail",}
   camion_3:=&Camion{
-    Tipo: "normal"
-  }
+    Tipo: "normal",}
   var conn *grpc.ClientConn
   conn, err := grpc.Dial("dist93:9000", grpc.WithInsecure())
   if err != nil {
