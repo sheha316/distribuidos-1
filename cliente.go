@@ -19,7 +19,7 @@ type Pedido_pymes struct{
   Destino string
   Prioritario int
 }
-func read_and_request_pymes(c grpc.ClientConnInterface){
+func read_and_request_pymes(c comms.commsClient){
   csvFile,_:=os.Open("Prueba/pymes.csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
   var pedido_pymes []Pedido_pymes
@@ -45,10 +45,10 @@ func read_and_request_pymes(c grpc.ClientConnInterface){
     response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
       Id:pedido_pymes[i].Id,
       Producto:pedido_pymes[i].Producto,
-      Valor:pedido_pymes[i].Valor,
+      Valor:int32(pedido_pymes[i].Valor),
       Tienda:pedido_pymes[i].Tienda,
       Destino:pedido_pymes[i].Destino,
-      Prioritario:pedido_pymes[i].Prioritario,})
+      Prioritario:int32(pedido_pymes[i].Prioritario),})
     if err != nil {
       log.Fatalf("Error when calling SayHello: %s", err)
     }
