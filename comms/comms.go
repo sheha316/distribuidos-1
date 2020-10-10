@@ -25,7 +25,6 @@ type paquete struct{
 
 func find_file(nombre string,tipo string)(string){
   prefijo:="0"
-  archivo:="imadrafandimdiginahole.csv"
   switch tipo {
   case "retail":
     prefijo="1"
@@ -174,7 +173,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
     }
   }
   aux:=strconv.Itoa(int(x.Seguimiento))
-  csvFile,error:=os.Open("./storage/logica/"+aux+".csv")
+  csvFile,_:=os.Open("./storage/logica/"+aux+".csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
   line,error :=reader.Read()
   csvFile.Close()
@@ -243,8 +242,7 @@ func Updater_csv(aux string, namefile string){
 }
 
 func LFP_R(pakete *paquete){
-  seguimento:=0
-  file,erros:=os.Open("./storage/logica/retail.csv")
+  file,_:=os.Open("./storage/logica/retail.csv")
   reader := csv.NewReader(bufio.NewReader(file))
   for{
     line,error :=reader.Read()
@@ -270,8 +268,7 @@ func LFP_R(pakete *paquete){
 }
 
 func LFP_P(pakete *paquete,p string){
-  seguimento:=0
-  file,erros:=os.Open("./storage/logica/pymes.csv")
+  file,_:=os.Open("./storage/logica/pymes.csv")
   reader := csv.NewReader(bufio.NewReader(file))
   for{
     line,error :=reader.Read()
