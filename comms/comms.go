@@ -149,7 +149,9 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
     }
 
   default:
+    log.Printf("Response from server: %+v",x)
     LFP_P(x)
+    log.Printf("Response from server: %+v",x)
     tipo_p="prioritario"
     if(int(x.Valor)==-1){
       LFP_N(x)
