@@ -210,6 +210,7 @@ func LFP_P(pakete *Pedido_retail_l){
       pakete.Tienda=line[3]
       pakete.Destino=line[4]
       Updater("./paquetes/1"+strconv.Itoa(seguimento)+".csv","En camino","prioritario")
+      log.Printf("Seguimento: %d", seguimento)
       return
     }
     seguimento++
