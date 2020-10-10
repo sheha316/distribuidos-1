@@ -157,6 +157,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
   return &Response_SolicitarPaquete{Id:x.Id,Tipo:tipo_p,Valor: int32(x.Valor),Tienda: x.Tienda,Destino: x.Destino}, nil
 }
 func Updater(n_file string,estado string,tipo string){
+  log.Printf("Seguimento: %s", n_file)
   csvfile ,_:= os.Open(n_file)
   reader := csv.NewReader(bufio.NewReader(csvfile))
   line,_ :=reader.Read()
@@ -210,7 +211,6 @@ func LFP_P(pakete *Pedido_retail_l){
       pakete.Tienda=line[3]
       pakete.Destino=line[4]
       Updater("./paquetes/1"+strconv.Itoa(seguimento)+".csv","En camino","prioritario")
-      log.Printf("Seguimento: %d", seguimento)
       return
     }
     seguimento++
