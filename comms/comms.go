@@ -139,7 +139,9 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
   //retail=2 pyme=1
   switch request.Tipo {
   case "retail":
+    log.Printf("Response from server: %+v",response)
     LFP_R(x)
+    log.Printf("Response from server: %+v",response)
     tipo_p="retail"
     if(x.Valor==-1){
       LFP_P(x)
