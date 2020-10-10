@@ -156,7 +156,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
   }
   return &Response_SolicitarPaquete{Id:x.Id,Tipo:tipo_p,Valor: int32(x.Valor),Tienda: x.Tienda,Destino: x.Destino}, nil
 }
-func Updater(n_file string,estado string,tipo string){
+func (s *Server) Updater(n_file string,estado string,tipo string){
   log.Printf("Seguimento: %s", n_file)
   csvfile ,_:= os.Open(n_file)
   reader := csv.NewReader(bufio.NewReader(csvfile))
@@ -175,7 +175,7 @@ func Updater(n_file string,estado string,tipo string){
   csvfilex.Close()
 }
 
-func LFP_R(pakete *Pedido_retail_l){
+func (s *Server) LFP_R(pakete *Pedido_retail_l){
   seguimento:=0
   file,erros:=os.Open("./paquetes/2"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
@@ -197,7 +197,7 @@ func LFP_R(pakete *Pedido_retail_l){
   pakete.Valor=-1
 }
 
-func LFP_P(pakete *Pedido_retail_l){
+func (s *Server) LFP_P(pakete *Pedido_retail_l){
   seguimento:=0
   file,erros:=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
@@ -219,7 +219,7 @@ func LFP_P(pakete *Pedido_retail_l){
   pakete.Valor=-1
 }
 
-func LFP_N(pakete *Pedido_retail_l){
+func (s *Server) LFP_N(pakete *Pedido_retail_l){
   seguimento:=0
   file,erros:=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
@@ -240,8 +240,6 @@ func LFP_N(pakete *Pedido_retail_l){
   }
   pakete.Valor=-1
 }
-
-
 
 
 
