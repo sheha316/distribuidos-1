@@ -215,6 +215,7 @@ func LFP_P(pakete *Pedido_retail_l){
       pakete.Valor=aux1
       pakete.Tienda=line[3]
       pakete.Destino=line[4]
+      log.Printf("Hello from the other side %+v",pakete)
       Updater("./paquetes/1"+strconv.Itoa(seguimento)+".csv","En camino","prioritario")
       return
     }
