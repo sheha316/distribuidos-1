@@ -36,9 +36,9 @@ func main() {
   var conn *grpc.ClientConn
   conn, err := grpc.Dial("dist93:9000", grpc.WithInsecure())
   if err != nil {
-    log.Fatalf("did not connect: %+v", err)
+    log.Fatalf("did not connect: %s", err)
   }
   defer conn.Close()
   request_paquete(conn,camion_3)
-  log.Printf("Response from server: %s",camion_3.Paquete_inf)
+  log.Printf("Response from server: %+v",camion_3.Paquete_inf)
 }
