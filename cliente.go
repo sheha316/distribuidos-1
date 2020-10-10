@@ -30,7 +30,7 @@ type Pedido_retail struct{
 }
 func read_and_request_pymes(conn *grpc.ClientConn){
   c := comms.NewCommsClient(conn)
-  csvFile,_:=os.Open("Prueba/pymes.csv")
+  csvFile,_:=os.Open("Pedidos/pymes.csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
   var pedido_pymes []Pedido_pymes
   for{
@@ -67,7 +67,7 @@ func read_and_request_pymes(conn *grpc.ClientConn){
 }
 func read_and_request_retail(conn *grpc.ClientConn){
   c := comms.NewCommsClient(conn)
-  csvFile,_:=os.Open("Prueba/retail.csv")
+  csvFile,_:=os.Open("Pedidos/retail.csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
   var pedido_retail []Pedido_retail
   for{
