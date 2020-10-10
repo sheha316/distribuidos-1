@@ -51,30 +51,30 @@ func registro_logico_pymes(tipo string,request *Request_CrearOrdenPyme)(int){
   }
   writer:=csv.NewWriter(file)
   t := time.Now()
-  seguimento,_=strconv.Atoi(seguimento)
+  seguimentoint,_:=strconv.Atoi(seguimento)
   var guardar = [][]string{
     {t.String(),request.Id,tipo,request.Producto,strconv.Itoa(int(request.Valor)),request.Tienda,request.Destino,seguimento},
   }
   erros=writer.WriteAll(guardar)
   file.Close()
-  return seguimento
+  return seguimentoint
 }
 
 func registro_logico_retail(tipo string,request *Request_CrearOrdenRetail)(int){
   seguimento:=find_file("-",tipo)
-  file,erros=os.Create("./storage/logica/"+seguimento+".csv")
+  file,erros:=os.Create("./storage/logica/"+seguimento+".csv")
   if erros!=nil{
     fmt.Println(erros)
   }
   writer:=csv.NewWriter(file)
   t := time.Now()
-  seguimento,_=strconv.Atoi(seguimento)
+  seguimentoint,_:=strconv.Atoi(seguimento)
   var guardar = [][]string{
     {t.String(),request.Id,tipo,request.Producto,strconv.Itoa(int(request.Valor)),request.Tienda,request.Destino,seguimento},
   }
   erros=writer.WriteAll(guardar)
   file.Close()
-  return seguimento
+  return seguimentoint
 }
 
 func registro_paquete_pymes_pymes(request *Request_CrearOrdenPyme,seguimento int){
