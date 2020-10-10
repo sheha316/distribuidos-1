@@ -16,7 +16,7 @@ type Server struct {
 
 type paquete struct{
   Id string
-  Seguimento int
+  Seguimiento int
   Tipo string
   Valor int
   Intentos int
@@ -135,7 +135,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
   reader := csv.NewReader(bufio.NewReader(csvFile))
   line,_ :=reader.Read()
   id:=line[1]
-  file="./storage/logica/pymes.csv"
+  file:="./storage/logica/pymes.csv"
   if(line[2]=="retail"){
     file="./storage/logica/retail.csv"
   }
@@ -186,7 +186,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
 }
 
 func Updater(n_file string,estado string){
-  log.Printf("Seguimento: %s", n_file)
+  log.Printf("Seguimiento: %s", n_file)
   csvfile ,_:= os.Open(n_file)
   reader := csv.NewReader(bufio.NewReader(csvfile))
   line,_ :=reader.Read()
@@ -262,7 +262,7 @@ func LFP_R(pakete *paquete){
       aux2,_:=strconv.Atoi(line[3])
       aux3,_:=strconv.Atoi(line[4])
       pakete.Id=line[0]
-      pakete.Seguimento=aux1
+      pakete.Seguimiento=aux1
       pakete.Tipo=line[2]
       pakete.Valor=aux2
       pakete.Intentos=aux3
@@ -289,7 +289,7 @@ func LFP_P(pakete *paquete,p string){
       aux2,_:=strconv.Atoi(line[3])
       aux3,_:=strconv.Atoi(line[4])
       pakete.Id=line[0]
-      pakete.Seguimento=aux1
+      pakete.Seguimiento=aux1
       pakete.Tipo=line[2]
       pakete.Valor=aux2
       pakete.Intentos=aux3
