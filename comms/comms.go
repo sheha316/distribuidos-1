@@ -222,6 +222,7 @@ func LFP_P(pakete *Pedido_retail_l){
     seguimento++
     file,erros=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
   }
+  log.Printf("puta la wea")
   pakete.Valor=-1
 }
 
