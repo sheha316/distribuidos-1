@@ -144,7 +144,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
     file="./storage/logica/retail.csv"
   }
   csvFile.Close()
-  csvFile,_:=os.Open(file)
+  csvFile,_=os.Open(file)
   reader = csv.NewReader(bufio.NewReader(csvFile))
   for{
     line,error :=reader.Read()
@@ -219,10 +219,10 @@ func Updater(n_file string,estado string){
     }
     switch line[0] {
       case change_id:
-        var guardar = [][]string{{line[0]line[1],line[2],line[3],line[4],estado},}
+        var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],estado},}
         erros=writer.WriteAll(guardar)
       default:
-        var guardar = [][]string{{line[0]line[1],line[2],line[3],line[4],line[5]},}
+        var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],line[5]},}
         erros=writer.WriteAll(guardar)
     }
   }
@@ -243,7 +243,7 @@ func Updater_csv(aux string, namefile string){
     }else if error!=nil{
         log.Fatal(error)
     }
-    var guardar = [][]string{{line[0]line[1],line[2],line[3],line[4],line[5]},}
+    var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],line[5]},}
     erros=writer.WriteAll(guardar)
   }
   csvfilex.Close()
