@@ -175,9 +175,6 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
   }
   aux:=strconv.Itoa(int(x.Seguimiento))
   csvFile,error:=os.Open("./storage/logica/"+aux+".csv")
-  if error !=nil{
-    return &Response_Seguimiento{Estado: "Paquete no existe"}, nil
-  }
   reader := csv.NewReader(bufio.NewReader(csvFile))
   line,error :=reader.Read()
   csvFile.Close()
@@ -193,7 +190,6 @@ func Updater(n_file string,estado string){
   csvfile.Close()
   change_id:=line[1]
   change_tipo:=line[2]
-  csvfilex.Close()
   nombrearch:="./storage/logica/retail.csv"
   switch change_tipo{
   case "retail":
