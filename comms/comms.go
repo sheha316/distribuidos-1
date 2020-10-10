@@ -31,20 +31,15 @@ func find_file(nombre string,tipo string)(string){
   default:
     prefijo="2"
   }
-  switch nombre {
-  case condition:
-    //do something
-  default:
-    file,erros:=os.Open("soyunarchivo.txt")
-    seguimento:=0
-    for erros==nil{
-      seguimento++
-      file.Close()
-      file,erros=os.Open("./storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
-    }
+  file,erros:=os.Open("soyunarchivo.txt")
+  seguimento:=0
+  for erros==nil{
+    seguimento++
     file.Close()
-    return prefijo+strconv.Itoa(seguimento)
+    file,erros=os.Open("./storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   }
+  file.Close()
+  return prefijo+strconv.Itoa(seguimento)
 }
 
 func registro_logico_pymes(tipo string,request *Request_CrearOrdenPyme)(int){
