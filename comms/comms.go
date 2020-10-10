@@ -212,10 +212,10 @@ func Updater(n_file string,estado string){
     switch line[0] {
       case change_id:
         var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],estado},}
-        erros=writer.WriteAll(guardar)
+        error=writer.WriteAll(guardar)
       default:
         var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],line[5]},}
-        erros=writer.WriteAll(guardar)
+        error=writer.WriteAll(guardar)
     }
   }
   csvfilex.Close()
@@ -224,7 +224,7 @@ func Updater(n_file string,estado string){
 }
 
 func Updater_csv(aux string, namefile string){
-  csvfile ,_= os.Open(aux)
+  csvfile ,_:= os.Open(aux)
   reader := csv.NewReader(bufio.NewReader(csvfile))
   csvfilex ,_:= os.OpenFile(namefile, os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
@@ -236,7 +236,7 @@ func Updater_csv(aux string, namefile string){
         log.Fatal(error)
     }
     var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],line[5]},}
-    erros=writer.WriteAll(guardar)
+    _=writer.WriteAll(guardar)
   }
   csvfilex.Close()
   csvfile.Close()
@@ -263,7 +263,7 @@ func LFP_R(pakete *paquete){
       pakete.Valor=aux2
       pakete.Intentos=aux3
       pakete.Estado="En camino"
-      csvFile.Close()
+      file.Close()
       return
     }
   }
@@ -290,7 +290,7 @@ func LFP_P(pakete *paquete,p string){
       pakete.Valor=aux2
       pakete.Intentos=aux3
       pakete.Estado="En camino"
-      csvFile.Close()
+      file.Close()
       return
     }
   }
