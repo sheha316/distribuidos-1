@@ -36,10 +36,10 @@ message Request_SolicitarPaquete {
 
 message Response_SolicitarPaquete {
   string id = 1;
-  string tipo = 2;
-  int32 valor = 3;
-  string tienda = 4;
-  string destino = 5;
+  int32 seguimiento = 2;
+  string tipo = 3;
+  int32 valor = 4;
+  string tienda = 5;
 }
 
 message Request_Estado {
