@@ -31,8 +31,8 @@ func find_file(nombre string,tipo string)(string){
   default:
     prefijo="2"
   }
-  file,erros:=os.Open("./storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   seguimento:=0
+  file,erros:=os.Open("./storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     seguimento++
     file.Close()
