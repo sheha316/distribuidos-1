@@ -8,6 +8,7 @@ import (
   "fmt"
   "strconv"
   "bufio"
+  "time"
 )
 
 type Server struct {
@@ -44,7 +45,7 @@ func find_file(nombre string,tipo string)(string){
 
 func registro_logico_pymes(tipo string,request *Request_CrearOrdenPyme)(int){
   seguimento:=find_file("-",tipo)
-  file,erros=os.Create("./storage/logica/"+seguimento+".csv")
+  file,erros:=os.Create("./storage/logica/"+seguimento+".csv")
   if erros!=nil{
     fmt.Println(erros)
   }
