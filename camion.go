@@ -39,12 +39,5 @@ func main() {
     log.Fatalf("did not connect: %s", err)
   }
   defer conn.Close()
-  request_paquete(camion_3)
-
-  c := comms.NewCommsClient(conn)
-  response, err := c.SayHello(context.Background(), &comms.Request{Greeting: "foo"})
-  if err != nil {
-    log.Fatalf("Error when calling SayHello: %s", err)
-  }
-  log.Printf("Response from server: %s", response.Estado)
+  request_paquete(conn,camion_3)
 }
