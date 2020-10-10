@@ -175,7 +175,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
   aux:=strconv.Itoa(int(x.Seguimiento))
   csvFile,_:=os.Open("./storage/logica/"+aux+".csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
-  line,error :=reader.Read()
+  line,_:=reader.Read()
   csvFile.Close()
   Updater("./storage/logica/"+aux+".csv","En camino")
   return &Response_SolicitarPaquete{Id:x.Id,Tipo:x.Tipo,Valor:int32(x.Valor),Tienda:line[5],Destino:line[6],}, nil
