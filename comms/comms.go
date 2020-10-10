@@ -49,7 +49,7 @@ func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrden
   }
   writer:=csv.NewWriter(file)
   var guardar = [][]string{
-    {request.Id,request.Producto,string(request.Valor),request.Tienda,request.Destino,string(request.Prioritario),"En bodega"},
+    {request.Id,request.Producto,strconv.Itoa(request.Valor),request.Tienda,request.Destino,strconv.Itoa(request.Prioritario),"En bodega"},
   }
   erros=writer.WriteAll(guardar)
   aux:="1"+strconv.Itoa(seguimento)
@@ -76,7 +76,7 @@ func (s *Server) CrearOrdenRetail(ctx context.Context, request *Request_CrearOrd
   }
   writer:=csv.NewWriter(file)
   var guardar = [][]string{
-    {request.Id,request.Producto,string(request.Valor),request.Tienda,request.Destino,"En bodega"},
+    {request.Id,request.Producto,strconv.Itoa(request.Valor),request.Tienda,request.Destino,"En bodega"},
   }
   erros=writer.WriteAll(guardar)
   aux:="2"+strconv.Itoa(seguimento)
