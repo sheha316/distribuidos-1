@@ -40,5 +40,5 @@ func main() {
   }
   defer conn.Close()
   request_paquete(conn,camion_3)
-  log.Printf("Response from server: %d", int(camion_3.Id))
+  log.Printf("Response from server: %d", int(camion_3.Paquete_inf.Id))
 }
