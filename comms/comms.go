@@ -210,6 +210,7 @@ func LFP_P(pakete *Pedido_retail_l){
     line,_ :=reader.Read()
     file.Close()
     if((line[6]=="En bodega") && (line[5]=="1")){
+      log.Printf("esto no puede estar pasando 2")
       aux1,_:=strconv.Atoi(line[2])
       pakete.Id=line[0]
       pakete.Valor=aux1
