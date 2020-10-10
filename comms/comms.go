@@ -202,6 +202,7 @@ func LFP_R(pakete *Pedido_retail_l){
 }
 
 func LFP_P(pakete *Pedido_retail_l){
+  log.Printf("Hello from the other side")
   seguimento:=0
   file,erros:=os.Open("./paquetes/1"+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
