@@ -137,14 +137,14 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
     return &Response_Seguimiento{Estado: "Paquete no existe"}, nil
   }
   reader := csv.NewReader(bufio.NewReader(csvFile))
-  line,error :=reader.Read()
+  line,_ :=reader.Read()
   id:=line[1]
   file="./storage/logica/pymes.csv"
   if(line[2]=="retail"){
     file="./storage/logica/retail.csv"
   }
   csvFile.Close()
-  csvFile,error:=os.Open(file)
+  csvFile,_:=os.Open(file)
   reader := csv.NewReader(bufio.NewReader(csvFile))
   for{
     line,error :=reader.Read()
