@@ -19,7 +19,7 @@ type Camion struct{
 }
 func request_paquete(conn *grpc.ClientConn, kamion *Camion){
   c := comms.NewCommsClient(conn)
-  response, err := c.SolicitarPaquete(context.Background(), &comms.Request_SolicitarPaquete{Tipo: kamion.Tipo})
+  response, _ := c.SolicitarPaquete(context.Background(), &comms.Request_SolicitarPaquete{Tipo: kamion.Tipo})
   if(int(response.Valor)!=-1){
     kamion.Paquete_inf=paquete_info{Id:response.Id,Tipo:response.Tipo,Valor:int(response.Valor),
     Tienda:response.Tienda,Destino:response.Destino,Intentos:0}
@@ -27,10 +27,10 @@ func request_paquete(conn *grpc.ClientConn, kamion *Camion){
 }
 
 func main() {
-  camion_1:=&Camion{
+  /*camion_1:=&Camion{
     Tipo: "retail",}
   camion_2:=&Camion{
-    Tipo: "retail",}
+    Tipo: "retail",}*/
   camion_3:=&Camion{
     Tipo: "normal",}
   var conn *grpc.ClientConn
