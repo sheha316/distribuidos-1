@@ -145,7 +145,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
   }
   csvFile.Close()
   csvFile,_:=os.Open(file)
-  reader := csv.NewReader(bufio.NewReader(csvFile))
+  reader = csv.NewReader(bufio.NewReader(csvFile))
   for{
     line,error :=reader.Read()
     if error==io.EOF{
@@ -206,7 +206,7 @@ func Updater(n_file string,estado string){
     nombrearch="./storage/logica/pymes.csv"
   }
   csvfile ,_= os.Open(nombrearch)
-  reader := csv.NewReader(bufio.NewReader(csvfile))
+  reader = csv.NewReader(bufio.NewReader(csvfile))
 
   csvfilex ,_:= os.OpenFile("./storage/logica/aux.csv", os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
@@ -219,10 +219,10 @@ func Updater(n_file string,estado string){
     }
     switch line[0] {
       case change_id:
-        var guardar = [][]string{{line[0]line[1],line[2],line[3],line[4],estado}}
+        var guardar = [][]string{{line[0]line[1],line[2],line[3],line[4],estado},}
         erros=writer.WriteAll(guardar)
       default:
-        var guardar = [][]string{{line[0]line[1],line[2],line[3],line[4],line[5]}}
+        var guardar = [][]string{{line[0]line[1],line[2],line[3],line[4],line[5]},}
         erros=writer.WriteAll(guardar)
     }
   }
@@ -243,7 +243,7 @@ func Updater_csv(aux string, namefile string){
     }else if error!=nil{
         log.Fatal(error)
     }
-    var guardar = [][]string{{line[0]line[1],line[2],line[3],line[4],line[5]}}
+    var guardar = [][]string{{line[0]line[1],line[2],line[3],line[4],line[5]},}
     erros=writer.WriteAll(guardar)
   }
   csvfilex.Close()
