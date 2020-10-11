@@ -6,6 +6,7 @@ import (
   "google.golang.org/grpc"
   "time"
   "math/rand"
+  "fmt"
 )
 type paquete_info struct{
   Id string
