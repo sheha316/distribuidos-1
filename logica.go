@@ -2,7 +2,7 @@ package main
 import (
   "log"
   "net"
-  "grpc"
+  "google.golang.org/grpc"
   "github.com/sheha316/distribuidos-1/comms"
 )
 
