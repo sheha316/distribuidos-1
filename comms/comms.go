@@ -189,11 +189,6 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
   csvFile.Close()
   Updater("./storage/logica/"+aux+".csv","En camino")
 
-    Tipo string
-    Valor int
-    Intentos int
-    Uso string
-
   for i:=0;i<6;i++{
     if(s.envios_s[i].Uso=="0"){
       s.envios_s[i].Id_paquete=Id:x.Id
