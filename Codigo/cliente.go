@@ -1,14 +1,9 @@
 package main
 import (
-  "bufio"
   "log"
   "github.com/sheha316/distribuidos-1/Codigo/comms"
   "golang.org/x/net/context"
   "google.golang.org/grpc"
-  "os"
-  "io"
-  "fmt"
-  "encoding/csv"
   "strconv"
   "math/rand"
 )
@@ -40,7 +35,7 @@ func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
     destino[1]="tu casa"
     destino[2]="nuestra casa"
     response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
-      Id:id,
+      Id:strconv.Itoa(id),
       Producto:"soy un producto",
       Valor:int32(rand.Intn(30)),
       Tienda:tiendas[rand.Intn(3)],
@@ -63,7 +58,7 @@ func read_and_request_retail(conn *grpc.ClientConn,id int)(int){
   destino[1]="tu casa"
   destino[2]="nuestra casa"
   response, err := c.CrearOrdenRetail(context.Background(),&comms.Request_CrearOrdenRetail{
-    Id:id,
+    Id:strconv.Itoa(id),
     Producto:"soy un producto",
     Valor:int32(rand.Intn(30)),
     Tienda:tiendas[rand.Intn(3)],
@@ -103,7 +98,7 @@ func main() {
   limpiar(conn)
 
   entregados=0
-  codigos[entregados]=read_and_request_pymes(conn)
+  codigos[entregados]=read_and_request_pymes(conn,entregados)
   entregados=1
 
   for{
@@ -111,12 +106,12 @@ func main() {
     switch expression {
     case 0:
       if(entregados<100){
-        codigos[entregados]=read_and_request_pymes(conn)
+        codigos[entregados]=read_and_request_pymes(conn,entregados)
         entregados++
       }
     case 1:
       if(entregados<100){
-        codigos[entregados]=read_and_request_retail(conn)
+        codigos[entregados]=read_and_request_retail(conn,entregados)
         entregados++
       }
     case 2:
