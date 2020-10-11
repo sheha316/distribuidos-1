@@ -141,6 +141,13 @@ func (s *Server) CrearOrdenRetail(ctx context.Context, request *comms.Request_Cr
 
 func (s *Server) Seguimiento(ctx context.Context, request *comms.Request_Seguimiento) (*comms.Response_Seguimiento, error) {
   log.Printf("Receive message %d", request.Seguimiento)
+
+  for i:=0;i<6;i++{
+    if(s.envios_s[i].Seguimiento==request.Seguimiento){
+      log.Printf("desde memoria :)")
+      return &comms.Response_Seguimiento{Estado: s.envios_s[i].Estado}, nil
+    }
+  }
   aux:=strconv.Itoa(int(request.Seguimiento))
   csvFile,error:=os.Open("../storage/logica/"+aux+".csv")
   if error !=nil{
