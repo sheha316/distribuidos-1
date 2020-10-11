@@ -143,7 +143,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *comms.Request_Seguimi
   log.Printf("Receive message %d", request.Seguimiento)
 
   for i:=0;i<6;i++{
-    if(s.envios_s[i].Seguimiento==request.Seguimiento){
+    if(s.envios_s[i].Seguimiento==int(request.Seguimiento)){
       log.Printf("desde memoria :)")
       return &comms.Response_Seguimiento{Estado: s.envios_s[i].Estado}, nil
     }
