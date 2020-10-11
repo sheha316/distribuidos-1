@@ -252,7 +252,7 @@ func Updater(n_file string,estado string,intentos_u string){
     }else if error!=nil{
         log.Printf(nombrearch)
         log.Printf("updater")
-        log.Fatal(error)
+        //log.Fatal(error)
         continue
     }
     switch line[0] {
