@@ -49,7 +49,7 @@ func request_paquete_2(conn *grpc.ClientConn, kamion *Camion){
 func cargar_camion(conn *grpc.ClientConn, kamion *Camion,tiempo int){
   request_paquete_1(conn , kamion)
   if(kamion.Paquetes==1){
-    time.Sleep(tiempo * time.Second)
+    time.Sleep(time.Duration(tiempo) * time.Second)
     request_paquete_2(conn , kamion)
     kamion.Estado=1
   }
@@ -73,7 +73,7 @@ func Reparto(kamion *Camion,tiempo int){
   if(kamion.Paquetes==2){
     if(kamion.Paquete_inf1.Valor>kamion.Paquete_inf2.Valor){
       if(!expirado(kamion.Paquete_inf1)){
-        time.Sleep(tiempo * time.Second)
+        time.Sleep(time.Duration(tiempo) * time.Second)
         kamion.Estado=1
         kamion.Paquete_inf1.Intentos++
         if(rand.Intn(100)<80){
@@ -81,7 +81,7 @@ func Reparto(kamion *Camion,tiempo int){
         }
       }
       if(!expirado(kamion.Paquete_inf2)){
-        time.Sleep(tiempo * time.Second)
+        time.Sleep(time.Duration(tiempo) * time.Second)
         kamion.Paquete_inf2.Intentos++
         kamion.Estado=1
         if(rand.Intn(100)<80){
@@ -90,7 +90,7 @@ func Reparto(kamion *Camion,tiempo int){
       }
     }else if(kamion.Paquete_inf2.Valor>=kamion.Paquete_inf1.Valor){
       if(!expirado(kamion.Paquete_inf2)){
-        time.Sleep(tiempo * time.Second)
+        time.Sleep(time.Duration(tiempo) * time.Second)
         kamion.Paquete_inf2.Intentos++
         kamion.Estado=1
         if(rand.Intn(100)<80){
@@ -98,7 +98,7 @@ func Reparto(kamion *Camion,tiempo int){
         }
       }
       if(!expirado(kamion.Paquete_inf1)){
-        time.Sleep(tiempo * time.Second)
+        time.Sleep(time.Duration(tiempo) * time.Second)
         kamion.Paquete_inf1.Intentos++
         kamion.Estado=1
         if(rand.Intn(100)<80){
@@ -108,7 +108,7 @@ func Reparto(kamion *Camion,tiempo int){
     }
   }else if(kamion.Paquetes==1){
     if(!expirado(kamion.Paquete_inf1)){
-      time.Sleep(tiempo * time.Second)
+      time.Sleep(time.Duration(tiempo) * time.Second)
       kamion.Paquete_inf1.Intentos++
       kamion.Estado=1
       if(rand.Intn(100)<80){
@@ -224,6 +224,6 @@ func main() {
       if(camion_3.Paquetes!=0){
         reporte(conn,camion_3)
       }
-      time.Sleep(T_f * time.Second)
+      time.Sleep(time.Duration(T_f) * time.Second)
     }
 }
