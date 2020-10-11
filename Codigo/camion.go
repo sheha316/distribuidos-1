@@ -111,23 +111,33 @@ func Reparto(kamion *Camion){
   }
 }
 
-/*type paquete_info struct{
-  Id string
-  Tipo string
-  Valor int
-  Tienda string
-  Destino string
-  Intentos int
+func reporte(conn *grpc.ClientConn,kamion *Camion){
+  c := comms.NewCommsClient(conn)
+  var estadorm String
+  for i:=0;i<kamion.Paquetes;i++{
+    estadorm="Recibido"
+    switch i {
+      case 0:
+        if(Fecha:kamion.Paquete_inf1.Fecha=="0"){
+          estadorm="No Recibido"
+        }
+        _, _ = c.InformarEstado(context.Background(), &comms.Request_Estado{Id:kamion.Paquete_inf1.Id,
+                                                                                    Intentos:kamion.Paquete_inf1.Intentos,
+                                                                                    Fecha:kamion.Paquete_inf1.Fecha,
+                                                                                    Estado:estadorm})
+      case 1:
+        if(Fecha:kamion.Paquete_inf2.Fecha=="0"){
+          estadorm="No Recibido"
+        }
+        _, _ = c.InformarEstado(context.Background(), &comms.Request_Estado{Id:kamion.Paquete_inf2.Id,
+                                                                                    Intentos:kamion.Paquete_inf2.Intentos,
+                                                                                    Fecha:kamion.Paquete_inf2.Fecha,
+                                                                                    Estado:estadorm})
+    }
+    kamion.Paquetes=0
+  }
 }
-type Camion struct{
-  Tipo string
-  Id string
-  Paquete_inf1 paquete_info
-  Paquete_inf2 paquete_info
-  Paquetes int
-  Estado int
-}
-}/**/
+
 func main() {
   camion_1:=&Camion{
     Tipo: "retail",Paquetes:0,Estado:0,Id:"1"}
@@ -142,7 +152,7 @@ func main() {
   }
   defer conn.Close()
 
-  for i:=0;i<1;i++{
+  for{
     if(camion_1.Estado==0){
       cargar_camion(conn,camion_1)
     }
@@ -177,6 +187,14 @@ func main() {
     log.Printf("Response from server: %+v",camion_3.Paquete_inf1)
     log.Printf("Response from server: %+v",camion_3.Paquete_inf2)
     log.Printf("--------------------------")/**/
+    time.Sleep(5 * time.Second)
+    reporte(conn,camion_1)
+    reporte(conn,camion_2)
+    reporte(conn,camion_3)
+    log.Printf("Puede cerrar el Ejecutable")/**/
+    time.Sleep(10 * time.Second)
+    log.Printf("NO!! puede cerrar el Ejecutable")/**/
+    time.Sleep(2 * time.Second)
   }
 
 }
