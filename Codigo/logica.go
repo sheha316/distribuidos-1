@@ -12,24 +12,10 @@ import (
   "strconv"
   "bufio"
   "time"
-  )
 )
 
 type server struct{
-  pb.UnimplementedLogica
 }
-
-type envio struct{
-  Id_paquete string
-  Estado string
-  Id_camion string
-  Seguimiento int
-  Tipo string
-  Valor int
-  Intentos int
-  Uso string
-}
-
 type paquete struct{
   Id string
   Seguimiento int
