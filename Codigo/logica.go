@@ -54,7 +54,7 @@ func find_file(nombre string,tipo string)(string){
     file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   }
   file.Close()
-  log.Printf("AUXILIAR message %s", +prefijo+strconv.Itoa(seguimento))
+  log.Printf("AUXILIAR message %s", prefijo+strconv.Itoa(seguimento))
   return prefijo+strconv.Itoa(seguimento)
 }
 
