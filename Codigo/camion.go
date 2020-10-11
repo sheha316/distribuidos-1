@@ -206,7 +206,6 @@ func main() {
       superprint_ts(camion_2)
       superprint_ts(camion_3)
       log.Printf("--------------------------")/**/
-      time.Sleep(5 * time.Second)
       if(camion_1.Paquetes!=0){
         reporte(conn,camion_1)
       }
