@@ -257,17 +257,13 @@ func Updater(n_file string,estado string){
   csvfilex.Close()
   csvfile.Close()
   Updater_csv("../storage/logica/aux.csv",nombrearch)
-  log.Printf("pica5")
 }
 
 func Updater_csv(aux string, namefile string){
   csvfile ,_:= os.Open(aux)
-  log.Printf("pica6")
   reader := csv.NewReader(bufio.NewReader(csvfile))
-  log.Printf("pica7")
   csvfilex ,_:= os.OpenFile(namefile, os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
-  log.Printf("pica8")
   for{
     line,error :=reader.Read()
     if error==io.EOF{
@@ -281,7 +277,6 @@ func Updater_csv(aux string, namefile string){
     var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],line[5]},}
     _=writer.WriteAll(guardar)
   }
-  log.Printf("pica9")
   csvfilex.Close()
   csvfile.Close()
 }
