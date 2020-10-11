@@ -3,7 +3,7 @@ import (
   "log"
   "net"
   "google.golang.org/grpc"
-  pb "github.com/sheha316/distribuidos-1/Codigo/comms"
+  "github.com/sheha316/distribuidos-1/Codigo/comms"
   "golang.org/x/net/context"
   "os"
   "io"
