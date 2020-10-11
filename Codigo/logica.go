@@ -127,7 +127,6 @@ func registro_paquete_pymes_retail(request *comms.Request_CrearOrdenRetail,segui
 }
 
 func (s *Server) CrearOrdenPyme(ctx context.Context, request *comms.Request_CrearOrdenPyme) (*comms.Response_CrearOrden, error) {
-  shutdown()
   log.Printf("Receive message %s", request.Id)
   seguimento:=registro_logico_pymes("pyme",request)
   registro_paquete_pymes_pymes(request,seguimento)
@@ -339,7 +338,7 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
   return &comms.Response_Estado{Recibido: "holo"}, nil
 }
 
-func shutdown(){
+func (s *Server) Limpiar_registros(ctx context.Context){
   seguimento:=0
   prefijo:="1"
   file,erros:=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")

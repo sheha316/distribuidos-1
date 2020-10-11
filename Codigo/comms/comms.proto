@@ -62,4 +62,5 @@ service Comms {
   rpc Seguimiento(Request_Seguimiento) returns (Response_Seguimiento) {}
   rpc SolicitarPaquete(Request_SolicitarPaquete) returns (Response_SolicitarPaquete) {}
   rpc InformarEstado(Request_Estado) returns (Response_Estado) {}
+  rpc Limpiar_registros returns
 }
