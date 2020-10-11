@@ -41,7 +41,7 @@ message Response_SolicitarPaquete {
   string tipo = 3;
   int32 valor = 4;
   string tienda = 5;
-  string destino = 6; 
+  string destino = 6;
 }
 
 message Request_Estado {
@@ -56,7 +56,7 @@ message Response_Estado {
 }
 
 
-service Logica {
+service Comms {
   rpc CrearOrdenPyme(Request_CrearOrdenPyme) returns (Response_CrearOrden) {}
   rpc CrearOrdenRetail(Request_CrearOrdenRetail) returns (Response_CrearOrden) {}
   rpc Seguimiento(Request_Seguimiento) returns (Response_Seguimiento) {}
