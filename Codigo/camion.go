@@ -137,6 +137,22 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
     kamion.Paquetes=0
   }
 }
+func superprint_fs(kamion *Camion){
+  log.Printf("Response from server: %+v",kamion)
+  if(kamion.Paquetes==1){
+    log.Printf("Response from server: %+v",kamion.Paquete_inf1)
+  }else if(kamion.Paquetes==2){
+    log.Printf("Response from server: %+v",kamion.Paquete_inf2)
+  }
+}
+func superprint_ts(kamion *Camion){
+  log.Printf("\"Request\" to server: %+v",kamion)
+  if(kamion.Paquetes==1){
+    log.Printf("\"Request\" to server: %+v",kamion.Paquete_inf1)
+  }else if(kamion.Paquetes==2){
+    log.Printf("\"Request\" to server: %+v",kamion.Paquete_inf2)
+  }
+}
 
 func main() {
   camion_1:=&Camion{
@@ -151,50 +167,53 @@ func main() {
     log.Fatalf("did not connect: %s", err)
   }
   defer conn.Close()
-
-  for{
-    if(camion_1.Estado==0){
-      cargar_camion(conn,camion_1)
+  var input_us string
+  input_us=""
+  for input_us!="0"{
+    log.Printf("Bienvenido! ingrese el numero de la opcion que desea")
+    log.Printf("1-Hacer entrega")
+    log.Printf("0-exit")
+    fmt.Scanln(&input_us)
+    switch input_us {
+    case "1":
+      if(camion_1.Estado==0){
+        cargar_camion(conn,camion_1)
+      }
+      if(camion_2.Estado==0){
+        cargar_camion(conn,camion_2)
+      }
+      if(camion_3.Estado==0){
+        cargar_camion(conn,camion_3)
+      }
+      log.Printf("----Paquetes Recibidos----")
+      superprint_fs(camion_1)
+      superprint_fs(camion_2)
+      superprint_fs(camion_3)
+      log.Printf("--------------------------")/**/
+      for camion_1.Estado==1{
+        Reparto(camion_1)
+      }
+      for camion_2.Estado==1{
+        Reparto(camion_2)
+      }
+      for camion_3.Estado==1{
+        Reparto(camion_3)
+      }
+      log.Printf("----Paquetes Entrgados----")
+      superprint_ts(camion_1)
+      superprint_ts(camion_2)
+      superprint_ts(camion_3)
+      log.Printf("--------------------------")/**/
+      time.Sleep(5 * time.Second)
+      if(camion_1.Paquetes!=0){
+        reporte(conn,camion_1)
+      }
+      if(camion_2.Paquetes!=0){
+        reporte(conn,camion_2)
+      }
+      if(camion_3.Paquetes!=0){
+        reporte(conn,camion_3)
+      }
+    default:
     }
-    if(camion_2.Estado==0){
-      cargar_camion(conn,camion_2)
-    }
-    if(camion_3.Estado==0){
-      cargar_camion(conn,camion_3)
-    }
-    log.Printf("----Paquetes Recibidos----")
-    log.Printf("Response from server: %+v",camion_1.Paquete_inf1)
-    log.Printf("Response from server: %+v",camion_1.Paquete_inf2)
-    log.Printf("Response from server: %+v",camion_2.Paquete_inf1)
-    log.Printf("Response from server: %+v",camion_2.Paquete_inf2)
-    log.Printf("Response from server: %+v",camion_3.Paquete_inf1)
-    log.Printf("Response from server: %+v",camion_3.Paquete_inf2)
-    log.Printf("--------------------------")/**/
-    for camion_1.Estado==1{
-      Reparto(camion_1)
-    }
-    for camion_2.Estado==1{
-      Reparto(camion_2)
-    }
-    for camion_3.Estado==1{
-      Reparto(camion_3)
-    }
-    log.Printf("----Paquetes Entrgados----")
-    log.Printf("Response from server: %+v",camion_1.Paquete_inf1)
-    log.Printf("Response from server: %+v",camion_1.Paquete_inf2)
-    log.Printf("Response from server: %+v",camion_2.Paquete_inf1)
-    log.Printf("Response from server: %+v",camion_2.Paquete_inf2)
-    log.Printf("Response from server: %+v",camion_3.Paquete_inf1)
-    log.Printf("Response from server: %+v",camion_3.Paquete_inf2)
-    log.Printf("--------------------------")/**/
-    time.Sleep(5 * time.Second)
-    reporte(conn,camion_1)
-    reporte(conn,camion_2)
-    reporte(conn,camion_3)
-    log.Printf("Puede cerrar el Ejecutable")/**/
-    time.Sleep(10 * time.Second)
-    log.Printf("NO!! puede cerrar el Ejecutable")/**/
-    time.Sleep(2 * time.Second)
-  }
-
 }
