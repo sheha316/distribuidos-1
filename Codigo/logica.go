@@ -377,11 +377,4 @@ func main() {
   if err := grpcServer.Serve(lis); err != nil {
     log.Fatalf("failed to serve: %s", err)
   }
-  var input_us string
-  input_us=""
-  for input_us!="0"{
-    log.Printf("Bienvenido! ingrese el numero de la opcion que desea")
-    log.Printf("0-exit")
-    fmt.Scanln(&input_us)
-  }
 }
