@@ -100,7 +100,7 @@ func read_and_request_retail(conn *grpc.ClientConn){
   }
 }
 
-func limpiar((conn *grpc.ClientConn){
+func limpiar(conn *grpc.ClientConn){
   c := comms.NewCommsClient(conn)
   c.LimpiarRegistros(context.Background(),&comms.Dummy)
 }
@@ -146,6 +146,8 @@ func main() {
         read_and_request_retail(conn)
       case "4":
         send_seguimento(conn)
+      case "7734":
+          limpiar(conn)
   	  default:
   		// freebsd, openbsd,
   	}
