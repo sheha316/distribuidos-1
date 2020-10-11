@@ -55,5 +55,5 @@ func main() {
   }
   defer conn.Close()
 
-  request_paquete1(conn,camion_3)
+  request_paquete_1(conn,camion_3)
 }
