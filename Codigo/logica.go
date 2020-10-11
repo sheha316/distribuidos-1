@@ -193,7 +193,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
   csvFile.Close()
   Updater("../storage/logica/"+aux+".csv","En camino")
 
-  /*for i:=0;i<6;i++{
+  for i:=0;i<6;i++{
     if(envios_s[i].Uso=="0"){
       envios_s[i].Id_paquete=x.Id
       envios_s[i].Estado="En camino"
@@ -205,7 +205,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
       envios_s[i].Uso="1"
       break
     }
-  }*/
+  }/**/
   return &comms.Response_SolicitarPaquete{Id:x.Id,Tipo:x.Tipo,Valor:int32(x.Valor),Tienda:line[5],Destino:line[6],}, nil
 }
 
@@ -326,6 +326,7 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
   log.Printf("Receive message %s", request.Id)
   return &comms.Response_Estado{Recibido: "holo"}, nil
 }
+
 func main() {
   var envios_s [6]envio
   for i:=0;i<6;i++{
