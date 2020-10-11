@@ -348,7 +348,7 @@ func shutdown(){
     file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   }
   file.Close()
-  prefijo:=2
+  prefijo=2
   file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     seguimento++
@@ -362,6 +362,7 @@ func shutdown(){
   os.Create("../storage/logica/retail.csv")
   os.Create("../storage/logica/pymes.csv")
 }
+
 func main() {
   lis, err := net.Listen("tcp", ":9000")
   if err != nil {
@@ -382,4 +383,5 @@ func main() {
     log.Printf("Bienvenido! ingrese el numero de la opcion que desea")
     log.Printf("0-exit")
     fmt.Scanln(&input_us)
+  }
 }
