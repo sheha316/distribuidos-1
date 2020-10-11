@@ -14,9 +14,6 @@ import (
   "time"
 )
 
-type Server struct{
-}
-
 type paquete struct{
   Id string
   Seguimiento int
@@ -35,6 +32,10 @@ type envio struct{
   Valor int
   Intentos int
   Uso string
+}
+
+type Server struct{
+  envios_s [6]envio
 }
 
 func find_file(nombre string,tipo string)(string){
@@ -194,15 +195,15 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
   Updater("../storage/logica/"+aux+".csv","En camino")
 
   for i:=0;i<6;i++{
-    if(envios_s[i].Uso=="0"){
-      envios_s[i].Id_paquete=x.Id
-      envios_s[i].Estado="En camino"
-      envios_s[i].Id_camion=request.Id
-      envios_s[i].Seguimiento=int(x.Seguimiento)
-      envios_s[i].Tipo=x.Tipo
-      envios_s[i].Valor=x.Valor
-      envios_s[i].Intentos=0
-      envios_s[i].Uso="1"
+    if(s.envios_s[i].Uso=="0"){
+      s.envios_s[i].Id_paquete=x.Id
+      s.envios_s[i].Estado="En camino"
+      s.envios_s[i].Id_camion=request.Id
+      s.envios_s[i].Seguimiento=int(x.Seguimiento)
+      s.envios_s[i].Tipo=x.Tipo
+      s.envios_s[i].Valor=x.Valor
+      s.envios_s[i].Intentos=0
+      s.envios_s[i].Uso="1"
       break
     }
   }/**/
@@ -328,16 +329,15 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
 }
 
 func main() {
-  var envios_s [6]envio
-  for i:=0;i<6;i++{
-    envios_s[i].Uso="0"
-  }
   lis, err := net.Listen("tcp", ":9000")
   if err != nil {
     log.Fatalf("failed to listen: %v", err)
   }
 
   s := Server{}
+  for i:=0;i<6;i++{
+    s.envios_s[i].Uso="0"
+  }
 
   grpcServer := grpc.NewServer()
 
