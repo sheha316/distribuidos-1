@@ -339,7 +339,7 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
 
 func shutdown(){
   seguimento:=0
-  prefijo:=1
+  prefijo:="1"
   file,erros:=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     seguimento++
@@ -348,7 +348,7 @@ func shutdown(){
     file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   }
   file.Close()
-  prefijo=2
+  prefijo="2"
   file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     seguimento++
