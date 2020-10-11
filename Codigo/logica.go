@@ -56,7 +56,7 @@ func find_file(nombre string,tipo string)(string){
   return prefijo+strconv.Itoa(seguimento)
 }
 
-func registro_logico_pymes(tipo string,request *Request_CrearOrdenPyme)(int){
+func registro_logico_pymes(tipo string,request *pb.Request_CrearOrdenPyme)(int){
   seguimento:=find_file("-",tipo)
   file,erros:=os.Create("./storage/logica/"+seguimento+".csv")
   if erros!=nil{
@@ -73,7 +73,7 @@ func registro_logico_pymes(tipo string,request *Request_CrearOrdenPyme)(int){
   return seguimentoint
 }
 
-func registro_logico_retail(tipo string,request *Request_CrearOrdenRetail)(int){
+func registro_logico_retail(tipo string,request *pb.Request_CrearOrdenRetail)(int){
   seguimento:=find_file("-",tipo)
   file,erros:=os.Create("./storage/logica/"+seguimento+".csv")
   if erros!=nil{
@@ -90,7 +90,7 @@ func registro_logico_retail(tipo string,request *Request_CrearOrdenRetail)(int){
   return seguimentoint
 }
 
-func registro_paquete_pymes_pymes(request *Request_CrearOrdenPyme,seguimento int){
+func registro_paquete_pymes_pymes(request *pb.Request_CrearOrdenPyme,seguimento int){
   f, err := os.OpenFile("./storage/logica/pymes.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
   if err != nil {
     log.Fatal(err)
@@ -109,7 +109,7 @@ func registro_paquete_pymes_pymes(request *Request_CrearOrdenPyme,seguimento int
   }
 }
 
-func registro_paquete_pymes_retail(request *Request_CrearOrdenRetail,seguimento int){
+func registro_paquete_pymes_retail(request *pb.Request_CrearOrdenRetail,seguimento int){
   f, err := os.OpenFile("./storage/logica/retail.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
   if err != nil {
     log.Fatal(err)
@@ -124,21 +124,21 @@ func registro_paquete_pymes_retail(request *Request_CrearOrdenRetail,seguimento 
   }
 }
 
-func (s *Server) CrearOrdenPyme(ctx context.Context, request *Request_CrearOrdenPyme) (*Response_CrearOrden, error) {
+func (s *Server) CrearOrdenPyme(ctx context.Context, request *pb.Request_CrearOrdenPyme) (*pb.Response_CrearOrden, error) {
   log.Printf("Receive message %s", request.Id)
   seguimento:=registro_logico_pymes("pyme",request)
   registro_paquete_pymes_pymes(request,seguimento)
   return &Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
-func (s *Server) CrearOrdenRetail(ctx context.Context, request *Request_CrearOrdenRetail) (*Response_CrearOrden, error) {
+func (s *Server) CrearOrdenRetail(ctx context.Context, request *pb.Request_CrearOrdenRetail) (*pb.Response_CrearOrden, error) {
   log.Printf("Receive message %s", request.Id)
   seguimento:=registro_logico_retail("retail",request)
   registro_paquete_pymes_retail(request,seguimento)
   return &Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
-func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) (*Response_Seguimiento, error) {
+func (s *Server) Seguimiento(ctx context.Context, request *pb.Request_Seguimiento) (*pb.Response_Seguimiento, error) {
   log.Printf("Receive message %d", request.Seguimiento)
   aux:=strconv.Itoa(int(request.Seguimiento))
   csvFile,error:=os.Open("./storage/logica/"+aux+".csv")
@@ -171,7 +171,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *Request_Seguimiento) 
   return &Response_Seguimiento{Estado: "Esto no deberia suceder :)"}, nil
 }
 
-func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_SolicitarPaquete) (*Response_SolicitarPaquete, error) {
+func (s *Server) SolicitarPaquete(ctx context.Context, request *pb.Request_SolicitarPaquete) (*pb.Response_SolicitarPaquete, error) {
   log.Printf("Receive message %s", request.Tipo)
   x:=&paquete{Valor: -1,}
   switch request.Tipo {
@@ -322,7 +322,7 @@ func LFP_P(pakete *paquete,p string){
 }
 
 
-func (s *Server) InformarEstado(ctx context.Context, request *Request_Estado) (*Response_Estado, error) {
+func (s *Server) InformarEstado(ctx context.Context, request *pb.Request_Estado) (*pb.Response_Estado, error) {
   log.Printf("Receive message %s", request.Id)
   return &Response_Estado{Recibido: "holo"}, nil
 }
