@@ -207,7 +207,7 @@ func main() {
       for camion_3.Estado==1{
         Reparto(camion_3,T_ep)
       }
-      log.Printf("----Paquetes Entrgados----")
+      log.Printf("----Paquetes Entregados----")
       superprint_ts(camion_1)
       superprint_ts(camion_2)
       superprint_ts(camion_3)
