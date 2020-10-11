@@ -15,8 +15,8 @@ import (
 )
 
 type server struct{
-  pb.UnimplementedLogicaServer
 }
+
 type paquete struct{
   Id string
   Seguimiento int
