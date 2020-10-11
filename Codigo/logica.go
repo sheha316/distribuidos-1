@@ -343,18 +343,18 @@ func shutdown(){
   prefijo:="1"
   file,erros:=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
-    seguimento++
-    os.Remove("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
     file.Close()
+    os.Remove("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+    seguimento++
     file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   }
   file.Close()
   prefijo="2"
   file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
-    seguimento++
-    os.Remove("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
     file.Close()
+    os.Remove("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+    seguimento++
     file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   }
   file.Close()
