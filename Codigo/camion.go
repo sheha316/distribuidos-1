@@ -184,8 +184,6 @@ func main() {
   fmt.Scanln(&T_sp)
   log.Printf("Tiempo que demora en entregar un paquete")
   fmt.Scanln(&T_ep)
-  log.Printf("Tiempo entre envio")
-  fmt.Scanln(&T_f)
   for{
       if(camion_1.Estado==0){
         cargar_camion(conn,camion_1,T_sp)
@@ -224,6 +222,5 @@ func main() {
       if(camion_3.Paquetes!=0){
         reporte(conn,camion_3)
       }
-      time.Sleep(time.Duration(T_f) * time.Second)
     }
 }

@@ -6,6 +6,7 @@ import (
   "google.golang.org/grpc"
   "strconv"
   "math/rand"
+  "fmt"
 )
 
 type Pedido_pymes struct{
@@ -97,13 +98,16 @@ func main() {
   var codigos [100]int
   var entregados int
   var opcion int
+  var timex int
   limpiar(conn)
 
   entregados=0
   codigos[entregados]=read_and_request_pymes(conn,entregados)
   entregados=1
-
+  log.Printf("Tiempo entre inputs del cliente")
+  fmt.Scanln(&timex)
   for{
+    time.Sleep(time.Duration(timex) * time.Second)
     opcion=rand.Intn(3)
     switch opcion {
     case 0:
