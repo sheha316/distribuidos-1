@@ -1,5 +1,5 @@
 syntax = "proto3";
-package logica;
+package comms;
 
 message Request_CrearOrdenPyme {
   string id = 1;

@@ -1,4 +1,4 @@
-package main
+package comms
 import (
   "log"
   "golang.org/x/net/context"
