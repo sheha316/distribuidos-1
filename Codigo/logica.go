@@ -258,7 +258,9 @@ func Updater(n_file string,estado string){
   }
   log.Printf("pica4")
   csvfilex.Close()
+  log.Printf("pica4.3")
   csvfile.Close()
+  log.Printf("pica4.6")
   Updater_csv("../storage/logica/aux.csv",nombrearch)
   log.Printf("pica5")
 }
