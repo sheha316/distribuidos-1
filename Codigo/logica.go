@@ -336,11 +336,11 @@ func main() {
     log.Fatalf("failed to listen: %v", err)
   }
 
-  s := comms.Server{}
+  s := Server{}
 
   grpcServer := grpc.NewServer()
 
-  comms.RegisterCommsServer(grpcServer, &s)
+  ps.RegisterCommsServer(grpcServer, &s)
   if err := grpcServer.Serve(lis); err != nil {
     log.Fatalf("failed to serve: %s", err)
   }
