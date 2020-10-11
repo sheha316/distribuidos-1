@@ -2,7 +2,7 @@ package main
 import (
   "bufio"
   "log"
-  "github.com/sheha316/distribuidos-1/Codigo/comms"
+  pb "github.com/sheha316/distribuidos-1/Codigo/comms"
   "golang.org/x/net/context"
   "google.golang.org/grpc"
   "os"

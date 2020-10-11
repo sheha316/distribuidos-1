@@ -3,7 +3,7 @@ import (
   "log"
   "net"
   "google.golang.org/grpc"
-  "github.com/sheha316/distribuidos-1/Codigo/comms"
+  pb "github.com/sheha316/distribuidos-1/Codigo/comms"
   "golang.org/x/net/context"
   "os"
   "io"
@@ -15,6 +15,7 @@ import (
 )
 
 type server struct{
+  pb.UnimplementedLogicaServer
 }
 type paquete struct{
   Id string
