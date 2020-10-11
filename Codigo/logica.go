@@ -338,7 +338,7 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
   return &comms.Response_Estado{Recibido: "holo"}, nil
 }
 
-func (s *Server) Limpiar_registros(ctx context.Context){
+func (s *Server) Limpiar_registros(ctx context.Context, request *comms.Dummy) (*comms.Dummy, error){
   seguimento:=0
   prefijo:="1"
   file,erros:=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
@@ -363,6 +363,8 @@ func (s *Server) Limpiar_registros(ctx context.Context){
   os.Remove("../storage/logica/retail.csv")
   os.Create("../storage/logica/retail.csv")
   os.Create("../storage/logica/pymes.csv")
+  return &comms.Dummy{}, nil
+
 }
 
 func main() {

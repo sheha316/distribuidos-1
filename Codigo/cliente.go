@@ -102,7 +102,7 @@ func read_and_request_retail(conn *grpc.ClientConn){
 
 func limpiar((conn *grpc.ClientConn){
   c := comms.NewCommsClient(conn)
-  c.Limpiar_registros(context.Background())
+  c.Limpiar_registros(context.Background(),&comms.Dummy)
 }
 
 func send_seguimento(conn *grpc.ClientConn){
