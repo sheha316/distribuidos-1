@@ -350,6 +350,7 @@ func shutdown(){
   }
   file.Close()
   prefijo="2"
+  seguimento=0
   file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     file.Close()
