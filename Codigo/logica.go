@@ -46,11 +46,11 @@ func find_file(nombre string,tipo string)(string){
     prefijo="2"
   }
   seguimento:=0
-  file,erros:=os.Open("./storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+  file,erros:=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     seguimento++
     file.Close()
-    file,erros=os.Open("./storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+    file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   }
   file.Close()
   return prefijo+strconv.Itoa(seguimento)
@@ -58,7 +58,7 @@ func find_file(nombre string,tipo string)(string){
 
 func registro_logico_pymes(tipo string,request *pb.Request_CrearOrdenPyme)(int){
   seguimento:=find_file("-",tipo)
-  file,erros:=os.Create("./storage/logica/"+seguimento+".csv")
+  file,erros:=os.Create("../storage/logica/"+seguimento+".csv")
   if erros!=nil{
     fmt.Println(erros)
   }
@@ -75,7 +75,7 @@ func registro_logico_pymes(tipo string,request *pb.Request_CrearOrdenPyme)(int){
 
 func registro_logico_retail(tipo string,request *pb.Request_CrearOrdenRetail)(int){
   seguimento:=find_file("-",tipo)
-  file,erros:=os.Create("./storage/logica/"+seguimento+".csv")
+  file,erros:=os.Create("../storage/logica/"+seguimento+".csv")
   if erros!=nil{
     fmt.Println(erros)
   }
@@ -91,7 +91,7 @@ func registro_logico_retail(tipo string,request *pb.Request_CrearOrdenRetail)(in
 }
 
 func registro_paquete_pymes_pymes(request *pb.Request_CrearOrdenPyme,seguimento int){
-  f, err := os.OpenFile("./storage/logica/pymes.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+  f, err := os.OpenFile("../storage/logica/pymes.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
   if err != nil {
     log.Fatal(err)
   }
@@ -110,7 +110,7 @@ func registro_paquete_pymes_pymes(request *pb.Request_CrearOrdenPyme,seguimento 
 }
 
 func registro_paquete_pymes_retail(request *pb.Request_CrearOrdenRetail,seguimento int){
-  f, err := os.OpenFile("./storage/logica/retail.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+  f, err := os.OpenFile("../storage/logica/retail.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
   if err != nil {
     log.Fatal(err)
   }
@@ -141,16 +141,16 @@ func (s *Server) CrearOrdenRetail(ctx context.Context, request *pb.Request_Crear
 func (s *Server) Seguimiento(ctx context.Context, request *pb.Request_Seguimiento) (*pb.Response_Seguimiento, error) {
   log.Printf("Receive message %d", request.Seguimiento)
   aux:=strconv.Itoa(int(request.Seguimiento))
-  csvFile,error:=os.Open("./storage/logica/"+aux+".csv")
+  csvFile,error:=os.Open("../storage/logica/"+aux+".csv")
   if error !=nil{
     return &pb.Response_Seguimiento{Estado: "Paquete no existe"}, nil
   }
   reader := csv.NewReader(bufio.NewReader(csvFile))
   line,_ :=reader.Read()
   id:=line[1]
-  file:="./storage/logica/pymes.csv"
+  file:="../storage/logica/pymes.csv"
   if(line[2]=="retail"){
-    file="./storage/logica/retail.csv"
+    file="../storage/logica/retail.csv"
   }
   csvFile.Close()
   csvFile,_=os.Open(file)
@@ -187,11 +187,11 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *pb.Request_Solic
     }
   }
   aux:=strconv.Itoa(int(x.Seguimiento))
-  csvFile,_:=os.Open("./storage/logica/"+aux+".csv")
+  csvFile,_:=os.Open("../storage/logica/"+aux+".csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
   line,_:=reader.Read()
   csvFile.Close()
-  Updater("./storage/logica/"+aux+".csv","En camino")
+  Updater("../storage/logica/"+aux+".csv","En camino")
 
   /*for i:=0;i<6;i++{
     if(envios_s[i].Uso=="0"){
@@ -217,17 +217,17 @@ func Updater(n_file string,estado string){
   csvfile.Close()
   change_id:=line[1]
   change_tipo:=line[2]
-  nombrearch:="./storage/logica/retail.csv"
+  nombrearch:="../storage/logica/retail.csv"
   switch change_tipo{
   case "retail":
-    nombrearch="./storage/logica/retail.csv"
+    nombrearch="../storage/logica/retail.csv"
   default:
-    nombrearch="./storage/logica/pymes.csv"
+    nombrearch="../storage/logica/pymes.csv"
   }
   csvfile ,_= os.Open(nombrearch)
   reader = csv.NewReader(bufio.NewReader(csvfile))
 
-  csvfilex ,_:= os.OpenFile("./storage/logica/aux.csv", os.O_WRONLY|os.O_CREATE, 0777)
+  csvfilex ,_:= os.OpenFile("../storage/logica/aux.csv", os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
   for{
     line,error :=reader.Read()
@@ -247,7 +247,7 @@ func Updater(n_file string,estado string){
   }
   csvfilex.Close()
   csvfile.Close()
-  Updater_csv("./storage/logica/aux.csv",nombrearch)
+  Updater_csv("../storage/logica/aux.csv",nombrearch)
 }
 
 func Updater_csv(aux string, namefile string){
@@ -270,7 +270,7 @@ func Updater_csv(aux string, namefile string){
 }
 
 func LFP_R(pakete *paquete){
-  file,_:=os.Open("./storage/logica/retail.csv")
+  file,_:=os.Open("../storage/logica/retail.csv")
   reader := csv.NewReader(bufio.NewReader(file))
   for{
     line,error :=reader.Read()
@@ -296,7 +296,7 @@ func LFP_R(pakete *paquete){
 }
 
 func LFP_P(pakete *paquete,p string){
-  file,_:=os.Open("./storage/logica/pymes.csv")
+  file,_:=os.Open("../storage/logica/pymes.csv")
   reader := csv.NewReader(bufio.NewReader(file))
   for{
     line,error :=reader.Read()
