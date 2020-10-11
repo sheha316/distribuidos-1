@@ -195,6 +195,10 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
       LFP_P(x,"normal")
     }
   }
+  if(x.Valor==-1){
+    return &comms.Response_SolicitarPaquete{Id:"0".Id,Seguimiento:int32(0),Tipo:"pablo",Valor:int32(x.Valor),Tienda:"--",Destino:"--",}, nil
+
+  }
   aux:=strconv.Itoa(int(x.Seguimiento))
   csvFile,_:=os.Open("../storage/logica/"+aux+".csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
