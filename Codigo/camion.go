@@ -139,19 +139,19 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
   }
 }
 func superprint_fs(kamion *Camion){
-  log.Printf("Response from server: %+v",kamion)
+  log.Printf("Id: "+kamion.Id+",Tipo:"+kamion.Tipo+",Paquetes:"+kamion.Paquetes)
   if(kamion.Paquetes==1){
-    log.Printf("Response from server: %+v",kamion.Paquete_inf1)
+    log.Printf("Paquete 1: %+v",kamion.Paquete_inf1)
   }else if(kamion.Paquetes==2){
-    log.Printf("Response from server: %+v",kamion.Paquete_inf2)
+    log.Printf("Paquete 2: %+v",kamion.Paquete_inf2)
   }
 }
 func superprint_ts(kamion *Camion){
-  log.Printf("\"Request\" to server: %+v",kamion)
+  log.Printf("Id: "+kamion.Id+",Tipo:"+kamion.Tipo+",Paquetes:"+kamion.Paquetes)
   if(kamion.Paquetes==1){
-    log.Printf("\"Request\" to server: %+v",kamion.Paquete_inf1)
+    log.Printf("Paquete 1: %+v",kamion.Paquete_inf1)
   }else if(kamion.Paquetes==2){
-    log.Printf("\"Request\" to server: %+v",kamion.Paquete_inf2)
+    log.Printf("Paquete 2: %+v",kamion.Paquete_inf2)
   }
 }
 
