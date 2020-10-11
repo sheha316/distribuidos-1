@@ -118,7 +118,7 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
     estadorm="Recibido"
     switch i {
       case 0:
-        if(Fecha:kamion.Paquete_inf1.Fecha=="0"){
+        if(kamion.Paquete_inf1.Fecha=="0"){
           estadorm="No Recibido"
         }
         _, _ = c.InformarEstado(context.Background(), &comms.Request_Estado{Id:kamion.Paquete_inf1.Id,
@@ -126,7 +126,7 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
                                                                                     Fecha:kamion.Paquete_inf1.Fecha,
                                                                                     Estado:estadorm})
       case 1:
-        if(Fecha:kamion.Paquete_inf2.Fecha=="0"){
+        if(kamion.Paquete_inf2.Fecha=="0"){
           estadorm="No Recibido"
         }
         _, _ = c.InformarEstado(context.Background(), &comms.Request_Estado{Id:kamion.Paquete_inf2.Id,
