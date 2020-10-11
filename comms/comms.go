@@ -322,23 +322,3 @@ func (s *Server) InformarEstado(ctx context.Context, request *Request_Estado) (*
   log.Printf("Receive message %s", request.Id)
   return &Response_Estado{Recibido: "holo"}, nil
 }
-
-func main() {
-  var envios_s [6]envio
-  for i:=0;i<6;i++{
-    envios_s[i].Uso="0"
-  }
-  lis, err := net.Listen("tcp", ":9000")
-  if err != nil {
-    log.Fatalf("failed to listen: %v", err)
-  }
-
-  s := comms.Server{}
-
-  grpcServer := grpc.NewServer()
-
-  comms.RegisterCommsServer(grpcServer, &s)
-  if err := grpcServer.Serve(lis); err != nil {
-    log.Fatalf("failed to serve: %s", err)
-  }
-}
