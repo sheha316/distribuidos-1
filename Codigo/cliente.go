@@ -10,23 +10,6 @@ import (
   "fmt"
 )
 
-type Pedido_pymes struct{
-  Id string
-  Producto string
-  Valor int
-  Tienda string
-  Destino string
-  Prioritario int
-}
-
-type Pedido_retail struct{
-  Id string
-  Producto string
-  Valor int
-  Tienda string
-  Destino string
-}
-
 func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
   c := comms.NewCommsClient(conn)
   var tiendas [3]string
@@ -37,9 +20,13 @@ func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
   destino[0]="mi casa"
   destino[1]="tu casa"
   destino[2]="nuestra casa"
+  var producto [3]string
+  producto[0]="dulce"
+  producto[1]="pelicula"
+  producto[2]="gorro"
   response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
     Id:strconv.Itoa(id),
-    Producto:"soy un producto",
+    Producto:producto[rand.Intn(3)],
     Valor:int32(rand.Intn(30)),
     Tienda:tiendas[rand.Intn(3)],
     Destino:destino[rand.Intn(3)],
@@ -47,7 +34,7 @@ func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
   }
-  log.Printf("Response from server: %d", int(response.Seguimiento))
+  log.Printf("Numero de seguimento: %d", int(response.Seguimiento))
   return int(response.Seguimiento)
 }
 
@@ -61,16 +48,20 @@ func read_and_request_retail(conn *grpc.ClientConn,id int)(int){
   destino[0]="mi casa"
   destino[1]="tu casa"
   destino[2]="nuestra casa"
+  var producto [3]string
+  producto[0]="dulce"
+  producto[1]="pelicula"
+  producto[2]="gorro"
   response, err := c.CrearOrdenRetail(context.Background(),&comms.Request_CrearOrdenRetail{
     Id:strconv.Itoa(id),
-    Producto:"soy un producto",
+    Producto:producto[rand.Intn(3)],
     Valor:int32(rand.Intn(30)),
     Tienda:tiendas[rand.Intn(3)],
     Destino:destino[rand.Intn(3)],})
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
   }
-  log.Printf("Response from server: %d", int(response.Seguimiento))
+  log.Printf("Numero de seguimento: %d", int(response.Seguimiento))
   return int(response.Seguimiento)
 }
 
@@ -85,7 +76,7 @@ func send_seguimento(conn *grpc.ClientConn,codigo int){
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
   }
-  log.Printf("Estado del paquete: %s", (response.Estado))
+  log.Printf("Estado del paquete $d : %s",codigo ,(response.Estado))
 
 }
 

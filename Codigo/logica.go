@@ -127,14 +127,14 @@ func registro_paquete_pymes_retail(request *comms.Request_CrearOrdenRetail,segui
 }
 
 func (s *Server) CrearOrdenPyme(ctx context.Context, request *comms.Request_CrearOrdenPyme) (*comms.Response_CrearOrden, error) {
-  log.Printf("Receive message %s", request.Id)
+  log.Printf("Receive message %+v", request)
   seguimento:=registro_logico_pymes("pyme",request)
   registro_paquete_pymes_pymes(request,seguimento)
   return &comms.Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
 func (s *Server) CrearOrdenRetail(ctx context.Context, request *comms.Request_CrearOrdenRetail) (*comms.Response_CrearOrden, error) {
-  log.Printf("Receive message %s", request.Id)
+  log.Printf("Receive message %+v", request)
   seguimento:=registro_logico_retail("retail",request)
   registro_paquete_pymes_retail(request,seguimento)
   return &comms.Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
@@ -181,7 +181,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *comms.Request_Seguimi
 }
 
 func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_SolicitarPaquete) (*comms.Response_SolicitarPaquete, error) {
-  log.Printf("Receive message %s", request.Tipo)
+  log.Printf("Receive message %+v", request)
   x:=&paquete{Valor: -1,}
   switch request.Tipo {
   case "retail":
@@ -273,10 +273,7 @@ func Updater_csv(aux string, namefile string){
     if error==io.EOF{
       break
     }else if error!=nil{
-        log.Printf("gg po")
-        log.Printf("texto %+v",line)
         log.Fatal(error)
-        log.Printf("gg po 2")
     }
     var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],line[5]},}
     _=writer.WriteAll(guardar)
@@ -339,7 +336,7 @@ func LFP_P(pakete *paquete,p string){
 
 
 func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Estado) (*comms.Response_Estado, error) {
-  log.Printf("Receive message %s", request.Id)
+  log.Printf("Receive message %+v", request)
   for i:=0;i<6;i++{
     if(s.envios_s[i].Id_paquete==request.Id){
       Updater("../storage/logica/"+strconv.Itoa(s.envios_s[i].Seguimiento)+".csv",request.Estado,strconv.Itoa(int(request.Intentos)) )
