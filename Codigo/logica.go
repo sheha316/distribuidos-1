@@ -223,8 +223,10 @@ func Updater(n_file string,estado string){
   reader := csv.NewReader(bufio.NewReader(csvfile))
   line,_ :=reader.Read()
   csvfile.Close()
+  log.Printf("pica")
   change_id:=line[1]
   change_tipo:=line[2]
+  log.Printf("pica2")
   nombrearch:="../storage/logica/retail.csv"
   switch change_tipo{
   case "retail":
