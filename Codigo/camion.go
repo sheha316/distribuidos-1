@@ -28,7 +28,6 @@ type Camion struct{
 func request_paquete_1(conn *grpc.ClientConn, kamion *Camion){
   c := comms.NewCommsClient(conn)
   response, _ := c.SolicitarPaquete(context.Background(), &comms.Request_SolicitarPaquete{Tipo: kamion.Tipo})
-  log.Printf("Response from server: %+v",response)
   if(int(response.Valor)!=-1){
     kamion.Paquete_inf1=paquete_info{Id:response.Id,Tipo:response.Tipo,Valor:int(response.Valor),
     Tienda:response.Tienda,Destino:response.Destino,Intentos:0,Fecha:"0"}
@@ -38,7 +37,6 @@ func request_paquete_1(conn *grpc.ClientConn, kamion *Camion){
 func request_paquete_2(conn *grpc.ClientConn, kamion *Camion){
   c := comms.NewCommsClient(conn)
   response, _ := c.SolicitarPaquete(context.Background(), &comms.Request_SolicitarPaquete{Tipo: kamion.Tipo,Id:kamion.Id})
-  log.Printf("Response from server: %+v",response)
   if(int(response.Valor)!=-1){
     kamion.Paquete_inf2=paquete_info{Id:response.Id,Tipo:response.Tipo,Valor:int(response.Valor),
     Tienda:response.Tienda,Destino:response.Destino,Intentos:0,Fecha:"0"}
