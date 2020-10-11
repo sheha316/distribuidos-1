@@ -342,7 +342,7 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
   log.Printf("Receive message %s", request.Id)
   for i:=0;i<6;i++{
     if(s.envios_s[i].Id_paquete==request.Id){
-      Updater("../storage/logica"+strconv.Itoa(s.envios_s[i].Seguimiento)+".csv",request.Estado,strconv.Itoa(int(request.Intentos)) )
+      Updater("../storage/logica/"+strconv.Itoa(s.envios_s[i].Seguimiento)+".csv",request.Estado,strconv.Itoa(int(request.Intentos)) )
       s.envios_s[i].Uso="0"
       break
     }
