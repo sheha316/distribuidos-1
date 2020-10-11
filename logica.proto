@@ -1,5 +1,5 @@
 syntax = "proto3";
-package comms;
+package logica;
 
 message Request_CrearOrdenPyme {
   string id = 1;
@@ -55,7 +55,7 @@ message Response_Estado {
 }
 
 
-service Comms {
+service Logica {
   rpc CrearOrdenPyme(Request_CrearOrdenPyme) returns (Response_CrearOrden) {}
   rpc CrearOrdenRetail(Request_CrearOrdenRetail) returns (Response_CrearOrden) {}
   rpc Seguimiento(Request_Seguimiento) returns (Response_Seguimiento) {}

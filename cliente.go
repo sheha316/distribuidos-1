@@ -2,7 +2,7 @@ package main
 import (
   "bufio"
   "log"
-  "github.com/sheha316/distribuidos-1/comms"
+  "github.com/sheha316/distribuidos-1/logica"
   "golang.org/x/net/context"
   "google.golang.org/grpc"
   "os"
@@ -29,7 +29,7 @@ type Pedido_retail struct{
   Destino string
 }
 func read_and_request_pymes(conn *grpc.ClientConn){
-  c := comms.NewCommsClient(conn)
+  c := logica.NewCommsClient(conn)
   csvFile,_:=os.Open("Pedidos/pymes.csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
   var pedido_pymes []Pedido_pymes
@@ -52,7 +52,7 @@ func read_and_request_pymes(conn *grpc.ClientConn){
     })
   }
   for i:=0; i<len(pedido_pymes);i++{
-    response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
+    response, err := c.CrearOrdenPyme(context.Background(),&logica.Request_CrearOrdenPyme{
       Id:pedido_pymes[i].Id,
       Producto:pedido_pymes[i].Producto,
       Valor:int32(pedido_pymes[i].Valor),
@@ -66,7 +66,7 @@ func read_and_request_pymes(conn *grpc.ClientConn){
   }
 }
 func read_and_request_retail(conn *grpc.ClientConn){
-  c := comms.NewCommsClient(conn)
+  c := logica.NewCommsClient(conn)
   csvFile,_:=os.Open("Pedidos/retail.csv")
   reader := csv.NewReader(bufio.NewReader(csvFile))
   var pedido_retail []Pedido_retail
@@ -87,7 +87,7 @@ func read_and_request_retail(conn *grpc.ClientConn){
     })
   }
   for i:=0; i<len(pedido_retail);i++{
-    response, err := c.CrearOrdenRetail(context.Background(),&comms.Request_CrearOrdenRetail{
+    response, err := c.CrearOrdenRetail(context.Background(),&logica.Request_CrearOrdenRetail{
       Id:pedido_retail[i].Id,
       Producto:pedido_retail[i].Producto,
       Valor:int32(pedido_retail[i].Valor),
@@ -102,12 +102,12 @@ func read_and_request_retail(conn *grpc.ClientConn){
 
 
 func send_seguimento(conn *grpc.ClientConn){
-  c := comms.NewCommsClient(conn)
+  c := logica.NewCommsClient(conn)
   log.Printf("Ingrese Numero de Seguimento por favor")
   var input_us string
   fmt.Scanln(&input_us)
   aux,_:=strconv.Atoi(input_us)
-  response, err := c.Seguimiento(context.Background(),&comms.Request_Seguimiento{Seguimiento:int32(aux)})
+  response, err := c.Seguimiento(context.Background(),&logica.Request_Seguimiento{Seguimiento:int32(aux)})
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
   }
