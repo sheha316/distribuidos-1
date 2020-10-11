@@ -113,7 +113,7 @@ func Reparto(kamion *Camion){
   }
 }
 
-type paquete_info struct{
+/*type paquete_info struct{
   Id string
   Tipo string
   Valor int
