@@ -340,7 +340,7 @@ func main() {
 
   grpcServer := grpc.NewServer()
 
-  RegisterCommsServer(grpcServer, &s)
+  comms.RegisterCommsServer(grpcServer, &s)
   if err := grpcServer.Serve(lis); err != nil {
     log.Fatalf("failed to serve: %s", err)
   }
