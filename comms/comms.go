@@ -22,6 +22,16 @@ type paquete struct{
   Intentos int
   Estado string
 }
+type envio struct{
+  Id_paquete string
+  Estado string
+  Id_camion string
+  Seguimiento int
+  Tipo string
+  Valor int
+  Intentos int
+  Uso string
+}
 
 func find_file(nombre string,tipo string)(string){
   prefijo:="0"
@@ -178,6 +188,25 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
   line,_:=reader.Read()
   csvFile.Close()
   Updater("./storage/logica/"+aux+".csv","En camino")
+
+    Tipo string
+    Valor int
+    Intentos int
+    Uso string
+
+  for i:=0;i<6;i++{
+    if(s.envios_s[i].Uso=="0"){
+      s.envios_s[i].Id_paquete=Id:x.Id
+      s.envios_s[i].Estado="En camino"
+      s.envios_s[i].Id_camion=request.Id
+      s.envios_s[i].Seguimiento=int(x.Seguimiento)
+      s.envios_s[i].Tipo=x.Tipo
+      s.envios_s[i].Valor=x.Valor
+      s.envios_s[i].Intentos=0
+      s.envios_s[i].Uso="1"
+      break
+    }
+  }
   return &Response_SolicitarPaquete{Id:x.Id,Tipo:x.Tipo,Valor:int32(x.Valor),Tienda:line[5],Destino:line[6],}, nil
 }
 
