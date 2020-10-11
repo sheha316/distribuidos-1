@@ -92,10 +92,10 @@ func registro_logico_retail(tipo string,request *comms.Request_CrearOrdenRetail)
   return seguimentoint
 }
 
-func registro_paquete_pymes_pymes(request *comms.Request_CrearOrdenPyme,seguimento int){
+func registro_paquete_pymes(request *comms.Request_CrearOrdenPyme,seguimento int){
   f, err := os.OpenFile("../storage/logica/pymes.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
   if err != nil {
-    log.Printf("registro_paquete_pymes_pymes")
+    log.Printf("registro_paquete_pymes")
     log.Fatal(err)
   }
   defer f.Close()
@@ -108,14 +108,15 @@ func registro_paquete_pymes_pymes(request *comms.Request_CrearOrdenPyme,seguimen
   w := csv.NewWriter(f)
   w.WriteAll(data)
   if err := w.Error(); err != nil {
-    log.Printf("registro_paquete_pymes_pymes")
+    log.Printf("registro_paquete_pymes")
     log.Fatal(err)
   }
 }
 
-func registro_paquete_pymes_retail(request *comms.Request_CrearOrdenRetail,seguimento int){
+func registro_paquete_retail(request *comms.Request_CrearOrdenRetail,seguimento int){
   f, err := os.OpenFile("../storage/logica/retail.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
   if err != nil {
+    log.Printf("registro_paquete_retail")
     log.Fatal(err)
   }
   defer f.Close()
@@ -131,14 +132,14 @@ func registro_paquete_pymes_retail(request *comms.Request_CrearOrdenRetail,segui
 func (s *Server) CrearOrdenPyme(ctx context.Context, request *comms.Request_CrearOrdenPyme) (*comms.Response_CrearOrden, error) {
   log.Printf("Receive message %+v", request)
   seguimento:=registro_logico_pymes("pyme",request)
-  registro_paquete_pymes_pymes(request,seguimento)
+  registro_paquete_pymes(request,seguimento)
   return &comms.Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
 func (s *Server) CrearOrdenRetail(ctx context.Context, request *comms.Request_CrearOrdenRetail) (*comms.Response_CrearOrden, error) {
   log.Printf("Receive message %+v", request)
   seguimento:=registro_logico_retail("retail",request)
-  registro_paquete_pymes_retail(request,seguimento)
+  registro_paquete_retail(request,seguimento)
   return &comms.Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
