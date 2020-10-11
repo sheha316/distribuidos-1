@@ -4,6 +4,8 @@ import (
   "github.com/sheha316/distribuidos-1/Codigo/comms"
   "golang.org/x/net/context"
   "google.golang.org/grpc"
+  "time"
+  "math/rand"
 )
 type paquete_info struct{
   Id string
@@ -12,6 +14,7 @@ type paquete_info struct{
   Tienda string
   Destino string
   Intentos int
+  Fecha string
 }
 type Camion struct{
   Tipo string
@@ -28,7 +31,8 @@ func request_paquete_1(conn *grpc.ClientConn, kamion *Camion){
   log.Printf("Response from server: %+v",response)
   if(int(response.Valor)!=-1){
     kamion.Paquete_inf1=paquete_info{Id:response.Id,Tipo:response.Tipo,Valor:int(response.Valor),
-    Tienda:response.Tienda,Destino:response.Destino,Intentos:0}
+    Tienda:response.Tienda,Destino:response.Destino,Intentos:0,Fecha:"0"}
+    kamion.Paquetes=1
   }
 }
 func request_paquete_2(conn *grpc.ClientConn, kamion *Camion){
@@ -37,15 +41,100 @@ func request_paquete_2(conn *grpc.ClientConn, kamion *Camion){
   log.Printf("Response from server: %+v",response)
   if(int(response.Valor)!=-1){
     kamion.Paquete_inf2=paquete_info{Id:response.Id,Tipo:response.Tipo,Valor:int(response.Valor),
-    Tienda:response.Tienda,Destino:response.Destino,Intentos:0}
+    Tienda:response.Tienda,Destino:response.Destino,Intentos:0,Fecha:"0"}
+    kamion.Paquetes=2
   }
 }
 
+func cargar_camion(conn *grpc.ClientConn, kamion *Camion){
+  request_paquete_1(conn , kamion)
+  if(kamion.Paquetes==1){
+    time.Sleep(3 * time.Second)
+    request_paquete_2(conn , kamion)
+    kamion.Estado=1
+  }
+}
+
+func expirado(paquete paquete_info)(bool){
+  if(paquete.Fecha!="0"){
+    return true
+  }
+  if( (paquete.Tipo=="retail") && (paquete.Intentos<3)){
+    return false
+  }
+  if( (paquete.Tipo=="normal"||paquete.Tipo=="prioritario") && (paquete.Intentos<2) && (paquete.Intentos*10<=paquete.Valor)){
+    return false
+  }
+  return true
+}
+
+func Reparto(kamion *Camion){
+  kamion.Estado=0
+  if(kamion.Paquetes==2){
+    if(kamion.Paquete_inf1.Valor>kamion.Paquete_inf2.Valor){
+      if(!expirado(kamion.Paquete_inf1)){
+        kamion.Estado=1
+        kamion.Paquete_inf1.Intentos++
+        if(rand.Intn(100)<80){
+          kamion.Paquete_inf1.Fecha=time.Now().String()
+        }
+      }
+      if(!expirado(kamion.Paquete_inf2)){
+        kamion.Paquete_inf2.Intentos++
+        kamion.Estado=1
+        if(rand.Intn(100)<80){
+          kamion.Paquete_inf2.Fecha=time.Now().String()
+        }
+      }
+    }else if(kamion.Paquete_inf2.Valor>=kamion.Paquete_inf1.Valor){
+      if(!expirado(kamion.Paquete_inf2)){
+        kamion.Paquete_inf2.Intentos++
+        kamion.Estado=1
+        if(rand.Intn(100)<80){
+          kamion.Paquete_inf2.Fecha=time.Now().String()
+        }
+      }
+      if(!expirado(kamion.Paquete_inf1)){
+        kamion.Paquete_inf1.Intentos++
+        kamion.Estado=1
+        if(rand.Intn(100)<80){
+          kamion.Paquete_inf1.Fecha=time.Now().String()
+        }
+      }
+    }
+  }else if(kamion.Paquetes==1){
+    if(!expirado(kamion.Paquete_inf1)){
+      kamion.Paquete_inf1.Intentos++
+      kamion.Estado=1
+      if(rand.Intn(100)<80){
+        kamion.Paquete_inf1.Fecha=time.Now().String()
+      }
+    }
+  }
+}
+
+type paquete_info struct{
+  Id string
+  Tipo string
+  Valor int
+  Tienda string
+  Destino string
+  Intentos int
+}
+type Camion struct{
+  Tipo string
+  Id string
+  Paquete_inf1 paquete_info
+  Paquete_inf2 paquete_info
+  Paquetes int
+  Estado int
+}
+}/**/
 func main() {
-  /*camion_1:=&Camion{
-    Tipo: "retail",}
+  camion_1:=&Camion{
+    Tipo: "retail",Paquetes:0,Estado:0,Id:"1"}
   camion_2:=&Camion{
-    Tipo: "retail",}*/
+    Tipo: "retail",Paquetes:0,Estado:0,Id:"2"}
   camion_3:=&Camion{
     Tipo: "normal",Paquetes:0,Estado:0,Id:"3"}
   var conn *grpc.ClientConn
@@ -55,5 +144,37 @@ func main() {
   }
   defer conn.Close()
 
-  request_paquete_1(conn,camion_3)
+  for{
+    if(camion_1.Estado==0){
+      cargar_camion(conn,camion_1)
+    }
+    if(camion_2.Estado==0){
+      cargar_camion(conn,camion_2)
+    }
+    if(camion_3.Estado==0){
+      cargar_camion(conn,camion_3)
+    }
+    log.Printf("Response from server: %+v",camion_1.Paquete_inf1)
+    log.Printf("Response from server: %+v",camion_1.Paquete_inf2)
+    log.Printf("Response from server: %+v",camion_2.Paquete_inf1)
+    log.Printf("Response from server: %+v",camion_2.Paquete_inf2)
+    log.Printf("Response from server: %+v",camion_3.Paquete_inf1)
+    log.Printf("Response from server: %+v",camion_3.Paquete_inf2)
+    for ;camion_1.Estado==1;{
+      Reparto(conn,camion_1)
+    }
+    for ;camion_2.Estado==1;{
+      Reparto(conn,camion_2)
+    }
+    for ;camion_3.Estado==1;{
+      Reparto(conn,camion_3)
+    }
+    log.Printf("Response from server: %+v",camion_1.Paquete_inf1)
+    log.Printf("Response from server: %+v",camion_1.Paquete_inf2)
+    log.Printf("Response from server: %+v",camion_2.Paquete_inf1)
+    log.Printf("Response from server: %+v",camion_2.Paquete_inf2)
+    log.Printf("Response from server: %+v",camion_3.Paquete_inf1)
+    log.Printf("Response from server: %+v",camion_3.Paquete_inf2)
+  }
+
 }
