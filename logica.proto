@@ -32,7 +32,7 @@ message Response_Seguimiento {
 
 message Request_SolicitarPaquete {
   string tipo = 1;
-  string id = 1;
+  string id = 2;
 }
 
 message Response_SolicitarPaquete {
