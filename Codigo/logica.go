@@ -363,7 +363,7 @@ func (s *Server) Limpiar_registros(ctx context.Context, request *comms.Dummy) (*
   os.Remove("../storage/logica/retail.csv")
   os.Create("../storage/logica/retail.csv")
   os.Create("../storage/logica/pymes.csv")
-  return &comms.Dummy{}, nil
+  return &comms.Dummy{Id:"1"}, nil
 
 }
 

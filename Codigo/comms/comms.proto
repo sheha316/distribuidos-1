@@ -56,7 +56,7 @@ message Response_Estado {
 }
 
 message Dummy{
-
+  string id = 1;
 }
 service Comms {
   rpc CrearOrdenPyme(Request_CrearOrdenPyme) returns (Response_CrearOrden) {}
