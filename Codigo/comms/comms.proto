@@ -41,6 +41,7 @@ message Response_SolicitarPaquete {
   string tipo = 3;
   int32 valor = 4;
   string tienda = 5;
+  string destino = 6; 
 }
 
 message Request_Estado {
