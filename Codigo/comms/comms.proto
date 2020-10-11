@@ -55,12 +55,14 @@ message Response_Estado {
   string recibido = 1;
 }
 
+message Dummy{
 
+}
 service Comms {
   rpc CrearOrdenPyme(Request_CrearOrdenPyme) returns (Response_CrearOrden) {}
   rpc CrearOrdenRetail(Request_CrearOrdenRetail) returns (Response_CrearOrden) {}
   rpc Seguimiento(Request_Seguimiento) returns (Response_Seguimiento) {}
   rpc SolicitarPaquete(Request_SolicitarPaquete) returns (Response_SolicitarPaquete) {}
   rpc InformarEstado(Request_Estado) returns (Response_Estado) {}
-  rpc Limpiar_registros() returns (){}
+  rpc Limpiar_registros(Dummy) returns (Dummy){}
 }
