@@ -337,21 +337,45 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
   return &comms.Response_Estado{Recibido: "holo"}, nil
 }
 
+func shutdown(){
+  seguimento:=0
+  prefijo:=1
+  file,erros:=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+  for erros==nil{
+    seguimento++
+    e := os.Remove("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+    file.Close()
+    file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+  }
+  file.Close()
+  prefijo:=2
+  file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+  for erros==nil{
+    seguimento++
+    e := os.Remove("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+    file.Close()
+    file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+  }
+  file.Close()
+}
 func main() {
   lis, err := net.Listen("tcp", ":9000")
   if err != nil {
     log.Fatalf("failed to listen: %v", err)
   }
-
   s := Server{}
   for i:=0;i<6;i++{
     s.envios_s[i].Uso="0"
   }
-
   grpcServer := grpc.NewServer()
-
   comms.RegisterCommsServer(grpcServer, &s)
   if err := grpcServer.Serve(lis); err != nil {
     log.Fatalf("failed to serve: %s", err)
   }
+  var input_us string
+  input_us=""
+  for input_us!="0"{
+    log.Printf("Bienvenido! ingrese el numero de la opcion que desea")
+    log.Printf("0-exit")
+    fmt.Scanln(&input_us)
 }

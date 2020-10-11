@@ -160,13 +160,13 @@ func main() {
     log.Printf("Response from server: %+v",camion_2.Paquete_inf2)
     log.Printf("Response from server: %+v",camion_3.Paquete_inf1)
     log.Printf("Response from server: %+v",camion_3.Paquete_inf2)
-    for ;camion_1.Estado==1;{
+    for camion_1.Estado==1{
       Reparto(camion_1)
     }
-    for ;camion_2.Estado==1;{
+    for camion_2.Estado==1{
       Reparto(camion_2)
     }
-    for ;camion_3.Estado==1;{
+    for camion_3.Estado==1{
       Reparto(camion_3)
     }
     log.Printf("Response from server: %+v",camion_1.Paquete_inf1)
