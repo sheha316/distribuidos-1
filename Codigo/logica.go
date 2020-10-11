@@ -196,7 +196,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
     }
   }
   if(x.Valor==-1){
-    return &comms.Response_SolicitarPaquete{Id:"0".Id,Seguimiento:int32(0),Tipo:"pablo",Valor:int32(x.Valor),Tienda:"--",Destino:"--",}, nil
+    return &comms.Response_SolicitarPaquete{Id:"0",Seguimiento:int32(0),Tipo:"pablo",Valor:int32(x.Valor),Tienda:"--",Destino:"--",}, nil
 
   }
   aux:=strconv.Itoa(int(x.Seguimiento))
