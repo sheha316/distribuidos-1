@@ -279,7 +279,7 @@ func Updater_csv(aux string, namefile string){
       break
     }else if error!=nil{
         log.Printf("gg po")
-        log.Printf(line)
+        log.Printf("texto %+v",line)
         log.Fatal(error)
         log.Printf("gg po 2")
     }
