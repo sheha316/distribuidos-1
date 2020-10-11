@@ -144,7 +144,7 @@ func main() {
   }
   defer conn.Close()
 
-  for{
+  fori:=0;i<1;i++{
     if(camion_1.Estado==0){
       cargar_camion(conn,camion_1)
     }

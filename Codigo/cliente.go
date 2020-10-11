@@ -28,6 +28,7 @@ type Pedido_retail struct{
   Tienda string
   Destino string
 }
+
 func read_and_request_pymes(conn *grpc.ClientConn){
   c := comms.NewCommsClient(conn)
   csvFile,_:=os.Open("../Pedidos/pymes.csv")
@@ -51,7 +52,7 @@ func read_and_request_pymes(conn *grpc.ClientConn){
       Prioritario:aux2,
     })
   }
-  for i:=0; i<len(pedido_pymes);i++{
+  for i:=1; i<len(pedido_pymes);i++{
     response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
       Id:pedido_pymes[i].Id,
       Producto:pedido_pymes[i].Producto,
@@ -65,6 +66,7 @@ func read_and_request_pymes(conn *grpc.ClientConn){
     log.Printf("Response from server: %d", int(response.Seguimiento))
   }
 }
+
 func read_and_request_retail(conn *grpc.ClientConn){
   c := comms.NewCommsClient(conn)
   csvFile,_:=os.Open("../Pedidos/retail.csv")
@@ -86,7 +88,7 @@ func read_and_request_retail(conn *grpc.ClientConn){
       Destino:line[4],
     })
   }
-  for i:=0; i<len(pedido_retail);i++{
+  for i:=1; i<len(pedido_retail);i++{
     response, err := c.CrearOrdenRetail(context.Background(),&comms.Request_CrearOrdenRetail{
       Id:pedido_retail[i].Id,
       Producto:pedido_retail[i].Producto,
