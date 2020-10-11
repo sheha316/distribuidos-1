@@ -14,7 +14,7 @@ import (
   "time"
 )
 
-type server struct{
+type Server struct{
 }
 
 type paquete struct{
