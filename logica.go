@@ -9,7 +9,7 @@ import (
   "strconv"
   "bufio"
   "time"
-  "github.com/sheha316/distribuidos-1/logica"
+  "github.com/sheha316/distribuidos-1/comms"
 )
 
 type Server struct {
