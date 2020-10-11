@@ -126,6 +126,7 @@ func registro_paquete_pymes_retail(request *comms.Request_CrearOrdenRetail,segui
 }
 
 func (s *Server) CrearOrdenPyme(ctx context.Context, request *comms.Request_CrearOrdenPyme) (*comms.Response_CrearOrden, error) {
+  shutdown()
   log.Printf("Receive message %s", request.Id)
   seguimento:=registro_logico_pymes("pyme",request)
   registro_paquete_pymes_pymes(request,seguimento)
