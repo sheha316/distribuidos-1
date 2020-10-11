@@ -144,6 +144,7 @@ func superprint_fs(kamion *Camion){
   if(kamion.Paquetes==1){
     log.Printf("Paquete 1: %+v",kamion.Paquete_inf1)
   }else if(kamion.Paquetes==2){
+    log.Printf("Paquete 1: %+v",kamion.Paquete_inf1)
     log.Printf("Paquete 2: %+v",kamion.Paquete_inf2)
   }
 }
@@ -152,6 +153,7 @@ func superprint_ts(kamion *Camion){
   if(kamion.Paquetes==1){
     log.Printf("Paquete 1: %+v",kamion.Paquete_inf1)
   }else if(kamion.Paquetes==2){
+    log.Printf("Paquete 1: %+v",kamion.Paquete_inf1)
     log.Printf("Paquete 2: %+v",kamion.Paquete_inf2)
   }
 }
