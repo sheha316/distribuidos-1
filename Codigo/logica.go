@@ -341,7 +341,7 @@ func LFP_P(pakete *paquete,p string){
 func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Estado) (*comms.Response_Estado, error) {
   log.Printf("Receive message %s", request.Id)
   for i:=0;i<6;i++{
-    if(s.envios_s[i].Id==request.Id){
+    if(s.envios_s[i].Id_paquete==request.Id){
       Updater(s.envios_s[i].Seguimiento,request.Estado,request.Intentos)
       s.envios_s[i].Uso="0"
       break
