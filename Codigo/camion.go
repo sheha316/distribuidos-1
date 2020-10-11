@@ -179,7 +179,6 @@ func main() {
   defer conn.Close()
   var T_sp int
   var T_ep int
-  var T_f int
   log.Printf("Tiempo de espera de 2do paquete")
   fmt.Scanln(&T_sp)
   log.Printf("Tiempo que demora en entregar un paquete")
