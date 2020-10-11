@@ -224,10 +224,8 @@ func Updater(n_file string,estado string){
   reader := csv.NewReader(bufio.NewReader(csvfile))
   line,_ :=reader.Read()
   csvfile.Close()
-  log.Printf("pica")
   change_id:=line[1]
   change_tipo:=line[2]
-  log.Printf("pica2")
   nombrearch:="../storage/logica/retail.csv"
   switch change_tipo{
   case "retail":
@@ -237,7 +235,6 @@ func Updater(n_file string,estado string){
   }
   csvfile ,_= os.Open(nombrearch)
   reader = csv.NewReader(bufio.NewReader(csvfile))
-  log.Printf("pica3")
   _,_:=os.Remove("../storage/logica/aux.csv")
   csvfilex ,_:= os.OpenFile("../storage/logica/aux.csv", os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
@@ -257,11 +254,8 @@ func Updater(n_file string,estado string){
         error=writer.WriteAll(guardar)
     }
   }
-  log.Printf("pica4")
   csvfilex.Close()
-  log.Printf("pica4.3")
   csvfile.Close()
-  log.Printf("pica4.6")
   Updater_csv("../storage/logica/aux.csv",nombrearch)
   log.Printf("pica5")
 }
