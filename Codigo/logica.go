@@ -214,7 +214,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
       break
     }
   }/**/
-  return &comms.Response_SolicitarPaquete{Id:x.Id,Seguimiento:x.Seguimiento,Tipo:x.Tipo,Valor:int32(x.Valor),Tienda:line[5],Destino:line[6],}, nil
+  return &comms.Response_SolicitarPaquete{Id:x.Id,Seguimiento:int32(x.Seguimiento),Tipo:x.Tipo,Valor:int32(x.Valor),Tienda:line[5],Destino:line[6],}, nil
 }
 
 func Updater(n_file string,estado string){
