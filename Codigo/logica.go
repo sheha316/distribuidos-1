@@ -278,7 +278,10 @@ func Updater_csv(aux string, namefile string){
     if error==io.EOF{
       break
     }else if error!=nil{
+        log.Printf("gg po")
+        log.Printf(line)
         log.Fatal(error)
+        log.Printf("gg po 2")
     }
     var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],line[5]},}
     _=writer.WriteAll(guardar)
