@@ -10,6 +10,7 @@ import (
   "fmt"
   "encoding/csv"
   "strconv"
+  "math/rand"
 )
 
 type Pedido_pymes struct{
@@ -29,77 +30,49 @@ type Pedido_retail struct{
   Destino string
 }
 
-func read_and_request_pymes(conn *grpc.ClientConn){
-  c := comms.NewCommsClient(conn)
-  csvFile,_:=os.Open("../Pedidos/pymes.csv")
-  reader := csv.NewReader(bufio.NewReader(csvFile))
-  var pedido_pymes []Pedido_pymes
-  for{
-    line,error :=reader.Read()
-    if error==io.EOF{
-      break
-    }else if error!=nil{
-      log.Fatal(error)
-    }
-    aux1,_:=strconv.Atoi(line[2])
-    aux2,_:=strconv.Atoi(line[5])
-    pedido_pymes=append(pedido_pymes,Pedido_pymes{
-      Id:line[0],
-      Producto:line[1],
-      Valor:aux1,
-      Tienda:line[3],
-      Destino:line[4],
-      Prioritario:aux2,
-    })
-  }
-  for i:=1; i<len(pedido_pymes);i++{
+func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
+    var tiendas [3]string
+    tiendas[0]="re-play"
+    tiendas[1]="hamazon"
+    tiendas[2]="batalla.net"
+    var destino [3]string
+    destino[0]="mi casa"
+    destino[1]="tu casa"
+    destino[2]="nuestra casa"
     response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
-      Id:pedido_pymes[i].Id,
-      Producto:pedido_pymes[i].Producto,
-      Valor:int32(pedido_pymes[i].Valor),
-      Tienda:pedido_pymes[i].Tienda,
-      Destino:pedido_pymes[i].Destino,
-      Prioritario:int32(pedido_pymes[i].Prioritario),})
+      Id:id,
+      Producto:"soy un producto",
+      Valor:int32(rand.Intn(30)),
+      Tienda:tiendas[rand.Intn(3)],
+      Destino:destino[rand.Intn(3)],
+      Prioritario:int32(rand.Intn(2))})
     if err != nil {
       log.Fatalf("Error when calling SayHello: %s", err)
     }
     log.Printf("Response from server: %d", int(response.Seguimiento))
-  }
+    return int(response.Seguimiento)
 }
 
-func read_and_request_retail(conn *grpc.ClientConn){
-  c := comms.NewCommsClient(conn)
-  csvFile,_:=os.Open("../Pedidos/retail.csv")
-  reader := csv.NewReader(bufio.NewReader(csvFile))
-  var pedido_retail []Pedido_retail
-  for{
-    line,error :=reader.Read()
-    if error==io.EOF{
-      break
-    }else if error!=nil{
-      log.Fatal(error)
-    }
-    aux1,_:=strconv.Atoi(line[2])
-    pedido_retail=append(pedido_retail,Pedido_retail{
-      Id:line[0],
-      Producto:line[1],
-      Valor:aux1,
-      Tienda:line[3],
-      Destino:line[4],
-    })
+func read_and_request_retail(conn *grpc.ClientConn,id int)(int){
+  var tiendas [3]string
+  tiendas[0]="re-play"
+  tiendas[1]="hamazon"
+  tiendas[2]="batalla.net"
+  var destino [3]string
+  destino[0]="mi casa"
+  destino[1]="tu casa"
+  destino[2]="nuestra casa"
+  response, err := c.CrearOrdenRetail(context.Background(),&comms.Request_CrearOrdenRetail{
+    Id:id,
+    Producto:"soy un producto",
+    Valor:int32(rand.Intn(30)),
+    Tienda:tiendas[rand.Intn(3)],
+    Destino:destino[rand.Intn(3)],})
+  if err != nil {
+    log.Fatalf("Error when calling SayHello: %s", err)
   }
-  for i:=1; i<len(pedido_retail);i++{
-    response, err := c.CrearOrdenRetail(context.Background(),&comms.Request_CrearOrdenRetail{
-      Id:pedido_retail[i].Id,
-      Producto:pedido_retail[i].Producto,
-      Valor:int32(pedido_retail[i].Valor),
-      Tienda:pedido_retail[i].Tienda,
-      Destino:pedido_retail[i].Destino,})
-    if err != nil {
-      log.Fatalf("Error when calling SayHello: %s", err)
-    }
-    log.Printf("Response from server: %d", int(response.Seguimiento))
-  }
+  log.Printf("Response from server: %d", int(response.Seguimiento))
+  return int(response.Seguimiento)
 }
 
 func limpiar(conn *grpc.ClientConn){
@@ -107,17 +80,13 @@ func limpiar(conn *grpc.ClientConn){
   c.LimpiarRegistros(context.Background(),&comms.Dummy{})
 }
 
-func send_seguimento(conn *grpc.ClientConn){
+func send_seguimento(conn *grpc.ClientConn,codigo int){
   c := comms.NewCommsClient(conn)
-  log.Printf("Ingrese Numero de Seguimento por favor")
-  var input_us string
-  fmt.Scanln(&input_us)
-  aux,_:=strconv.Atoi(input_us)
-  response, err := c.Seguimiento(context.Background(),&comms.Request_Seguimiento{Seguimiento:int32(aux)})
+  response, err := c.Seguimiento(context.Background(),&comms.Request_Seguimiento{Seguimiento:int32(codigo)})
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
   }
-  log.Printf("Response from server: %s", (response.Estado))
+  log.Printf("Estado del paquete: %s", (response.Estado))
 
 }
 
@@ -128,37 +97,30 @@ func main() {
     log.Fatalf("did not connect: %s", err)
   }
   defer conn.Close()
-  var input_us string
-  input_us=""
-  for input_us!="0"{
-    log.Printf("Bienvenido! ingrese el numero de la opcion que desea")
-    log.Printf("1-Hacer pedidos pymes")
-    log.Printf("2-Hacer pedidos retail")
-    log.Printf("3-Hacer Todos los pedidos")
-    log.Printf("4-Hacer Seguimento")
-    log.Printf("0-exit")
-    fmt.Scanln(&input_us)
-    switch  input_us{
-      case "1":
-        read_and_request_pymes(conn)
-  	  case "2":
-        read_and_request_retail(conn)
-      case "3":
-        read_and_request_pymes(conn)
-        read_and_request_retail(conn)
-      case "4":
-        send_seguimento(conn)
-      case "7734":
-          limpiar(conn)
-  	  default:
-  		// freebsd, openbsd,
-  	}
+  var codigos [100]int
+  var entregados int
+  var opcion int
+  limpiar(conn)
+
+  entregados=0
+  codigos[entregados]=read_and_request_pymes(conn)
+  entregados=1
+
+  for{
+    opcion=rand.Intn(3)
+    switch expression {
+    case 0:
+      if(entregados<100){
+        codigos[entregados]=read_and_request_pymes(conn)
+        entregados++
+      }
+    case 1:
+      if(entregados<100){
+        codigos[entregados]=read_and_request_retail(conn)
+        entregados++
+      }
+    case 2:
+      send_seguimento(conn,codigos[rand.Intn(entregados)])
+    }
   }
-  /*
-  c := comms.NewCommsClient(conn)
-  response, err := c.Seguimiento(context.Background(), &comms.Request_Seguimiento{Seguimiento: 1})
-  if err != nil {
-    log.Fatalf("Error when calling SayHello: %s", err)
-  }
-  log.Printf("Response from server: %s", response.Estado)*/
 }
