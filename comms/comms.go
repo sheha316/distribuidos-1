@@ -22,6 +22,7 @@ type paquete struct{
   Intentos int
   Estado string
 }
+
 type envio struct{
   Id_paquete string
   Estado string
