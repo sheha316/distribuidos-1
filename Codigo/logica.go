@@ -343,7 +343,7 @@ func shutdown(){
   file,erros:=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     seguimento++
-    e := os.Remove("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+    os.Remove("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
     file.Close()
     file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   }
@@ -352,11 +352,15 @@ func shutdown(){
   file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   for erros==nil{
     seguimento++
-    e := os.Remove("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
+    os.Remove("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
     file.Close()
     file,erros=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
   }
   file.Close()
+  os.Remove("../storage/logica/pymes.csv")
+  os.Remove("../storage/logica/retail.csv")
+  os.Create("../storage/logica/retail.csv")
+  os.Create("../storage/logica/pymes.csv")
 }
 func main() {
   lis, err := net.Listen("tcp", ":9000")
