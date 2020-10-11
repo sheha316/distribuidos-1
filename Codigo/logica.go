@@ -95,6 +95,7 @@ func registro_logico_retail(tipo string,request *comms.Request_CrearOrdenRetail)
 func registro_paquete_pymes_pymes(request *comms.Request_CrearOrdenPyme,seguimento int){
   f, err := os.OpenFile("../storage/logica/pymes.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
   if err != nil {
+    log.Printf("registro_paquete_pymes_pymes")
     log.Fatal(err)
   }
   defer f.Close()
@@ -107,6 +108,7 @@ func registro_paquete_pymes_pymes(request *comms.Request_CrearOrdenPyme,seguimen
   w := csv.NewWriter(f)
   w.WriteAll(data)
   if err := w.Error(); err != nil {
+    log.Printf("registro_paquete_pymes_pymes")
     log.Fatal(err)
   }
 }
@@ -247,6 +249,7 @@ func Updater(n_file string,estado string,intentos_u string){
     if error==io.EOF{
       break
     }else if error!=nil{
+        log.Printf("updater")
         log.Fatal(error)
     }
     switch line[0] {
@@ -273,6 +276,7 @@ func Updater_csv(aux string, namefile string){
     if error==io.EOF{
       break
     }else if error!=nil{
+      log.Printf("updater_csv")
         log.Fatal(error)
     }
     var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],line[5]},}
@@ -290,6 +294,7 @@ func LFP_R(pakete *paquete){
     if error==io.EOF{
       break
     }else if error!=nil{
+        log.Printf("LFP_R")
         log.Fatal(error)
     }
     if(line[5]=="En bodega"){
@@ -316,6 +321,7 @@ func LFP_P(pakete *paquete,p string){
     if error==io.EOF{
       break
     }else if error!=nil{
+        log.Printf("LFP_P")
         log.Fatal(error)
     }
     if( (line[5]=="En bodega") && (p==line[2])){

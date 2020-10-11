@@ -76,7 +76,7 @@ func send_seguimento(conn *grpc.ClientConn,codigo int){
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
   }
-  log.Printf("Estado del paquete $d : %s",codigo ,(response.Estado))
+  log.Printf("Estado del paquete "+strconv.Itoa(codigo)+" : %s",(response.Estado))
 
 }
 
@@ -95,7 +95,7 @@ func main() {
 
   entregados=0
   codigos[entregados]=read_and_request_pymes(conn,entregados)
-  entregados=1
+  entregados++
   log.Printf("Tiempo entre inputs del cliente")
   fmt.Scanln(&timex)
   for{
