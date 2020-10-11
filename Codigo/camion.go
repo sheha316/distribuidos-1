@@ -154,12 +154,14 @@ func main() {
     if(camion_3.Estado==0){
       cargar_camion(conn,camion_3)
     }
+    log.Printf("----Paquetes Recibidos----")
     log.Printf("Response from server: %+v",camion_1.Paquete_inf1)
     log.Printf("Response from server: %+v",camion_1.Paquete_inf2)
     log.Printf("Response from server: %+v",camion_2.Paquete_inf1)
     log.Printf("Response from server: %+v",camion_2.Paquete_inf2)
     log.Printf("Response from server: %+v",camion_3.Paquete_inf1)
     log.Printf("Response from server: %+v",camion_3.Paquete_inf2)
+    log.Printf("--------------------------")/**/
     for camion_1.Estado==1{
       Reparto(camion_1)
     }
@@ -169,12 +171,14 @@ func main() {
     for camion_3.Estado==1{
       Reparto(camion_3)
     }
+    log.Printf("----Paquetes Entrgados----")
     log.Printf("Response from server: %+v",camion_1.Paquete_inf1)
     log.Printf("Response from server: %+v",camion_1.Paquete_inf2)
     log.Printf("Response from server: %+v",camion_2.Paquete_inf1)
     log.Printf("Response from server: %+v",camion_2.Paquete_inf2)
     log.Printf("Response from server: %+v",camion_3.Paquete_inf1)
     log.Printf("Response from server: %+v",camion_3.Paquete_inf2)
+    log.Printf("--------------------------")/**/
   }
 
 }
