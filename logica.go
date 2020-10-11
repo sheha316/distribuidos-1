@@ -1,14 +1,6 @@
 package main
 import (
   "log"
-  "golang.org/x/net/context"
-  "os"
-  "io"
-  "encoding/csv"
-  "fmt"
-  "strconv"
-  "bufio"
-  "time"
   "github.com/sheha316/distribuidos-1/comms"
 )
 
