@@ -204,7 +204,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
   reader := csv.NewReader(bufio.NewReader(csvFile))
   line,_:=reader.Read()
   csvFile.Close()
-  Updater("../storage/logica/"+aux+".csv","En camino")
+  Updater("../storage/logica/"+aux+".csv","En camino","0")
 
   for i:=0;i<6;i++{
     if(s.envios_s[i].Uso=="0"){
@@ -222,7 +222,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
   return &comms.Response_SolicitarPaquete{Id:x.Id,Seguimiento:int32(x.Seguimiento),Tipo:x.Tipo,Valor:int32(x.Valor),Tienda:line[5],Destino:line[6],}, nil
 }
 
-func Updater(n_file string,estado string){
+func Updater(n_file string,estado string,intentos_u string){
   log.Printf("Seguimiento: %s", n_file)
   csvfile ,_:= os.Open(n_file)
   reader := csv.NewReader(bufio.NewReader(csvfile))
@@ -251,7 +251,7 @@ func Updater(n_file string,estado string){
     }
     switch line[0] {
       case change_id:
-        var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],estado},}
+        var guardar = [][]string{{line[0],line[1],line[2],line[3],intentos_u,estado},}
         error=writer.WriteAll(guardar)
       default:
         var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],line[5]},}
@@ -340,6 +340,13 @@ func LFP_P(pakete *paquete,p string){
 
 func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Estado) (*comms.Response_Estado, error) {
   log.Printf("Receive message %s", request.Id)
+  for i:=0;i<6;i++{
+    if(s.envios_s[i].Id==request.Id){
+      Updater(s.envios_s[i].Seguimiento,request.Estado,request.Intentos)
+      s.envios_s[i].Uso="0"
+      break
+    }
+  }
   return &comms.Response_Estado{Recibido: "holo"}, nil
 }
 
