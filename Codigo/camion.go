@@ -113,7 +113,7 @@ func Reparto(kamion *Camion){
 
 func reporte(conn *grpc.ClientConn,kamion *Camion){
   c := comms.NewCommsClient(conn)
-  var estadorm String
+  var estadorm string
   for i:=0;i<kamion.Paquetes;i++{
     estadorm="Recibido"
     switch i {
@@ -122,7 +122,7 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
           estadorm="No Recibido"
         }
         _, _ = c.InformarEstado(context.Background(), &comms.Request_Estado{Id:kamion.Paquete_inf1.Id,
-                                                                                    Intentos:kamion.Paquete_inf1.Intentos,
+                                                                                    Intentos:int32(kamion.Paquete_inf1.Intentos),
                                                                                     Fecha:kamion.Paquete_inf1.Fecha,
                                                                                     Estado:estadorm})
       case 1:
@@ -130,7 +130,7 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
           estadorm="No Recibido"
         }
         _, _ = c.InformarEstado(context.Background(), &comms.Request_Estado{Id:kamion.Paquete_inf2.Id,
-                                                                                    Intentos:kamion.Paquete_inf2.Intentos,
+                                                                                    Intentos:int32(kamion.Paquete_inf2.Intentos),
                                                                                     Fecha:kamion.Paquete_inf2.Fecha,
                                                                                     Estado:estadorm})
     }
