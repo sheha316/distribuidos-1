@@ -191,7 +191,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
 
   for i:=0;i<6;i++{
     if(s.envios_s[i].Uso=="0"){
-      s.envios_s[i].Id_paquete=Id:x.Id
+      s.envios_s[i].Id_paquete=x.Id
       s.envios_s[i].Estado="En camino"
       s.envios_s[i].Id_camion=request.Id
       s.envios_s[i].Seguimiento=int(x.Seguimiento)
