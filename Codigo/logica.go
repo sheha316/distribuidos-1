@@ -128,14 +128,14 @@ func (s *Server) CrearOrdenPyme(ctx context.Context, request *pb.Request_CrearOr
   log.Printf("Receive message %s", request.Id)
   seguimento:=registro_logico_pymes("pyme",request)
   registro_paquete_pymes_pymes(request,seguimento)
-  return &Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
+  return &pb.Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
 func (s *Server) CrearOrdenRetail(ctx context.Context, request *pb.Request_CrearOrdenRetail) (*pb.Response_CrearOrden, error) {
   log.Printf("Receive message %s", request.Id)
   seguimento:=registro_logico_retail("retail",request)
   registro_paquete_pymes_retail(request,seguimento)
-  return &Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
+  return &pb.Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
 func (s *Server) Seguimiento(ctx context.Context, request *pb.Request_Seguimiento) (*pb.Response_Seguimiento, error) {
@@ -143,7 +143,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *pb.Request_Seguimient
   aux:=strconv.Itoa(int(request.Seguimiento))
   csvFile,error:=os.Open("./storage/logica/"+aux+".csv")
   if error !=nil{
-    return &Response_Seguimiento{Estado: "Paquete no existe"}, nil
+    return &pb.Response_Seguimiento{Estado: "Paquete no existe"}, nil
   }
   reader := csv.NewReader(bufio.NewReader(csvFile))
   line,_ :=reader.Read()
@@ -164,11 +164,11 @@ func (s *Server) Seguimiento(ctx context.Context, request *pb.Request_Seguimient
     }
     if(line[0]==id){
       csvFile.Close()
-      return &Response_Seguimiento{Estado: line[5]}, nil
+      return &pb.Response_Seguimiento{Estado: line[5]}, nil
     }
   }
   csvFile.Close()
-  return &Response_Seguimiento{Estado: "Esto no deberia suceder :)"}, nil
+  return &pb.Response_Seguimiento{Estado: "Esto no deberia suceder :)"}, nil
 }
 
 func (s *Server) SolicitarPaquete(ctx context.Context, request *pb.Request_SolicitarPaquete) (*pb.Response_SolicitarPaquete, error) {
@@ -206,7 +206,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *pb.Request_Solic
       break
     }
   }*/
-  return &Response_SolicitarPaquete{Id:x.Id,Tipo:x.Tipo,Valor:int32(x.Valor),Tienda:line[5],Destino:line[6],}, nil
+  return &pb.Response_SolicitarPaquete{Id:x.Id,Tipo:x.Tipo,Valor:int32(x.Valor),Tienda:line[5],Destino:line[6],}, nil
 }
 
 func Updater(n_file string,estado string){
@@ -324,7 +324,7 @@ func LFP_P(pakete *paquete,p string){
 
 func (s *Server) InformarEstado(ctx context.Context, request *pb.Request_Estado) (*pb.Response_Estado, error) {
   log.Printf("Receive message %s", request.Id)
-  return &Response_Estado{Recibido: "holo"}, nil
+  return &pb.Response_Estado{Recibido: "holo"}, nil
 }
 func main() {
   var envios_s [6]envio
