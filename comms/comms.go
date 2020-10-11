@@ -189,7 +189,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
   csvFile.Close()
   Updater("./storage/logica/"+aux+".csv","En camino")
 
-  for i:=0;i<6;i++{
+  /*for i:=0;i<6;i++{
     if(envios_s[i].Uso=="0"){
       envios_s[i].Id_paquete=x.Id
       envios_s[i].Estado="En camino"
@@ -201,7 +201,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *Request_Solicita
       envios_s[i].Uso="1"
       break
     }
-  }
+  }*/
   return &Response_SolicitarPaquete{Id:x.Id,Tipo:x.Tipo,Valor:int32(x.Valor),Tienda:line[5],Destino:line[6],}, nil
 }
 
@@ -316,9 +316,6 @@ func LFP_P(pakete *paquete,p string){
     }
   }
 }
-
-
-
 
 
 func (s *Server) InformarEstado(ctx context.Context, request *Request_Estado) (*Response_Estado, error) {
