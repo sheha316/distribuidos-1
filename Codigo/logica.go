@@ -229,10 +229,10 @@ func Updater(n_file string,estado string,intentos_u string){
   log.Printf("Seguimiento: %s", n_file)
   csvfile ,_:= os.Open(n_file)
   reader := csv.NewReader(bufio.NewReader(csvfile))
-  line,_ :=reader.Read()
+  linez,_ :=reader.Read()
   csvfile.Close()
-  change_id:=line[1]
-  change_tipo:=line[2]
+  change_id:=linez[1]
+  change_tipo:=linez[2]
   nombrearch:="../storage/logica/retail.csv"
   switch change_tipo{
   case "retail":
@@ -240,11 +240,10 @@ func Updater(n_file string,estado string,intentos_u string){
   default:
     nombrearch="../storage/logica/pymes.csv"
   }
+  var data [][]string
   csvfile ,_= os.Open(nombrearch)
   reader = csv.NewReader(bufio.NewReader(csvfile))
   _=os.Remove("../storage/logica/aux.csv")
-  csvfilex ,_:= os.OpenFile("../storage/logica/aux.csv", os.O_WRONLY|os.O_CREATE, 0777)
-  writer:=csv.NewWriter(csvfilex)
   for{
     line,error :=reader.Read()
     if error==io.EOF{
@@ -257,15 +256,17 @@ func Updater(n_file string,estado string,intentos_u string){
     }
     switch line[0] {
       case change_id:
-        var guardar = [][]string{{line[0],line[1],line[2],line[3],intentos_u,estado},}
-        error=writer.WriteAll(guardar)
+        data = append(data, []string{line[0],line[1],line[2],line[3],intentos_u,estado})
       default:
-        var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],line[5]},}
-        error=writer.WriteAll(guardar)
+        data = append(data, []string{line[0],line[1],line[2],line[3],line[4],line[5]})
+
     }
   }
-  csvfilex.Close()
   csvfile.Close()
+  csvfilex ,_:= os.OpenFile("../storage/logica/aux.csv", os.O_WRONLY|os.O_CREATE, 0777)
+  writer:=csv.NewWriter(csvfilex)
+  error=writer.WriteAll(data)
+  csvfilex.Close()
   Updater_csv("../storage/logica/aux.csv",nombrearch)
 }
 
