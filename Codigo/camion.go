@@ -141,8 +141,8 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
                                                                                     Fecha:kamion.Paquete_inf2.Fecha,
                                                                                     Estado:estadorm})
     }
-    kamion.Paquetes=0
   }
+  kamion.Paquetes=0
 }
 
 func superprint_fs(kamion *Camion){
