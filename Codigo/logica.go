@@ -286,7 +286,7 @@ func Updater_csv(aux string, namefile string){
   csvfile.Close()
   csvfilex ,_:= os.OpenFile(namefile, os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
-  _=writer.WriteAll(guardar)
+  _=writer.WriteAll(data)
   csvfilex.Close()
 }
 
