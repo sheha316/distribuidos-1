@@ -184,6 +184,9 @@ func superprint_ts(kamion *Camion){
 }
 
 func main() {
+  os.Remove("../storage/camion/1.csv")
+  os.Remove("../storage/camion/2.csv")
+  os.Remove("../storage/camion/3.csv")
   camion_1:=&Camion{
     Tipo: "retail",Paquetes:0,Estado:0,Id:"1"}
   camion_2:=&Camion{
