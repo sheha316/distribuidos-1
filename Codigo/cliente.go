@@ -94,21 +94,19 @@ func main() {
   limpiar(conn)
 
   entregados=0
-  codigos[entregados]=read_and_request_pymes(conn,entregados)
-  entregados++
-  log.Printf("Tiempo entre inputs del cliente")
+  log.Printf("Tiempo entre inputs del cliente:")
   fmt.Scanln(&timex)
   for{
     time.Sleep(time.Duration(timex) * time.Second)
     opcion=rand.Intn(3)
     switch opcion {
     case 0:
-      if(entregados<100){
+      if((entregados<100) &&(entregados>0)){
         codigos[entregados]=read_and_request_pymes(conn,entregados)
         entregados++
       }
     case 1:
-      if(entregados<100){
+      if(entregados<100&&(entregados>0)){
         codigos[entregados]=read_and_request_retail(conn,entregados)
         entregados++
       }

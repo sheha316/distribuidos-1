@@ -8,6 +8,8 @@ import (
   "strconv"
   "math/rand"
   "fmt"
+  "encoding/csv"
+  "os"
 )
 type paquete_info struct{
   Id string
@@ -118,6 +120,23 @@ func Reparto(kamion *Camion,tiempo int){
   }
 }
 
+func registrar_paquete(id string,paquete paquete_info){
+  f, err := os.OpenFile("../storage/camion/"+id+".csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+  if err != nil {
+    log.Printf("registrar_paquete")
+    log.Fatal(err)
+  }
+  defer f.Close()
+  var data [][]string
+  data = append(data, []string{paquete.Id,paquete.Tipo,strconv.Itoa(paquete.Valor),paquete.Tienda,paquete.Destino,strconv.Itoa(paquete.Intentos),paquete.Fecha})
+  w := csv.NewWriter(f)
+  w.WriteAll(data)
+  if err := w.Error(); err != nil {
+    log.Printf("registrar_paquete")
+    log.Fatal(err)
+  }
+}
+
 func reporte(conn *grpc.ClientConn,kamion *Camion){
   c := comms.NewCommsClient(conn)
   var estadorm string
@@ -128,6 +147,7 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
         if(kamion.Paquete_inf1.Fecha=="0"){
           estadorm="No Recibido"
         }
+        registrar_paquete(kamion.Id,kamion.Paquete_inf1)
         _, _ = c.InformarEstado(context.Background(), &comms.Request_Estado{Id:kamion.Paquete_inf1.Id,
                                                                                     Intentos:int32(kamion.Paquete_inf1.Intentos),
                                                                                     Fecha:kamion.Paquete_inf1.Fecha,
@@ -136,6 +156,7 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
         if(kamion.Paquete_inf2.Fecha=="0"){
           estadorm="No Recibido"
         }
+        registrar_paquete(kamion.Id,kamion.Paquete_inf2)
         _, _ = c.InformarEstado(context.Background(), &comms.Request_Estado{Id:kamion.Paquete_inf2.Id,
                                                                                     Intentos:int32(kamion.Paquete_inf2.Intentos),
                                                                                     Fecha:kamion.Paquete_inf2.Fecha,
@@ -165,6 +186,12 @@ func superprint_ts(kamion *Camion){
 }
 
 func main() {
+  os.Remove("../storage/camion/1.csv")
+  os.Remove("../storage/camion/2.csv")
+  os.Remove("../storage/camion/3.csv")
+  os.Create("../storage/camion/3.csv")
+  os.Create("../storage/camion/2.csv")
+  os.Create("../storage/camion/1.csv")
   camion_1:=&Camion{
     Tipo: "retail",Paquetes:0,Estado:0,Id:"1"}
   camion_2:=&Camion{
