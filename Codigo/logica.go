@@ -278,6 +278,7 @@ func Updater(n_file string,estado string,intentos_u string){
     }
   }
   csvfilez.Close()
+  os.Remove(nombrearch)
   csvfilex ,_:= os.OpenFile(nombrearch, os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
   log.Printf("updater")
