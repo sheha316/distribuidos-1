@@ -265,6 +265,8 @@ func Updater(n_file string,estado string,intentos_u string){
   csvfile.Close()
   csvfilex ,_:= os.OpenFile("../storage/logica/aux.csv", os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
+  log.Printf("updater")
+  log.Printf(data)
   writer.WriteAll(data)
   csvfilex.Close()
   Updater_csv("../storage/logica/aux.csv",nombrearch)
@@ -279,7 +281,7 @@ func Updater_csv(aux string, namefile string){
     if error==io.EOF{
       break
     }else if error!=nil{
-      log.Printf("updater_csv")
+        log.Printf("updater_csv")
         log.Fatal(error)
     }
     data = append(data, []string{line[0],line[1],line[2],line[3],line[4],line[5]})
@@ -287,6 +289,8 @@ func Updater_csv(aux string, namefile string){
   csvfile.Close()
   csvfilex ,_:= os.OpenFile(namefile, os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
+  log.Printf("updater_csv")
+  log.Printf(data)
   _=writer.WriteAll(data)
   csvfilex.Close()
 }
