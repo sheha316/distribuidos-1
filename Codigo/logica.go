@@ -252,7 +252,7 @@ func Updater(n_file string,estado string,intentos_u string){
     }else if error!=nil{
         log.Printf(nombrearch)
         log.Printf("updater")
-        //log.Fatal(error)
+        log.Fatal(error)
         continue
     }
     switch line[0] {
@@ -272,8 +272,7 @@ func Updater(n_file string,estado string,intentos_u string){
 func Updater_csv(aux string, namefile string){
   csvfile ,_:= os.Open(aux)
   reader := csv.NewReader(bufio.NewReader(csvfile))
-  csvfilex ,_:= os.OpenFile(namefile, os.O_WRONLY|os.O_CREATE, 0777)
-  writer:=csv.NewWriter(csvfilex)
+  var data [][]string
   for{
     line,error :=reader.Read()
     if error==io.EOF{
@@ -282,11 +281,13 @@ func Updater_csv(aux string, namefile string){
       log.Printf("updater_csv")
         log.Fatal(error)
     }
-    var guardar = [][]string{{line[0],line[1],line[2],line[3],line[4],line[5]},}
-    _=writer.WriteAll(guardar)
+    data = append(data, []string{line[0],line[1],line[2],line[3],line[4],line[5]})
   }
-  csvfilex.Close()
   csvfile.Close()
+  csvfilex ,_:= os.OpenFile(namefile, os.O_WRONLY|os.O_CREATE, 0777)
+  writer:=csv.NewWriter(csvfilex)
+  _=writer.WriteAll(guardar)
+  csvfilex.Close()
 }
 
 func LFP_R(pakete *paquete){
