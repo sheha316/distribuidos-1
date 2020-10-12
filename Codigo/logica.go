@@ -259,7 +259,6 @@ func Updater(n_file string,estado string,intentos_u string){
   var data [][]string
   csvfilez ,_:= os.Open(nombrearch)
   readerz := csv.NewReader(bufio.NewReader(csvfilez))
-  _=os.Remove("../storage/logica/aux.csv")
   for{
     line,error :=readerz.Read()
     if error==io.EOF{
@@ -279,38 +278,13 @@ func Updater(n_file string,estado string,intentos_u string){
     }
   }
   csvfilez.Close()
-  csvfilex ,_:= os.OpenFile("../storage/logica/aux.csv", os.O_WRONLY|os.O_CREATE, 0777)
+  csvfilex ,_:= os.OpenFile(nombrearch, os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
   log.Printf("updater")
   log.Printf("%+v",data)
   writer.WriteAll(data)
   csvfilex.Close()
-  Updater_csv("../storage/logica/aux.csv",nombrearch)
 }
-
-func Updater_csv(aux string, namefile string){
-  csvfile ,_:= os.Open(aux)
-  reader := csv.NewReader(bufio.NewReader(csvfile))
-  var data [][]string
-  for{
-    line,error :=reader.Read()
-    if error==io.EOF{
-      break
-    }else if error!=nil{
-        log.Printf("updater_csv")
-        log.Fatal(error)
-    }
-    data = append(data, []string{line[0],line[1],line[2],line[3],line[4],line[5]})
-  }
-  csvfile.Close()
-  csvfilex ,_:= os.OpenFile(namefile, os.O_WRONLY|os.O_CREATE, 0777)
-  writer:=csv.NewWriter(csvfilex)
-  log.Printf("updater_csv")
-  log.Printf("%+v",data)
-  _=writer.WriteAll(data)
-  csvfilex.Close()
-}
-
 func LFP_R(pakete *paquete){
   file,_:=os.Open("../storage/logica/retail.csv")
   reader := csv.NewReader(bufio.NewReader(file))
