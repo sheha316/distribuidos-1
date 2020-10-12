@@ -242,7 +242,6 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
 }
 
 func Updater(n_file string,estado string,intentos_u string){
-  log.Printf("Seguimiento: %s", n_file)
   csvfile ,_:= os.Open(n_file)
   reader := csv.NewReader(bufio.NewReader(csvfile))
   linez,_ :=reader.Read()
@@ -264,8 +263,10 @@ func Updater(n_file string,estado string,intentos_u string){
     if error==io.EOF{
       break
     }else if error!=nil{
-        log.Printf(nombrearch)
         log.Printf("updater")
+        log.Printf("%+v",data)
+        log.Printf("Seguimiento: %s", n_file)
+        log.Printf(nombrearch)
         log.Fatal(error)
         continue
     }
@@ -281,8 +282,6 @@ func Updater(n_file string,estado string,intentos_u string){
   os.Remove(nombrearch)
   csvfilex ,_:= os.OpenFile(nombrearch, os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
-  log.Printf("updater")
-  log.Printf("%+v",data)
   writer.WriteAll(data)
   csvfilex.Close()
 }

@@ -118,6 +118,23 @@ func Reparto(kamion *Camion,tiempo int){
   }
 }
 
+func registrar_paquete(id string,paquete paquete_info){
+  f, err := os.OpenFile("../storage/camion/"+id+".csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+  if err != nil {
+    log.Printf("registrar_paquete")
+    log.Fatal(err)
+  }
+  defer f.Close()
+  var data [][]string
+  data = append(data, []string{paquete.Id,paquete.Tipo,(paquete.Valor),paquete.Tienda,paquete.Destino,(paquete.Intentos),paquete.Fecha})
+  w := csv.NewWriter(f)
+  w.WriteAll(data)
+  if err := w.Error(); err != nil {
+    log.Printf("registrar_paquete")
+    log.Fatal(err)
+  }
+}
+
 func reporte(conn *grpc.ClientConn,kamion *Camion){
   c := comms.NewCommsClient(conn)
   var estadorm string
@@ -128,6 +145,7 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
         if(kamion.Paquete_inf1.Fecha=="0"){
           estadorm="No Recibido"
         }
+        registrar_paquete(kamion.Id,kamion.Paquete_inf1)
         _, _ = c.InformarEstado(context.Background(), &comms.Request_Estado{Id:kamion.Paquete_inf1.Id,
                                                                                     Intentos:int32(kamion.Paquete_inf1.Intentos),
                                                                                     Fecha:kamion.Paquete_inf1.Fecha,
@@ -136,6 +154,7 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
         if(kamion.Paquete_inf2.Fecha=="0"){
           estadorm="No Recibido"
         }
+        registrar_paquete(kamion.Id,kamion.Paquete_inf2)
         _, _ = c.InformarEstado(context.Background(), &comms.Request_Estado{Id:kamion.Paquete_inf2.Id,
                                                                                     Intentos:int32(kamion.Paquete_inf2.Intentos),
                                                                                     Fecha:kamion.Paquete_inf2.Fecha,
