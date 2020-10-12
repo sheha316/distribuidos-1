@@ -265,7 +265,7 @@ func Updater(n_file string,estado string,intentos_u string){
   csvfile.Close()
   csvfilex ,_:= os.OpenFile("../storage/logica/aux.csv", os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
-  error=writer.WriteAll(data)
+  writer.WriteAll(data)
   csvfilex.Close()
   Updater_csv("../storage/logica/aux.csv",nombrearch)
 }
