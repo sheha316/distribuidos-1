@@ -121,7 +121,6 @@ func Reparto(kamion *Camion,tiempo int){
 }
 
 func registrar_paquete(id string,paquete paquete_info){
-  log.Printf("../storage/camion/"+id+".csv")
   f, err := os.OpenFile("../storage/camion/"+id+".csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
   if err != nil {
     log.Printf("registrar_paquete")
