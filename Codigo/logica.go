@@ -246,9 +246,9 @@ func Updater(n_file string,estado string,intentos_u string){
   csvfile ,_:= os.Open(n_file)
   reader := csv.NewReader(bufio.NewReader(csvfile))
   linez,_ :=reader.Read()
-  csvfile.Close()
   change_id:=linez[1]
   change_tipo:=linez[2]
+  csvfile.Close()
   nombrearch:="../storage/logica/retail.csv"
   switch change_tipo{
   case "retail":
@@ -257,11 +257,11 @@ func Updater(n_file string,estado string,intentos_u string){
     nombrearch="../storage/logica/pymes.csv"
   }
   var data [][]string
-  csvfile ,_= os.Open(nombrearch)
-  reader = csv.NewReader(bufio.NewReader(csvfile))
+  csvfilez ,_:= os.Open(nombrearch)
+  readerz := csv.NewReader(bufio.NewReader(csvfilez))
   _=os.Remove("../storage/logica/aux.csv")
   for{
-    line,error :=reader.Read()
+    line,error :=readerz.Read()
     if error==io.EOF{
       break
     }else if error!=nil{
@@ -278,7 +278,7 @@ func Updater(n_file string,estado string,intentos_u string){
 
     }
   }
-  csvfile.Close()
+  csvfilez.Close()
   csvfilex ,_:= os.OpenFile("../storage/logica/aux.csv", os.O_WRONLY|os.O_CREATE, 0777)
   writer:=csv.NewWriter(csvfilex)
   log.Printf("updater")
