@@ -128,7 +128,7 @@ func registrar_paquete(id string,paquete paquete_info){
   }
   defer f.Close()
   var data [][]string
-  data = append(data, []string{paquete.Id,paquete.Tipo,(paquete.Valor),paquete.Tienda,paquete.Destino,(paquete.Intentos),paquete.Fecha})
+  data = append(data, []string{paquete.Id,paquete.Tipo,strconv.Itoa(paquete.Valor),paquete.Tienda,paquete.Destino,strconv.Itoa(paquete.Intentos),paquete.Fecha})
   w := csv.NewWriter(f)
   w.WriteAll(data)
   if err := w.Error(); err != nil {
