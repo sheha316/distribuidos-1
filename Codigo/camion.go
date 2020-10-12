@@ -8,6 +8,8 @@ import (
   "strconv"
   "math/rand"
   "fmt"
+  "encoding/csv"
+  "os"
 )
 type paquete_info struct{
   Id string
