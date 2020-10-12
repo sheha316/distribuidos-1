@@ -132,7 +132,7 @@ func registro_paquete_retail(request *comms.Request_CrearOrdenRetail,seguimento 
 
 func (s *Server) CrearOrdenPyme(ctx context.Context, request *comms.Request_CrearOrdenPyme) (*comms.Response_CrearOrden, error) {
   log.Printf("Receive message %+v", request)
-  for candado{}
+  for s.candado{}
   s.candado=true
   seguimento:=registro_logico_pymes("pyme",request)
   registro_paquete_pymes(request,seguimento)
@@ -142,7 +142,7 @@ func (s *Server) CrearOrdenPyme(ctx context.Context, request *comms.Request_Crea
 
 func (s *Server) CrearOrdenRetail(ctx context.Context, request *comms.Request_CrearOrdenRetail) (*comms.Response_CrearOrden, error) {
   log.Printf("Receive message %+v", request)
-  for candado{}
+  for s.candado{}
   s.candado=true
   seguimento:=registro_logico_retail("retail",request)
   registro_paquete_retail(request,seguimento)
@@ -152,7 +152,7 @@ func (s *Server) CrearOrdenRetail(ctx context.Context, request *comms.Request_Cr
 
 func (s *Server) Seguimiento(ctx context.Context, request *comms.Request_Seguimiento) (*comms.Response_Seguimiento, error) {
   log.Printf("Receive message %d", request.Seguimiento)
-  for candado{}
+  for s.candado{}
   s.candado=true
   for i:=0;i<6;i++{
     if(s.envios_s[i].Seguimiento==int(request.Seguimiento)){
@@ -197,7 +197,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *comms.Request_Seguimi
 
 func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_SolicitarPaquete) (*comms.Response_SolicitarPaquete, error) {
   log.Printf("Receive message %+v", request)
-  for candado{}
+  for s.candado{}
   s.candado=true
   x:=&paquete{Valor: -1,}
   switch request.Tipo {
@@ -368,7 +368,7 @@ func LFP_P(pakete *paquete,p string){
 
 func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Estado) (*comms.Response_Estado, error) {
   log.Printf("Receive message %+v", request)
-  for candado{}
+  for s.candado{}
   s.candado=true
   for i:=0;i<6;i++{
     if(s.envios_s[i].Id_paquete==request.Id){
@@ -382,7 +382,7 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
 }
 
 func (s *Server) LimpiarRegistros(ctx context.Context, request *comms.Dummy) (*comms.Dummy, error){
-  for candado{}
+  for s.candado{}
   s.candado=true
   seguimento:=0
   prefijo:="1"
