@@ -36,6 +36,7 @@ type envio struct{
 
 type Server struct{
   envios_s [6]envio
+  candado bool
 }
 
 func find_file(nombre string,tipo string)(string){
@@ -131,30 +132,39 @@ func registro_paquete_retail(request *comms.Request_CrearOrdenRetail,seguimento 
 
 func (s *Server) CrearOrdenPyme(ctx context.Context, request *comms.Request_CrearOrdenPyme) (*comms.Response_CrearOrden, error) {
   log.Printf("Receive message %+v", request)
+  for candado{}
+  s.candado=true
   seguimento:=registro_logico_pymes("pyme",request)
   registro_paquete_pymes(request,seguimento)
+  s.candado=false
   return &comms.Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
 func (s *Server) CrearOrdenRetail(ctx context.Context, request *comms.Request_CrearOrdenRetail) (*comms.Response_CrearOrden, error) {
   log.Printf("Receive message %+v", request)
+  for candado{}
+  s.candado=true
   seguimento:=registro_logico_retail("retail",request)
   registro_paquete_retail(request,seguimento)
+  s.candado=false
   return &comms.Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
 func (s *Server) Seguimiento(ctx context.Context, request *comms.Request_Seguimiento) (*comms.Response_Seguimiento, error) {
   log.Printf("Receive message %d", request.Seguimiento)
-
+  for candado{}
+  s.candado=true
   for i:=0;i<6;i++{
     if(s.envios_s[i].Seguimiento==int(request.Seguimiento)){
       log.Printf("desde memoria :)")
+      s.candado=false
       return &comms.Response_Seguimiento{Estado: s.envios_s[i].Estado}, nil
     }
   }
   aux:=strconv.Itoa(int(request.Seguimiento))
   csvFile,error:=os.Open("../storage/logica/"+aux+".csv")
   if error !=nil{
+    s.candado=false
     return &comms.Response_Seguimiento{Estado: "Paquete no existe"}, nil
   }
   reader := csv.NewReader(bufio.NewReader(csvFile))
@@ -176,15 +186,19 @@ func (s *Server) Seguimiento(ctx context.Context, request *comms.Request_Seguimi
     }
     if(line[0]==id){
       csvFile.Close()
+      s.candado=false
       return &comms.Response_Seguimiento{Estado: line[5]}, nil
     }
   }
   csvFile.Close()
+  s.candado=false
   return &comms.Response_Seguimiento{Estado: "Esto no deberia suceder :)"}, nil
 }
 
 func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_SolicitarPaquete) (*comms.Response_SolicitarPaquete, error) {
   log.Printf("Receive message %+v", request)
+  for candado{}
+  s.candado=true
   x:=&paquete{Valor: -1,}
   switch request.Tipo {
   case "retail":
@@ -199,6 +213,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
     }
   }
   if(x.Valor==-1){
+    s.candado=false
     return &comms.Response_SolicitarPaquete{Id:"0",Seguimiento:int32(0),Tipo:"pablo",Valor:int32(x.Valor),Tienda:"--",Destino:"--",}, nil
 
   }
@@ -222,6 +237,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
       break
     }
   }/**/
+  s.candado=false
   return &comms.Response_SolicitarPaquete{Id:x.Id,Seguimiento:int32(x.Seguimiento),Tipo:x.Tipo,Valor:int32(x.Valor),Tienda:line[5],Destino:line[6],}, nil
 }
 
@@ -352,6 +368,8 @@ func LFP_P(pakete *paquete,p string){
 
 func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Estado) (*comms.Response_Estado, error) {
   log.Printf("Receive message %+v", request)
+  for candado{}
+  s.candado=true
   for i:=0;i<6;i++{
     if(s.envios_s[i].Id_paquete==request.Id){
       Updater("../storage/logica/"+strconv.Itoa(s.envios_s[i].Seguimiento)+".csv",request.Estado,strconv.Itoa(int(request.Intentos)) )
@@ -359,10 +377,13 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
       break
     }
   }
+  s.candado=false
   return &comms.Response_Estado{Recibido: "holo"}, nil
 }
 
 func (s *Server) LimpiarRegistros(ctx context.Context, request *comms.Dummy) (*comms.Dummy, error){
+  for candado{}
+  s.candado=true
   seguimento:=0
   prefijo:="1"
   file,erros:=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
@@ -387,6 +408,7 @@ func (s *Server) LimpiarRegistros(ctx context.Context, request *comms.Dummy) (*c
   os.Remove("../storage/logica/retail.csv")
   os.Create("../storage/logica/retail.csv")
   os.Create("../storage/logica/pymes.csv")
+  s.candado=false
   return &comms.Dummy{Id:"1"}, nil
 
 }
@@ -400,6 +422,7 @@ func main() {
   for i:=0;i<6;i++{
     s.envios_s[i].Uso="0"
   }
+  s.candado=false
   grpcServer := grpc.NewServer()
   comms.RegisterCommsServer(grpcServer, &s)
   if err := grpcServer.Serve(lis); err != nil {
