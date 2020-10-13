@@ -46,7 +46,8 @@ func main() {
 	failOnError(err, "Failed to register a consumer")
 
 	forever := make(chan bool)
-
+	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	<-forever
 
 	for d := range msgs {
 		log.Printf("Received a message: %s", d.Body)
@@ -66,8 +67,7 @@ func main() {
 
 	}
 	Finances()
-	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
-	<-forever
+
 }
 
 	func Finances() {
