@@ -439,6 +439,7 @@ func main() {
     s.envios_s[i].Uso="0"
   }
   limpiar()
+  log.Printf("Escuchando")
   grpcServer := grpc.NewServer()
   comms.RegisterCommsServer(grpcServer, &s)
   if err := grpcServer.Serve(lis); err != nil {

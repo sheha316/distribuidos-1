@@ -1,6 +1,10 @@
 package main
 import (
+  "os"
   "log"
+  "encoding/csv"
+  "bufio"
+  "io"
   "github.com/sheha316/distribuidos-1/Codigo/comms"
   "golang.org/x/net/context"
   "google.golang.org/grpc"
@@ -19,10 +23,6 @@ func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
     if error==io.EOF{
       return -1
     }else if error!=nil{
-        log.Printf("updater")
-        log.Printf("%+v",data)
-        log.Printf("Seguimiento: %s", n_file)
-        log.Printf(nombrearch)
         log.Fatal(error)
         continue
     }
@@ -56,10 +56,6 @@ func read_and_request_retail(conn *grpc.ClientConn,id int)(int){
     if error==io.EOF{
       return -1
     }else if error!=nil{
-        log.Printf("updater")
-        log.Printf("%+v",data)
-        log.Printf("Seguimiento: %s", n_file)
-        log.Printf(nombrearch)
         log.Fatal(error)
         continue
     }
