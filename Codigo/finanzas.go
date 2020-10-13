@@ -5,6 +5,8 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"io"
+	"strconv"
 	"github.com/streadway/amqp"
 )
 
@@ -57,7 +59,7 @@ func main() {
     defer writer.Flush()
 
     for _, value := range d.Body {
-        err := writer.Write(str(value))
+        err := writer.Write(strconv.Itoa(value))
         checkError("Cannot write to file", err)
     }
 
