@@ -122,14 +122,14 @@ func main() {
         if(entregados<100){
           returnsis=read_and_request_retail(conn,entregados)
           if(returnsis!=-1){
-            codigos[entregados]
+            codigos[entregados]=returnsis
             entregados++
           }
         }
       }else{
         returnsis=read_and_request_pymes(conn,entregados)
         if(returnsis!=-1){
-          codigos[entregados]
+          codigos[entregados]=returnsis
           entregados++
         }
       }
