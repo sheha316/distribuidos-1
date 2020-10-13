@@ -57,7 +57,7 @@ func main() {
     defer writer.Flush()
 
     for _, value := range d.Body {
-        err := writer.Write(value)
+        err := writer.Write(str(value))
         checkError("Cannot write to file", err)
     }
 
