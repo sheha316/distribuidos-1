@@ -18,6 +18,7 @@ func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
   c := comms.NewCommsClient(conn)
   csvfilez ,_:= os.Open("../Pedidos/pymes.csv")
   readerz := csv.NewReader(bufio.NewReader(csvfilez))
+  var line
   for i:=0; true ;i++{
     line,error :=readerz.Read()
     if error==io.EOF{
@@ -27,21 +28,22 @@ func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
         continue
     }
     if i==id{
+      aux1,_:=strconv.Atoi(line[2])
+      aux2,_:=strconv.Atoi(line[5])
+      response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
+        Id:line[0],
+        Producto:line[1],
+        Valor:int32(aux1),
+        Tienda:line[3],
+        Destino:line[4],
+        Prioritario:int32(aux2)})
+      if err != nil {
+        log.Fatalf("Error when calling SayHello: %s", err)
+      }
       break
     }
   }
-  aux1,_:=strconv.Atoi(line[2])
-  aux2,_:=strconv.Atoi(line[5])
-  response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
-    Id:line[0],
-    Producto:line[1],
-    Valor:int32(aux1),
-    Tienda:line[3],
-    Destino:line[4],
-    Prioritario:int32(aux2)})
-  if err != nil {
-    log.Fatalf("Error when calling SayHello: %s", err)
-  }
+
   csvfilez.Close()
   log.Printf("Numero de seguimento: %d", int(response.Seguimiento))
   return int(response.Seguimiento)
@@ -60,19 +62,20 @@ func read_and_request_retail(conn *grpc.ClientConn,id int)(int){
         continue
     }
     if i==id{
+      aux1,_:=strconv.Atoi(line[2])
+      response, err := c.CrearOrdenRetail(context.Background(),&comms.Request_CrearOrdenRetail{
+        Id:line[0],
+        Producto:line[1],
+        Valor:int32(aux1),
+        Tienda:line[3],
+        Destino:line[4]})
+      if err != nil {
+        log.Fatalf("Error when calling SayHello: %s", err)
+      }
       break
     }
   }
-  aux1,_:=strconv.Atoi(line[2])
-  response, err := c.CrearOrdenRetail(context.Background(),&comms.Request_CrearOrdenRetail{
-    Id:line[0],
-    Producto:line[1],
-    Valor:int32(aux1),
-    Tienda:line[3],
-    Destino:line[4]})
-  if err != nil {
-    log.Fatalf("Error when calling SayHello: %s", err)
-  }
+  csvfilez.Close()
   log.Printf("Numero de seguimento: %d", int(response.Seguimiento))
   return int(response.Seguimiento)
 }
