@@ -374,7 +374,7 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
 	)
 	failOnError(err, "Failed to declare a queue")
 
-	body := "{id: "+request.Id+",tipo:"+tipo_fin+",valor:"+strconv.Itoa(valor_fin)+",intentos:"+strconv.Itoa(int(request.Intentos))+",fecha:"+request.Fecha+"}"
+	body := "{id: request.Id}"//,tipo:"+tipo_fin+",valor:"+strconv.Itoa(valor_fin)+",intentos:"+strconv.Itoa(int(request.Intentos))+",fecha:"+request.Fecha+"}"
 	err = ch.Publish(
 		"",     // exchange
 		q.Name, // routing key
