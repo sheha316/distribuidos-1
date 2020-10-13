@@ -391,10 +391,12 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
   return &comms.Response_Estado{Recibido: "holo"}, nil
 }
 
-func LimpiarRegistros(){
+func(s *Server) LimpiarRegistros(ctx context.Context, request *comms.Dummy) (*comms.Dummy, error){
+  return &comms.Dummy{Id: "1"}, nil
+}
+
+func limpiar(){
   log.Printf("limpiando :)")
-  for s.candado{}
-  s.candado=true
   seguimento:=0
   prefijo:="1"
   file,erros:=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
@@ -419,7 +421,6 @@ func LimpiarRegistros(){
   os.Remove("../storage/logica/retail.csv")
   os.Create("../storage/logica/retail.csv")
   os.Create("../storage/logica/pymes.csv")
-  s.candado=false
 }
 
 func failOnError(err error, msg string) {
@@ -429,7 +430,7 @@ func failOnError(err error, msg string) {
 }
 
 func main() {
-  lis, err := net.Listen("tcp", ":9001")
+  lis, err := net.Listen("tcp", ":9000")
   if err != nil {
     log.Fatalf("failed to listen: %v", err)
   }
@@ -437,7 +438,8 @@ func main() {
   for i:=0;i<6;i++{
     s.envios_s[i].Uso="0"
   }
-  LimpiarRegistros()
+  limpiar()
+  log.Printf("Escuchando")
   grpcServer := grpc.NewServer()
   comms.RegisterCommsServer(grpcServer, &s)
   if err := grpcServer.Serve(lis); err != nil {
