@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	"csv"
+	"encoding/csv"
 	"fmt"
 	"os"
 	"github.com/streadway/amqp"
