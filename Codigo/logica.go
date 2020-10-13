@@ -391,7 +391,11 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
   return &comms.Response_Estado{Recibido: "holo"}, nil
 }
 
-func LimpiarRegistros(){
+func(s *Server) LimpiarRegistros(ctx context.Context, request *comms.Dummy) (*comms.Dummy, error){
+  return &comms.Dummy{Id: "1"}, nil
+}
+
+func limpiar(){
   log.Printf("limpiando :)")
   seguimento:=0
   prefijo:="1"
@@ -434,7 +438,7 @@ func main() {
   for i:=0;i<6;i++{
     s.envios_s[i].Uso="0"
   }
-  LimpiarRegistros()
+  limpiar()
   grpcServer := grpc.NewServer()
   comms.RegisterCommsServer(grpcServer, &s)
   if err := grpcServer.Serve(lis); err != nil {
