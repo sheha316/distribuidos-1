@@ -44,24 +44,24 @@ func main() {
 
 	forever := make(chan bool)
 
-	go func() {
-		for d := range msgs {
-			log.Printf("Received a message: %s", d.Body)
-			file, err := os.Create("result.csv")
-	    checkError("Cannot create file", err)
-	    defer file.Close()
 
-	    writer := csv.NewWriter(file)
-	    defer writer.Flush()
+	for d := range msgs {
+		log.Printf("Received a message: %s", d.Body)
+		file, err := os.Create("result.csv")
+    checkError("Cannot create file", err)
+    defer file.Close()
 
-	    for _, value := range d.Body {
-	        err := writer.Write(value)
-	        checkError("Cannot write to file", err)
-	    }
+    writer := csv.NewWriter(file)
+    defer writer.Flush()
 
-		}
-		Finances()
-	}()
+    for _, value := range d.Body {
+        err := writer.Write(value)
+        checkError("Cannot write to file", err)
+    }
+
+	}
+	Finances()
+	}
 
 	func Finances() {
 		// Open the file
