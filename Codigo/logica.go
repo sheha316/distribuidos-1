@@ -393,8 +393,6 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
 
 func LimpiarRegistros(){
   log.Printf("limpiando :)")
-  for s.candado{}
-  s.candado=true
   seguimento:=0
   prefijo:="1"
   file,erros:=os.Open("../storage/logica/"+prefijo+strconv.Itoa(seguimento)+".csv")
@@ -419,7 +417,6 @@ func LimpiarRegistros(){
   os.Remove("../storage/logica/retail.csv")
   os.Create("../storage/logica/retail.csv")
   os.Create("../storage/logica/pymes.csv")
-  s.candado=false
 }
 
 func failOnError(err error, msg string) {
