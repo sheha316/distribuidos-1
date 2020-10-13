@@ -13,7 +13,7 @@ func failOnError(err error, msg string) {
 }
 
 func main() {
-	conn, err := amqp.Dial("amqp://test:test@localhost:5672/")
+	conn, err := amqp.Dial("amqp://test:test@dist96:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
@@ -22,7 +22,7 @@ func main() {
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		"hello", // name
+		"finances", // name
 		false,   // durable
 		false,   // delete when unused
 		false,   // exclusive
@@ -31,7 +31,7 @@ func main() {
 	)
 	failOnError(err, "Failed to declare a queue")
 
-	body := "Hello World!"
+	body := "{nombre: Hello World!}"
 	err = ch.Publish(
 		"",     // exchange
 		q.Name, // routing key
