@@ -84,7 +84,7 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
-			fmt.Printf("Question: %s Answer %s\n", record[0], record[1])
+			fmt.Printf("cosa: %s \n", record)
 		}
 	}
 
