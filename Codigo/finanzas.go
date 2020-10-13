@@ -17,13 +17,14 @@ func failOnError(err error, msg string) {
 
 func main() {
 	conn, err := amqp.Dial("amqp://test:test@localhost:5672/")
+	log.Printf("estoy aqui1")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
 	ch, err := conn.Channel()
 	failOnError(err, "Failed to open a channel")
 	defer ch.Close()
-
+	log.Printf("estoy aqui2")
 	q, err := ch.QueueDeclare(
 		"finances", // name
 		false,   // durable
@@ -33,7 +34,7 @@ func main() {
 		nil,     // arguments
 	)
 	failOnError(err, "Failed to declare a queue")
-
+	log.Printf("estoy aqui3")
 	msgs, err := ch.Consume(
 		q.Name, // queue
 		"",     // consumer
@@ -44,10 +45,11 @@ func main() {
 		nil,    // args
 	)
 	failOnError(err, "Failed to register a consumer")
-
+	log.Printf("estoy aqui4")
 	forever := make(chan bool)
-
+	log.Printf("estoy aqui5")
 	go func() {
+			log.Printf("estoy aqui6")
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
 			file, err := os.Create("result.csv")
