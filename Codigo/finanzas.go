@@ -58,8 +58,8 @@ func main() {
     writer := csv.NewWriter(file)
     defer writer.Flush()
 
-    for _, value := range d.Body {
-				log.Printf(value)
+    for cosa, value := range d.Body {
+				log.Printf(cosa)
         err := writer.Write(strconv.Itoa(value))
         checkError("Cannot write to file", err)
     }
