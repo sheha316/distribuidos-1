@@ -429,7 +429,6 @@ func failOnError(err error, msg string) {
 }
 
 func main() {
-  LimpiarRegistros()
   lis, err := net.Listen("tcp", ":9001")
   if err != nil {
     log.Fatalf("failed to listen: %v", err)
@@ -438,7 +437,7 @@ func main() {
   for i:=0;i<6;i++{
     s.envios_s[i].Uso="0"
   }
-  s.candado=false
+  LimpiarRegistros()
   grpcServer := grpc.NewServer()
   comms.RegisterCommsServer(grpcServer, &s)
   if err := grpcServer.Serve(lis); err != nil {
