@@ -391,7 +391,8 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
   return &comms.Response_Estado{Recibido: "holo"}, nil
 }
 
-func (s *Server) LimpiarRegistros(ctx context.Context, request *comms.Dummy) (*comms.Dummy, error){
+func LimpiarRegistros(){
+  log.Printf("limpiando :)")
   for s.candado{}
   s.candado=true
   seguimento:=0
@@ -419,8 +420,6 @@ func (s *Server) LimpiarRegistros(ctx context.Context, request *comms.Dummy) (*c
   os.Create("../storage/logica/retail.csv")
   os.Create("../storage/logica/pymes.csv")
   s.candado=false
-  return &comms.Dummy{Id:"1"}, nil
-
 }
 
 func failOnError(err error, msg string) {
@@ -430,6 +429,7 @@ func failOnError(err error, msg string) {
 }
 
 func main() {
+  LimpiarRegistros()
   lis, err := net.Listen("tcp", ":9001")
   if err != nil {
     log.Fatalf("failed to listen: %v", err)
