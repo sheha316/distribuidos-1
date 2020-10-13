@@ -93,7 +93,7 @@ func send_seguimento(conn *grpc.ClientConn,codigo int){
 
 func main() {
   var conn *grpc.ClientConn
-  conn, err := grpc.Dial("dist93:9001", grpc.WithInsecure())
+  conn, err := grpc.Dial("dist93:9000", grpc.WithInsecure())
   if err != nil {
     log.Fatalf("did not connect: %s", err)
   }
