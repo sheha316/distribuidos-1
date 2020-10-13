@@ -13,7 +13,7 @@ func failOnError(err error, msg string) {
 }
 
 func main() {
-	conn, err := amqp.Dial("amqp://test:test@localhost:5672/")
+	conn, err := amqp.Dial("amqp://test:test@dist93:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
@@ -22,7 +22,7 @@ func main() {
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		"hello", // name
+		"finances", // name
 		false,   // durable
 		false,   // delete when unused
 		false,   // exclusive
@@ -47,8 +47,52 @@ func main() {
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
+			file, err := os.Create("result.csv")
+	    checkError("Cannot create file", err)
+	    defer file.Close()
+
+	    writer := csv.NewWriter(file)
+	    defer writer.Flush()
+
+	    for _, value := range d.Body {
+	        err := writer.Write(value)
+	        checkError("Cannot write to file", err)
+	    }
+
 		}
+		Finances()
 	}()
+
+	func Finances() {
+		// Open the file
+		csvfile, err := os.Open("result.csv")
+		if err != nil {
+			log.Fatalln("Couldn't open the csv file", err)
+		}
+
+		// Parse the file
+		r := csv.NewReader(csvfile)
+		//r := csv.NewReader(bufio.NewReader(csvfile))
+
+		// Iterate through the records
+		for {
+			// Read each record from csv
+			record, err := r.Read()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Printf("Question: %s Answer %s\n", record[0], record[1])
+		}
+	}
+
+	func checkError(message string, err error) {
+	    if err != nil {
+	        log.Fatal(message, err)
+	    }
+	}
 
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
