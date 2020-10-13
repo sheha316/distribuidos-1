@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"io"
-	"strconv"
 	"github.com/streadway/amqp"
 )
 
