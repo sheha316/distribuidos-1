@@ -18,6 +18,7 @@ func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
   c := comms.NewCommsClient(conn)
   csvfilez ,_:= os.Open("../Pedidos/pymes.csv")
   readerz := csv.NewReader(bufio.NewReader(csvfilez))
+  var segui int
   for i:=0; true ;i++{
     line,error :=readerz.Read()
     if error==io.EOF{
@@ -39,19 +40,21 @@ func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
       if err != nil {
         log.Fatalf("Error when calling SayHello: %s", err)
       }
+      segui=int(response.Seguimiento)
       break
     }
   }
 
   csvfilez.Close()
-  log.Printf("Numero de seguimento: %d", int(response.Seguimiento))
-  return int(response.Seguimiento)
+  log.Printf("Numero de seguimento: %d", segui)
+  return segui
 }
 
 func read_and_request_retail(conn *grpc.ClientConn,id int)(int){
   c := comms.NewCommsClient(conn)
   csvfilez ,_:= os.Open("../Pedidos/retail.csv")
   readerz := csv.NewReader(bufio.NewReader(csvfilez))
+  var segui int
   for i:=0; true ;i++{
     line,error :=readerz.Read()
     if error==io.EOF{
@@ -71,12 +74,13 @@ func read_and_request_retail(conn *grpc.ClientConn,id int)(int){
       if err != nil {
         log.Fatalf("Error when calling SayHello: %s", err)
       }
+      segui=int(response.Seguimiento)
       break
     }
   }
   csvfilez.Close()
-  log.Printf("Numero de seguimento: %d", int(response.Seguimiento))
-  return int(response.Seguimiento)
+  log.Printf("Numero de seguimento: %d",segui)
+  return segui
 }
 
 func send_seguimento(conn *grpc.ClientConn,codigo int){
