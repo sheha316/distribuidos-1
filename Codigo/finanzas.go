@@ -46,29 +46,31 @@ func main() {
 	failOnError(err, "Failed to register a consumer")
 
 	forever := make(chan bool)
+
+	go func() {
+		for d := range msgs {
+			log.Printf("Received a message: %s", d.Body)
+			file, err := os.Create("result.csv")
+	    checkError("Cannot create file", err)
+	    defer file.Close()
+
+	    writer := csv.NewWriter(file)
+	    defer writer.Flush()
+
+			var data = [][]string{{"Line1", "Hello Readers of"}, {"Line2", "golangcode.com"}}
+
+	    for _, value := range data {
+	        err := writer.Write(value)
+	        checkError("Cannot write to file", err)
+	    }
+			Finances()
+
+		}
+
+}()
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
 
-	for d := range msgs {
-		log.Printf("Received a message: %s", d.Body)
-		file, err := os.Create("result.csv")
-    checkError("Cannot create file", err)
-    defer file.Close()
-
-    writer := csv.NewWriter(file)
-    defer writer.Flush()
-
-		var data = [][]string{{"Line1", "Hello Readers of"}, {"Line2", "golangcode.com"}}
-
-    for _, value := range data {
-        err := writer.Write(value)
-        checkError("Cannot write to file", err)
-    }
-
-	}
-	Finances()
-
-}
 
 	func Finances() {
 		// Open the file
