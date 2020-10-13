@@ -63,6 +63,7 @@ func main() {
 	Finances()
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
+}
 
 	func Finances() {
 		// Open the file
@@ -94,6 +95,3 @@ func main() {
 	        log.Fatal(message, err)
 	    }
 	}
-
-
-}
