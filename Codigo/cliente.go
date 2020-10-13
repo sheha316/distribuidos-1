@@ -104,7 +104,7 @@ func main() {
   var entregados int
   var opcion int
   var timex int
-  var tipo int
+  var tipo string
   log.Printf("Bienvenido! Ingrese el numero de su tipo")
   log.Printf("1-Retail")
   log.Printf("2-Pyme")
