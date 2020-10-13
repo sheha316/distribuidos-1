@@ -18,7 +18,6 @@ func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
   c := comms.NewCommsClient(conn)
   csvfilez ,_:= os.Open("../Pedidos/pymes.csv")
   readerz := csv.NewReader(bufio.NewReader(csvfilez))
-  var line
   for i:=0; true ;i++{
     line,error :=readerz.Read()
     if error==io.EOF{
