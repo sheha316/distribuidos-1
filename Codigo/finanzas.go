@@ -58,8 +58,10 @@ func main() {
     writer := csv.NewWriter(file)
     defer writer.Flush()
 
-    for cosa, value := range d.Body {
-        err := writer.Write(cosa)
+		var data = [][]string{{"Line1", "Hello Readers of"}, {"Line2", "golangcode.com"}}
+
+    for _, value := range data {
+        err := writer.Write(value)
         checkError("Cannot write to file", err)
     }
 
