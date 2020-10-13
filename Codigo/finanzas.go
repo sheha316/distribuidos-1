@@ -59,7 +59,7 @@ func main() {
     defer writer.Flush()
 
     for cosa, value := range d.Body {
-        err := writer.Write(strconv.Itoa(cosa))
+        err := writer.Write(cosa)
         checkError("Cannot write to file", err)
     }
 
