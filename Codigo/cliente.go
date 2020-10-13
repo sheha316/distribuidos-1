@@ -101,17 +101,19 @@ func main() {
     opcion=rand.Intn(3)
     switch opcion {
     case 0:
-      if((entregados<100) &&(entregados>0)){
+      if(entregados<100){
         codigos[entregados]=read_and_request_pymes(conn,entregados)
         entregados++
       }
     case 1:
-      if(entregados<100&&(entregados>0)){
+      if(entregados<100){
         codigos[entregados]=read_and_request_retail(conn,entregados)
         entregados++
       }
     case 2:
-      send_seguimento(conn,codigos[rand.Intn(entregados)])
+      if(entregados>0){
+        send_seguimento(conn,codigos[rand.Intn(entregados)])
+      }
     }
   }
 }
