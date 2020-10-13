@@ -12,62 +12,73 @@ import (
 
 func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
   c := comms.NewCommsClient(conn)
-  var tiendas [3]string
-  tiendas[0]="re-play"
-  tiendas[1]="hamazon"
-  tiendas[2]="batalla.net"
-  var destino [3]string
-  destino[0]="mi casa"
-  destino[1]="tu casa"
-  destino[2]="nuestra casa"
-  var producto [3]string
-  producto[0]="dulce"
-  producto[1]="pelicula"
-  producto[2]="gorro"
+  csvfilez ,_:= os.Open("../Pedidos/pymes.csv")
+  readerz := csv.NewReader(bufio.NewReader(csvfilez))
+  for i:=0; true ;i++{
+    line,error :=readerz.Read()
+    if error==io.EOF{
+      return -1
+    }else if error!=nil{
+        log.Printf("updater")
+        log.Printf("%+v",data)
+        log.Printf("Seguimiento: %s", n_file)
+        log.Printf(nombrearch)
+        log.Fatal(error)
+        continue
+    }
+    if i==id{
+      break
+    }
+  }
+  aux1,_:=strconv.Atoi(line[2])
+  aux2,_:=strconv.Atoi(line[5])
   response, err := c.CrearOrdenPyme(context.Background(),&comms.Request_CrearOrdenPyme{
-    Id:strconv.Itoa(id),
-    Producto:producto[rand.Intn(3)],
-    Valor:int32(rand.Intn(30)),
-    Tienda:tiendas[rand.Intn(3)],
-    Destino:destino[rand.Intn(3)],
-    Prioritario:int32(rand.Intn(2))})
+    Id:line[0],
+    Producto:line[1],
+    Valor:int32(aux1),
+    Tienda:line[3],
+    Destino:line[4],
+    Prioritario:int32(aux2)})
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
   }
+  csvfilez.Close()
   log.Printf("Numero de seguimento: %d", int(response.Seguimiento))
   return int(response.Seguimiento)
 }
 
 func read_and_request_retail(conn *grpc.ClientConn,id int)(int){
   c := comms.NewCommsClient(conn)
-  var tiendas [3]string
-  tiendas[0]="re-play"
-  tiendas[1]="hamazon"
-  tiendas[2]="batalla.net"
-  var destino [3]string
-  destino[0]="mi casa"
-  destino[1]="tu casa"
-  destino[2]="nuestra casa"
-  var producto [3]string
-  producto[0]="dulce"
-  producto[1]="pelicula"
-  producto[2]="gorro"
+  csvfilez ,_:= os.Open("../Pedidos/retail.csv")
+  readerz := csv.NewReader(bufio.NewReader(csvfilez))
+  for i:=0; true ;i++{
+    line,error :=readerz.Read()
+    if error==io.EOF{
+      return -1
+    }else if error!=nil{
+        log.Printf("updater")
+        log.Printf("%+v",data)
+        log.Printf("Seguimiento: %s", n_file)
+        log.Printf(nombrearch)
+        log.Fatal(error)
+        continue
+    }
+    if i==id{
+      break
+    }
+  }
+  aux1,_:=strconv.Atoi(line[2])
   response, err := c.CrearOrdenRetail(context.Background(),&comms.Request_CrearOrdenRetail{
-    Id:strconv.Itoa(id),
-    Producto:producto[rand.Intn(3)],
-    Valor:int32(rand.Intn(30)),
-    Tienda:tiendas[rand.Intn(3)],
-    Destino:destino[rand.Intn(3)],})
+    Id:line[0],
+    Producto:line[1],
+    Valor:int32(aux1),
+    Tienda:line[3],
+    Destino:line[4]})
   if err != nil {
     log.Fatalf("Error when calling SayHello: %s", err)
   }
   log.Printf("Numero de seguimento: %d", int(response.Seguimiento))
   return int(response.Seguimiento)
-}
-
-func limpiar(conn *grpc.ClientConn){
-  c := comms.NewCommsClient(conn)
-  c.LimpiarRegistros(context.Background(),&comms.Dummy{})
 }
 
 func send_seguimento(conn *grpc.ClientConn,codigo int){
@@ -91,26 +102,37 @@ func main() {
   var entregados int
   var opcion int
   var timex int
-  limpiar(conn)
-
+  var tipo int
+  log.Printf("Bienvenido! Ingrese el numero de su tipo")
+  log.Printf("1-Retail")
+  log.Printf("2-Pyme")
+  fmt.Scanln(&tipo)
   entregados=0
-  log.Printf("Tiempo entre inputs del cliente:")
+  log.Printf("Ingrese el tiempo entre inputs del cliente:")
   fmt.Scanln(&timex)
+  var returnsis int
   for{
     time.Sleep(time.Duration(timex) * time.Second)
-    opcion=rand.Intn(3)
+    opcion=rand.Intn(2)
     switch opcion {
     case 0:
-      if(entregados<100){
-        codigos[entregados]=read_and_request_pymes(conn,entregados)
-        entregados++
+      if(tipo=="1"){
+        if(entregados<100){
+          returnsis=read_and_request_retail(conn,entregados)
+          if(returnsis!=-1){
+            codigos[entregados]
+            entregados++
+          }
+        }
+      }else{
+        returnsis=read_and_request_pymes(conn,entregados)
+        if(returnsis!=-1){
+          codigos[entregados]
+          entregados++
+        }
       }
+
     case 1:
-      if(entregados<100){
-        codigos[entregados]=read_and_request_retail(conn,entregados)
-        entregados++
-      }
-    case 2:
       if(entregados>0){
         send_seguimento(conn,codigos[rand.Intn(entregados)])
       }
