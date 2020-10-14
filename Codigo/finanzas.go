@@ -28,6 +28,7 @@ func main() {
 	var balance float32
 	balance=0
 	os.Remove("../storage/finanzas/result.csv")
+	os.Create("../storage/finanzas/result.csv")
 	conn, err := amqp.Dial("amqp://test:test@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
