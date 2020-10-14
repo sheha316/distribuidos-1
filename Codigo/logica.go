@@ -113,6 +113,7 @@ func registro_paquete_pymes(request *comms.Request_CrearOrdenPyme,seguimento int
     log.Printf("registro_paquete_pymes")
     log.Fatal(err)
   }
+  f.Close()
 }
 
 func registro_paquete_retail(request *comms.Request_CrearOrdenRetail,seguimento int){
