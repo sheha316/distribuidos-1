@@ -10,11 +10,11 @@ import (
 )
 
 type finanzas struct{
-  id string
-  tipo string
-  valor string
-  intentos string
-  fecha string
+  Id string
+  Tipo string
+  Valor string
+  Intentos string
+  Fecha string
 }
 
 func failOnError(err error, msg string) {
@@ -74,7 +74,7 @@ func main() {
 		valor:=body.Valor
 		intentos:=body.Intentos
 		fech:=body.Fecha
-		
+
 		perdida,_:=strconv.Atoi(intentos)
 		ganancia:=0
 		if(fech!="0"){

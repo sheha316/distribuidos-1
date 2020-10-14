@@ -41,11 +41,11 @@ type Server struct{
   candado bool
 }
 type finanzas struct{
-  id string
-  tipo string
-  valor string
-  intentos string
-  fecha string
+  Id string
+  Tipo string
+  Valor string
+  Intentos string
+  Fecha string
 }
 
 func find_file(nombre string,tipo string)(string){
