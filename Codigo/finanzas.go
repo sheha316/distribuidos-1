@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"github.com/streadway/amqp"
 	"encoding/json"
+	"fmt"
 )
 
 type finanzas struct{
