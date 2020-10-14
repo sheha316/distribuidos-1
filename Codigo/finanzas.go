@@ -85,7 +85,8 @@ func main() {
 			if(tipo=="retail"){
 				ganancia,_=strconv.Atoi(valor)
 			}else if(tipo=="prioritario"){
-				ganancia,_=strconv.Atoi(valor)*0.3
+				ganancia,_=strconv.Atoi(valor)
+				ganancia*=0.3
 			}
 		}
 		perdida*=10
