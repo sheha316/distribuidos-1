@@ -3,9 +3,7 @@ package main
 import (
 	"log"
 	"encoding/csv"
-	"fmt"
 	"os"
-	"io"
 	"github.com/streadway/amqp"
 )
 
@@ -54,7 +52,7 @@ func main() {
 	<-forever
 
 }
-	func Finances(body string) {
+	func Finances(body []byte]) {
 		f, err := os.OpenFile("../storage/finanzas/result.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 		if err != nil {
 			log.Fatalln("Couldn't open the csv file", err)
