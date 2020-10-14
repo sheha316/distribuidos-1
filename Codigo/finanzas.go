@@ -79,13 +79,13 @@ func main() {
 		ganancia:=0
 		if(fech!="0"){
 			perdida-=1
-			ganancia=strconv.Atoi(valor)
+			ganancia,_=strconv.Atoi(valor)
 
 		}else{
 			if(tipo=="retail"){
-				ganancia=strconv.Atoi(valor)
+				ganancia,_=strconv.Atoi(valor)
 			}else if(tipo=="prioritario"){
-				ganancia=strconv.Atoi(valor)*0.3
+				ganancia,_=strconv.Atoi(valor)*0.3
 			}
 		}
 		perdida*=10
