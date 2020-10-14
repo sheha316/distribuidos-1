@@ -102,7 +102,7 @@ func main() {
 		}
 		defer f.Close()
 		var data [][]string
-	  data = append(data, []string{id+","+tipo+","+valor+","+intentos+","+fech+","+strconv.FormatFloat(ganancia, 'E', -1, 64)})
+	  data = append(data, []string{id+","+tipo+","+valor+","+intentos+","+fech+","+strconv.FormatFloat(ganancia, 'E', -1, 32)})
 	  w := csv.NewWriter(f)
 		w.WriteAll(data)
 		f.Close()
