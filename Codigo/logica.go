@@ -389,7 +389,7 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
   mensaje.Valor=strconv.Itoa(valor_fin)
   mensaje.Intentos=strconv.Itoa(int(request.Intentos))
   mensaje.Fecha=request.Fecha
-  body:=json.Marshal(mensaje)
+  body,_:=json.Marshal(mensaje)
 	// body := "{id: request.Id,tipo:tipo_fin,valor:strconv.Itoa(valor_fin),intentos:strconv.Itoa(int(request.Intentos)),fecha:request.Fecha}"
 	err = ch.Publish(
 		"",     // exchange
