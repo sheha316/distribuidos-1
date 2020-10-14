@@ -95,14 +95,14 @@ func main() {
 			}
 		}
 		perdida*=10
-		ganancia-=perdida
+		ganancia-=float32(perdida)
 		f, err := os.OpenFile("../storage/finanzas/result.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 		if err != nil {
 			log.Fatalln("Couldn't open the csv file", err)
 		}
 		defer f.Close()
 		var data [][]string
-	  data = append(data, []string{id+","+tipo+","+valor+","+intentos+","+fech+","+strconv.Itoa(ganancia)})
+	  data = append(data, []string{id+","+tipo+","+valor+","+intentos+","+fech+","+strconv.ParseFloat(ganancia,32)})
 	  w := csv.NewWriter(f)
 		w.WriteAll(data)
 		f.Close()
