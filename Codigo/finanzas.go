@@ -49,40 +49,37 @@ func main() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
 	    checkError("Cannot create file", err)
-			balance+=Finances(d.Body.id,d.Body.tipo,d.Body.valor,d.Body.intentos,d.Body.fecha)
+			perdida,_:=strconv.Atoi(intentos)
+			ganancia:=0
+			if(fech!="0"){
+				perdida-=1
+				ganancia=valor
+
+			}else{
+				if(tipo=="retail"){
+					ganancia=valor
+				}else if(tipo=="prioritario"){
+					ganancia=valor*0.3
+				}
+			}
+			perdida*=10
+			f, err := os.OpenFile("../storage/finanzas/result.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+			if err != nil {
+				log.Fatalln("Couldn't open the csv file", err)
+			}
+			defer f.Close()
+			var data [][]string
+		  data = append(data, []string{id+","+tipo+","+valor+","+intentos+","+fech+","+strconv.Itoa(ganancia-perdida)})
+		  w := csv.NewWriter(f)
+			w.WriteAll(data)
+			f.Close()
+			balance=balance+ganancia-perdida
 		}
 	}()
 	log.Printf("Balance Total: $%d dignipesos",balance)
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
 
-}
-	func Finances(id string,tipo string,valor string,intentos string,fech string)(int) {
-		perdida,_:=strconv.Atoi(intentos)
-		ganancia:=0
-		if(fech!="0"){
-			perdida-=1
-			ganancia=valor
-
-		}else{
-			if(tipo=="retail"){
-				ganancia=valor
-			}else if(tipo=="prioritario"){
-				ganancia=valor*0.3
-			}
-		}
-		perdida*=10
-		f, err := os.OpenFile("../storage/finanzas/result.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-		if err != nil {
-			log.Fatalln("Couldn't open the csv file", err)
-		}
-		defer f.Close()
-		var data [][]string
-	  data = append(data, []string{id+","+tipo+","+valor+","+intentos+","+fech+","+strconv.Itoa(ganancia-perdida)})
-	  w := csv.NewWriter(f)
-		w.WriteAll(data)
-		f.Close()
-		return ganancia-perdida
 }
 
 	func checkError(message string, err error) {
