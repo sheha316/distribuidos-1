@@ -81,31 +81,32 @@ func main() {
 		var aux int
 		perdida,_=strconv.Atoi(intentos)
 		aux,_=strconv.Atoi(valor)
-		ganancia:=0
+		ganancia=0
 		if(fech!="0"){
 			perdida-=1
-			ganancia,_=float32(aux)
+			ganancia=float32(aux)
 
 		}else{
 			if(tipo=="retail"){
-				ganancia,_=float32(aux)
+				ganancia=float32(aux)
 			}else if(tipo=="prioritario"){
-				ganancia,_=float32(aux)
+				ganancia=float32(aux)
 				ganancia*=float32(0.3)
 			}
 		}
 		perdida*=10
+		ganancia-=perdida
 		f, err := os.OpenFile("../storage/finanzas/result.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 		if err != nil {
 			log.Fatalln("Couldn't open the csv file", err)
 		}
 		defer f.Close()
 		var data [][]string
-	  data = append(data, []string{id+","+tipo+","+valor+","+intentos+","+fech+","+strconv.Itoa(ganancia-perdida)})
+	  data = append(data, []string{id+","+tipo+","+valor+","+intentos+","+fech+","+strconv.Itoa(ganancia)})
 	  w := csv.NewWriter(f)
 		w.WriteAll(data)
 		f.Close()
-		return ganancia-perdida
+		return ganancia
 }
 
 	func checkError(message string, err error) {
