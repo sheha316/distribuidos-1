@@ -46,12 +46,9 @@ func main() {
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
-			file, err := os.Create("result.csv")
 	    checkError("Cannot create file", err)
 			Finances(d.Body)
 		}
-	}
-
 	}()
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
