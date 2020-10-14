@@ -2,21 +2,21 @@ Natalia        Herrera  Lora   201673501-1
 Andrés Eduardo Shehadeh Gullón 201673560-7
 
 -----------Como ejecutar-----------
-En la carpeta del Makefile (por defecto ./repo), escribir en consola
+Entrar a la carpeta repo, donde se encuentra el make y escribir en consola
 
-"$Make [nombre]"
+$make [nombre]
 
 donde [nombre] corresponde al sistema que desea correr:
   -logistica
   -cliente
-  -camión
+  -camion
   -finanzas
   --------------------------------------------
 
 
   -----------Cosas a considerar-----------
-1.- Para mantener las ip's utilizadas en los códigos, se recomienda ejecutar los sistemas
-    en las maquinas asignadas:
+1.- Para mantener las IP's utilizadas en los códigos, se recomienda ejecutar los sistemas
+    en las máquinas asignadas:
         logística --->maquina 93
         cliente   --->maquina 94
         camión    --->maquina 95
@@ -29,7 +29,7 @@ donde [nombre] corresponde al sistema que desea correr:
 4.-Para evitar una sobrecarga de información y que se repitan los Id de los pedidos, hicimos que al inicio de la ejecución del servidor se borren los Pedidos
    registrados
 
-5.- al igual que el punto anterior, limpiamos el registro de finanzas y camiones, todo esto con la finalidad de que sea cómodo volver a ejecutar los sistemas
+5.- Al igual que el punto anterior, limpiamos el registro de finanzas y camiones, todo esto con la finalidad de que sea cómodo volver a ejecutar los sistemas
 
 6.- Favor de no hacer más de 1 pedido con el mismo Id
 
