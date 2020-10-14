@@ -24,7 +24,7 @@ func failOnError(err error, msg string) {
 }
 
 func main() {
-	var balance int
+	var balance float32
 	balance=0
 	os.Remove("../storage/finanzas/result.csv")
 	conn, err := amqp.Dial("amqp://test:test@localhost:5672/")
@@ -77,18 +77,20 @@ func main() {
 
 
 		var ganancia float32
-		var perdida float32
-		perdida,_:=strconv.Atoi(intentos)
+		var perdida int
+		var aux int
+		perdida,_=strconv.Atoi(intentos)
+		aux,_=strconv.Atoi(valor)
 		ganancia:=0
 		if(fech!="0"){
 			perdida-=1
-			ganancia,_=strconv.Atoi(valor)
+			ganancia,_=float32(aux)
 
 		}else{
 			if(tipo=="retail"){
-				ganancia,_=strconv.Atoi(valor)
+				ganancia,_=float32(aux)
 			}else if(tipo=="prioritario"){
-				ganancia,_=strconv.Atoi(valor)
+				ganancia,_=float32(aux)
 				ganancia*=float32(0.3)
 			}
 		}
