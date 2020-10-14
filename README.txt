@@ -2,12 +2,12 @@ Natalia        Herrera  Lora   201673501-1
 Andrés Eduardo Shehadeh Gullón 201673560-7
 
 -----------Como ejecutar-----------
-En la carpeta del Makefile, escribir en consola
+En la carpeta del Makefile (por defecto ./repo), escribir en consola
 
 "$Make [nombre]"
 
 donde [nombre] corresponde al sistema que desea correr:
-  -logística
+  -logistica
   -cliente
   -camión
   -finanzas
