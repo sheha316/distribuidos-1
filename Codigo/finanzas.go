@@ -78,17 +78,17 @@ func main() {
 
 		var ganancia float32
 		var perdida float32
-		perdida,_:=float32(strconv.Atoi(intentos))
+		perdida,_:=strconv.Atoi(intentos)
 		ganancia:=0
 		if(fech!="0"){
 			perdida-=1
-			ganancia,_=float32(strconv.Atoi(valor))
+			ganancia,_=strconv.Atoi(valor)
 
 		}else{
 			if(tipo=="retail"){
-				ganancia,_=float32(strconv.Atoi(valor))
+				ganancia,_=strconv.Atoi(valor)
 			}else if(tipo=="prioritario"){
-				ganancia,_=float32(strconv.Atoi(valor))
+				ganancia,_=strconv.Atoi(valor)
 				ganancia*=float32(0.3)
 			}
 		}
@@ -103,7 +103,7 @@ func main() {
 	  w := csv.NewWriter(f)
 		w.WriteAll(data)
 		f.Close()
-		return float32(ganancia-perdida)
+		return ganancia-perdida
 }
 
 	func checkError(message string, err error) {
