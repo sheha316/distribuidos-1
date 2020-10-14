@@ -64,7 +64,7 @@ func main() {
 			balance+=Finances(aux)
 		}
 	}()
-	log.Printf("Balance Total: $%d dignipesos",balance)
+	log.Printf("Balance Total: $%f dignipesos",balance)
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
 
