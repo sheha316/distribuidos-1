@@ -16,7 +16,7 @@ import (
 
 func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
   c := comms.NewCommsClient(conn)
-  csvfilez ,_:= os.Open("../Pedidos/pymes.csv")
+  csvfilez ,_:= os.Open("./Pedidos/pymes.csv")
   readerz := csv.NewReader(bufio.NewReader(csvfilez))
   var segui int
   for i:=0; true ;i++{
@@ -52,7 +52,7 @@ func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
 
 func read_and_request_retail(conn *grpc.ClientConn,id int)(int){
   c := comms.NewCommsClient(conn)
-  csvfilez ,_:= os.Open("../Pedidos/retail.csv")
+  csvfilez ,_:= os.Open("./Pedidos/retail.csv")
   readerz := csv.NewReader(bufio.NewReader(csvfilez))
   var segui int
   for i:=0; true ;i++{

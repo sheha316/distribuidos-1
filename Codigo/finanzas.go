@@ -27,8 +27,8 @@ func failOnError(err error, msg string) {
 func main() {
 	var balance float32
 	balance=0
-	os.Remove("../storage/finanzas/result.csv")
-	os.Create("../storage/finanzas/result.csv")
+	os.Remove("./storage/finanzas/result.csv")
+	os.Create("./storage/finanzas/result.csv")
 	conn, err := amqp.Dial("amqp://test:test@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
@@ -99,7 +99,7 @@ func main() {
 		}
 		perdida*=10
 		ganancia-=float32(perdida)
-		f, err := os.OpenFile("../storage/finanzas/result.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+		f, err := os.OpenFile("./storage/finanzas/result.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 		if err != nil {
 			log.Fatalln("Couldn't open the csv file", err)
 		}
