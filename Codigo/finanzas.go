@@ -68,25 +68,28 @@ func main() {
 	<-forever
 
 }
-	func Finances(body finanzas)(int) {
+	func Finances(body finanzas)(float32) {
 		id:=body.Id
 		tipo:=body.Tipo
 		valor:=body.Valor
 		intentos:=body.Intentos
 		fech:=body.Fecha
 
-		perdida,_:=strconv.Atoi(intentos)
+
+		var ganancia float32
+		var perdida float32
+		perdida,_:=float32(strconv.Atoi(intentos))
 		ganancia:=0
 		if(fech!="0"){
 			perdida-=1
-			ganancia,_=strconv.Atoi(valor)
+			ganancia,_=float32(strconv.Atoi(valor))
 
 		}else{
 			if(tipo=="retail"){
-				ganancia,_=strconv.Atoi(valor)
+				ganancia,_=float32(strconv.Atoi(valor))
 			}else if(tipo=="prioritario"){
-				ganancia,_=strconv.Atoi(valor)
-				ganancia*=0.3
+				ganancia,_=float32(strconv.Atoi(valor))
+				ganancia*=float32(0.3)
 			}
 		}
 		perdida*=10
@@ -100,7 +103,7 @@ func main() {
 	  w := csv.NewWriter(f)
 		w.WriteAll(data)
 		f.Close()
-		return ganancia-perdida
+		return float32(ganancia-perdida)
 }
 
 	func checkError(message string, err error) {
