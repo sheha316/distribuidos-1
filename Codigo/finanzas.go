@@ -63,8 +63,9 @@ func main() {
 	    checkError("Cannot create file", err)
 			json.Unmarshal(d.Body,&aux)
 			balance+=Finances(aux)
+			log.Printf("Balance Total: $%f dignipesos",balance)
 		}
-		log.Printf("Balance Total: $%f dignipesos",balance)
+
 		log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	}()
 	<-forever
