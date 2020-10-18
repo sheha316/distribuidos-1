@@ -14,6 +14,7 @@ import (
   "fmt"
 )
 
+//genera una orden de pyme respecto al csv guardado en Pedidos
 func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
   c := comms.NewCommsClient(conn)
   csvfilez ,_:= os.Open("./Pedidos/pymes.csv")
@@ -50,6 +51,7 @@ func read_and_request_pymes(conn *grpc.ClientConn,id int)(int){
   return segui
 }
 
+//genera una orden de retail respecto al csv guardado en Pedidos
 func read_and_request_retail(conn *grpc.ClientConn,id int)(int){
   c := comms.NewCommsClient(conn)
   csvfilez ,_:= os.Open("./Pedidos/retail.csv")
@@ -83,6 +85,7 @@ func read_and_request_retail(conn *grpc.ClientConn,id int)(int){
   return segui
 }
 
+//hace el pedido de informaicon de un paquete con el numero de seguimiento
 func send_seguimento(conn *grpc.ClientConn,codigo int){
   c := comms.NewCommsClient(conn)
   response, err := c.Seguimiento(context.Background(),&comms.Request_Seguimiento{Seguimiento:int32(codigo)})

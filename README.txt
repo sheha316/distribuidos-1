@@ -44,3 +44,11 @@ donde [nombre] corresponde al sistema que desea correr:
 10.-Todo funcionó correctamente, asique si hay algún problema no dude en contactarnos :D
 
 11.-Si correrá los sistemas en otras máquinas haga los cambios necesarios en las conexiones, además de las instalaciones y los "go get [link]"
+  --------------------------------------------
+
+  -----------Almacenamiento de archivos-----------
+
+  1.- cada pedido generado por un cliente tiene su propio archivo.csv en el lado de logistica, con el nombre de su numero de seguimiento para facilitar su busqueda
+  2.- ademas, logistica cuanta con 2 archivos pymes/retail .csv, los cuales son los registros de los paquetes, los cuales se utilizan para simular la cola de paquetes
+  3.-camiones tiene 1 csv por cada camion (3 en total)
+  4.- finanzas tiene 1 solo archivo para guardar la informacion

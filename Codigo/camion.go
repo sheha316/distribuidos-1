@@ -29,6 +29,7 @@ type Camion struct{
   Estado int
 }
 
+//pide un paquete a logica y llena el paquete 1 del camion
 func request_paquete_1(conn *grpc.ClientConn, kamion *Camion){
   c := comms.NewCommsClient(conn)
   response, _ := c.SolicitarPaquete(context.Background(), &comms.Request_SolicitarPaquete{Tipo: kamion.Tipo})
@@ -38,6 +39,7 @@ func request_paquete_1(conn *grpc.ClientConn, kamion *Camion){
     kamion.Paquetes=1
   }
 }
+//pide un paquete a logica y llena el paquete 2 del camion
 func request_paquete_2(conn *grpc.ClientConn, kamion *Camion){
   c := comms.NewCommsClient(conn)
   response, _ := c.SolicitarPaquete(context.Background(), &comms.Request_SolicitarPaquete{Tipo: kamion.Tipo,Id:kamion.Id})
@@ -48,6 +50,7 @@ func request_paquete_2(conn *grpc.ClientConn, kamion *Camion){
   }
 }
 
+//esta funcion se encarga de administrar las cargas de paquetes a los camiones
 func cargar_camion(conn *grpc.ClientConn, kamion *Camion,tiempo int){
   request_paquete_1(conn , kamion)
   if(kamion.Paquetes==1){
@@ -57,6 +60,7 @@ func cargar_camion(conn *grpc.ClientConn, kamion *Camion,tiempo int){
   }
 }
 
+//funcion para ver si el paquete cumple con las condiciones para intentar ser entregado
 func expirado(paquete paquete_info)(bool){
   if(paquete.Fecha!="0"){
     return true
@@ -70,6 +74,7 @@ func expirado(paquete paquete_info)(bool){
   return true
 }
 
+//funcion que se encarga de simular el reparto del camion
 func Reparto(kamion *Camion,tiempo int){
   kamion.Estado=0
   if(kamion.Paquetes==2){
@@ -120,6 +125,7 @@ func Reparto(kamion *Camion,tiempo int){
   }
 }
 
+//guardar informacion del paquete en un csv
 func registrar_paquete(id string,paquete paquete_info){
   f, err := os.OpenFile("./storage/camion/"+id+".csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
   if err != nil {
@@ -137,6 +143,7 @@ func registrar_paquete(id string,paquete paquete_info){
   }
 }
 
+//informarle a logistica lo ocurrido con los paquetes luego de salir a repartir
 func reporte(conn *grpc.ClientConn,kamion *Camion){
   c := comms.NewCommsClient(conn)
   var estadorm string
@@ -166,6 +173,7 @@ func reporte(conn *grpc.ClientConn,kamion *Camion){
   kamion.Paquetes=0
 }
 
+//print para mostrar lo que tienen los camiones
 func superprint_fs(kamion *Camion){
   log.Printf("Camion: "+kamion.Id+",Tipo:"+kamion.Tipo+",Paquetes:"+strconv.Itoa(kamion.Paquetes))
   if(kamion.Paquetes==1){

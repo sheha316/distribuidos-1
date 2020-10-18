@@ -48,6 +48,7 @@ type finanzas struct{
   Fecha string
 }
 
+//encuentra numero de seguimiento disponible para asignar
 func find_file(nombre string,tipo string)(string){
   prefijo:="0"
   switch tipo {
@@ -68,6 +69,7 @@ func find_file(nombre string,tipo string)(string){
   return prefijo+strconv.Itoa(seguimento)
 }
 
+//se encarga de guardar la informacion de un paquete nuevo tipo pyme
 func registro_logico_pymes(tipo string,request *comms.Request_CrearOrdenPyme)(int){
   seguimento:=find_file("-",tipo)
   file,erros:=os.Create("./storage/logica/"+seguimento+".csv")
@@ -85,6 +87,8 @@ func registro_logico_pymes(tipo string,request *comms.Request_CrearOrdenPyme)(in
   return seguimentoint
 }
 
+
+//se encarga de guardar la informacion de un paquete nuevo tipo retail
 func registro_logico_retail(tipo string,request *comms.Request_CrearOrdenRetail)(int){
   seguimento:=find_file("-",tipo)
   file,erros:=os.Create("./storage/logica/"+seguimento+".csv")
@@ -102,6 +106,7 @@ func registro_logico_retail(tipo string,request *comms.Request_CrearOrdenRetail)
   return seguimentoint
 }
 
+//se encarga de guardar la informacion de un paquete nuevo tipo pyme, para dejarlo en cola
 func registro_paquete_pymes(request *comms.Request_CrearOrdenPyme,seguimento int){
   f, err := os.OpenFile("./storage/logica/pymes.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
   if err != nil {
@@ -124,6 +129,8 @@ func registro_paquete_pymes(request *comms.Request_CrearOrdenPyme,seguimento int
   f.Close()
 }
 
+
+//se encarga de guardar la informacion de un paquete nuevo tipo retail, para dejarlo en cola
 func registro_paquete_retail(request *comms.Request_CrearOrdenRetail,seguimento int){
   f, err := os.OpenFile("./storage/logica/retail.csv", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
   if err != nil {
@@ -140,6 +147,7 @@ func registro_paquete_retail(request *comms.Request_CrearOrdenRetail,seguimento 
   }
 }
 
+//funcion encargada de recibir una orden desde el cliente
 func (s *Server) CrearOrdenPyme(ctx context.Context, request *comms.Request_CrearOrdenPyme) (*comms.Response_CrearOrden, error) {
   log.Printf("Receive message %+v", request)
   for s.candado{}
@@ -149,7 +157,7 @@ func (s *Server) CrearOrdenPyme(ctx context.Context, request *comms.Request_Crea
   s.candado=false
   return &comms.Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
-
+//funcion encargada de recibir una orden desde el cliente
 func (s *Server) CrearOrdenRetail(ctx context.Context, request *comms.Request_CrearOrdenRetail) (*comms.Response_CrearOrden, error) {
   log.Printf("Receive message %+v", request)
   for s.candado{}
@@ -160,6 +168,7 @@ func (s *Server) CrearOrdenRetail(ctx context.Context, request *comms.Request_Cr
   return &comms.Response_CrearOrden{Seguimiento: int32(seguimento)}, nil
 }
 
+//funcion encargada de recibir una peticion de seguimiento desde el cliente
 func (s *Server) Seguimiento(ctx context.Context, request *comms.Request_Seguimiento) (*comms.Response_Seguimiento, error) {
   log.Printf("Receive message %d", request.Seguimiento)
   for s.candado{}
@@ -205,6 +214,7 @@ func (s *Server) Seguimiento(ctx context.Context, request *comms.Request_Seguimi
   return &comms.Response_Seguimiento{Estado: "Esto no deberia suceder :)"}, nil
 }
 
+//funcion encargada de enviar paquetes a los camiones (como respuesta a una request)
 func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_SolicitarPaquete) (*comms.Response_SolicitarPaquete, error) {
   log.Printf("Receive message %+v", request)
   for s.candado{}
@@ -251,6 +261,7 @@ func (s *Server) SolicitarPaquete(ctx context.Context, request *comms.Request_So
   return &comms.Response_SolicitarPaquete{Id:x.Id,Seguimiento:int32(x.Seguimiento),Tipo:x.Tipo,Valor:int32(x.Valor),Tienda:line[5],Destino:line[6],}, nil
 }
 
+//funcion para actualizar un csv
 func Updater(n_file string,estado string,intentos_u string){
   csvfile ,_:= os.Open(n_file)
   reader := csv.NewReader(bufio.NewReader(csvfile))
@@ -295,6 +306,8 @@ func Updater(n_file string,estado string,intentos_u string){
   writer.WriteAll(data)
   csvfilex.Close()
 }
+
+//funcion para encontrar el proximo paquete retail a entregar
 func LFP_R(pakete *paquete){
   file,_:=os.Open("./storage/logica/retail.csv")
   reader := csv.NewReader(bufio.NewReader(file))
@@ -322,6 +335,7 @@ func LFP_R(pakete *paquete){
   }
 }
 
+//funcion para encontrar el proximo paquete pyme a entregar
 func LFP_P(pakete *paquete,p string){
   file,_:=os.Open("./storage/logica/pymes.csv")
   reader := csv.NewReader(bufio.NewReader(file))
@@ -349,7 +363,7 @@ func LFP_P(pakete *paquete,p string){
   }
 }
 
-
+//funcion que se encarga de actualizar los estados de los paquetes segun la informacion recibida por los camiones
 func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Estado) (*comms.Response_Estado, error) {
   log.Printf("Receive message %+v", request)
   for s.candado{}
@@ -406,10 +420,11 @@ func (s *Server) InformarEstado(ctx context.Context, request *comms.Request_Esta
   return &comms.Response_Estado{Recibido: "holo"}, nil
 }
 
+//funcion basura, pero lo dejamos para no tener que compilar :)
 func(s *Server) LimpiarRegistros(ctx context.Context, request *comms.Dummy) (*comms.Dummy, error){
   return &comms.Dummy{Id: "1"}, nil
 }
-
+//limpia los registros al inicio de la ejecuccion
 func limpiar(){
   log.Printf("limpiando :)")
   seguimento:=0
